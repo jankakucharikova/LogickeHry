@@ -132,5 +132,86 @@ namespace LogickeHry
         {
             Ukazbox(UvodBox);
         }
+
+        private void HlavniBLogik_Click(object sender, EventArgs e)
+        {
+            Ukazbox(LogikUvodBox);
+        }
+
+        private void LogikBox_VisibleChanged(object sender, EventArgs e)
+        {
+            if (LogikUvodBox.Visible)
+            {
+                LogikUvodBox.BringToFront();
+                HlavniLPodnadpis.Text = "Logik";
+                HlavniHlavicka.Show();
+                HlavniHlavicka.BringToFront();
+            }
+            else
+            {
+                HlavniHlavicka.Hide();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MinyHra_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MinyHraBUkoncitHru_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MinyUvodBHrat_Click(object sender, EventArgs e)
+        {
+            Ukazbox(MinyHraBox);
+            miny m = new miny(this);
+        }
+
+        private void MinyHraBox_VisibleChanged(object sender, EventArgs e)
+        {
+            if (MinyHraBox.Visible)
+            {
+                MinyHraBox.BringToFront();
+                HlavniLPodnadpis.Text = "Miny";
+                HlavniHlavicka.Show();
+                HlavniHlavicka.BringToFront();
+            }
+            else
+            {
+                HlavniHlavicka.Hide();
+            }
+        }
+
+        private void MinyUvodBox_VisibleChanged(object sender, EventArgs e)
+        {
+            if (MinyUvodBox.Visible)
+            {
+                MinyUvodBox.BringToFront();
+                HlavniLPodnadpis.Text = "Miny";
+                HlavniHlavicka.Show();
+                HlavniHlavicka.BringToFront();
+            }
+            else
+            {
+                HlavniHlavicka.Hide();
+            }
+        }
+
+        private void HlavniBMiny_Click(object sender, EventArgs e)
+        {
+            Ukazbox(MinyUvodBox);
+        }
+
+        private void MinyHraBHint_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }
