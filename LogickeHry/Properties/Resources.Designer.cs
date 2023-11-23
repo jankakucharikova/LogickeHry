@@ -63,9 +63,9 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap shutterstock_74158666 {
+        internal static System.Drawing.Bitmap UvodObrazek {
             get {
-                object obj = ResourceManager.GetObject("shutterstock_74158666", resourceCulture);
+                object obj = ResourceManager.GetObject("UvodObrazek", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -3,13 +3,14 @@ namespace LogickeHry
     public partial class GameForm : Form
     {
         List<TableLayoutPanel> boxy;
+        internal Hra aktualnihra;
         public GameForm()
         {
 
             InitializeComponent();
             boxy = this.Controls.OfType<TableLayoutPanel>().ToList();
         }
-        private void Ukazbox(TableLayoutPanel box)
+        internal void Ukazbox(TableLayoutPanel box)
         {
             foreach (var b in boxy)
                 b.Hide();
@@ -133,68 +134,18 @@ namespace LogickeHry
             Ukazbox(UvodBox);
         }
 
-        private void HlavniBLogik_Click(object sender, EventArgs e)
-        {
-            Ukazbox(LogikUvodBox);
-        }
-
-        private void LogikBox_VisibleChanged(object sender, EventArgs e)
-        {
-            if (LogikUvodBox.Visible)
-            {
-                LogikUvodBox.BringToFront();
-                HlavniLPodnadpis.Text = "Logik";
-                HlavniHlavicka.Show();
-                HlavniHlavicka.BringToFront();
-            }
-            else
-            {
-                HlavniHlavicka.Hide();
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MinyHra_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MinyHraBUkoncitHru_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void MinyUvodBHrat_Click(object sender, EventArgs e)
         {
-            Ukazbox(MinyHraBox);
-            miny m = new miny(this);
+            aktualnihra.SpustiHru();
+
         }
 
-        private void MinyHraBox_VisibleChanged(object sender, EventArgs e)
+        private void HraBox_VisibleChanged(object sender, EventArgs e)
         {
-            if (MinyHraBox.Visible)
+            if (HraBox.Visible)
             {
-                MinyHraBox.BringToFront();
-                HlavniLPodnadpis.Text = "Miny";
-                HlavniHlavicka.Show();
-                HlavniHlavicka.BringToFront();
-            }
-            else
-            {
-                HlavniHlavicka.Hide();
-            }
-        }
-
-        private void MinyUvodBox_VisibleChanged(object sender, EventArgs e)
-        {
-            if (MinyUvodBox.Visible)
-            {
-                MinyUvodBox.BringToFront();
-                HlavniLPodnadpis.Text = "Miny";
+                HraBox.BringToFront();
+                HlavniLPodnadpis.Text = aktualnihra.Nazev;
                 HlavniHlavicka.Show();
                 HlavniHlavicka.BringToFront();
             }
@@ -206,12 +157,8 @@ namespace LogickeHry
 
         private void HlavniBMiny_Click(object sender, EventArgs e)
         {
-            Ukazbox(MinyUvodBox);
-        }
-
-        private void MinyHraBHint_MouseClick(object sender, MouseEventArgs e)
-        {
-
+            aktualnihra = new Miny(this);
+            aktualnihra.SpustiUvod();
         }
     }
 }
