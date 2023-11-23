@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LogickeHry
+﻿namespace LogickeHry
 {
+    internal enum StavHry
+    {
+        Pripravena, Bezi, Prohra, Vyhra
+    }
     internal abstract class Hra
     {
         internal GameForm form;
-        internal String Nazev;
+        internal string Nazev;
+        internal StavHry Stav;
+        internal System.Windows.Forms.Timer stopky;
+        internal int uplynulycas;
         public Hra(GameForm form)
         {
             this.form = form;
         }
         public void SmazHerniPole()
         {
-            while (form.HraBox.Controls.Count > 0)
+            /*while (form.HraBox.Controls.Count > 0)
             {
                 form.HraBox.Controls[0].Dispose();
-            }
+            }*/
             form.HraBox.Controls.Clear();
             form.HraBox.ColumnCount = 0;
             form.HraBox.ColumnStyles.Clear();
@@ -31,16 +32,19 @@ namespace LogickeHry
             SmazHerniPole();
             VytvorUvodniStranku();
             ZobrazStranku();
+            Stav = StavHry.Pripravena;
         }
 
         protected abstract void VytvorUvodniStranku();
 
         internal virtual void SpustiHru()
         {
+            Reset();
             PouzijNastaveni();
             SmazHerniPole();
             VytvorHerniStranku();
             ZobrazStranku();
+            Stav = StavHry.Bezi;
             NastavCasovac();
         }
 
@@ -52,7 +56,22 @@ namespace LogickeHry
         }
 
         protected abstract void VytvorHerniStranku();
-        protected virtual void Prohra() { }
-        protected virtual void Vyhra() { }
+        protected virtual void Prohra()
+        {
+            KonecHry();
+            ProhraVlastni();
+        }
+
+        protected abstract void ProhraVlastni();
+        protected abstract void KonecHry();
+
+        protected virtual void Vyhra()
+        {
+            KonecHry();
+            VyhraVlastni();
+        }
+
+        protected abstract void VyhraVlastni();
+        protected abstract void Reset();
     }
 }

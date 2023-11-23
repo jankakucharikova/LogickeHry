@@ -15,6 +15,7 @@ namespace LogickeHry
             foreach (var b in boxy)
                 b.Hide();
             box.Show();
+            box.Select();
         }
         private void ButtonPrihlaseni_Click(object sender, EventArgs e)
         {
@@ -134,12 +135,6 @@ namespace LogickeHry
             Ukazbox(UvodBox);
         }
 
-        private void MinyUvodBHrat_Click(object sender, EventArgs e)
-        {
-            aktualnihra.SpustiHru();
-
-        }
-
         private void HraBox_VisibleChanged(object sender, EventArgs e)
         {
             if (HraBox.Visible)
@@ -158,6 +153,12 @@ namespace LogickeHry
         private void HlavniBMiny_Click(object sender, EventArgs e)
         {
             aktualnihra = new Miny(this);
+            aktualnihra.SpustiUvod();
+        }
+
+        private void HlavniBLogik_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Logik(this);
             aktualnihra.SpustiUvod();
         }
     }
