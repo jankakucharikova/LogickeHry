@@ -8,25 +8,31 @@ namespace LogickeHry
 {
     internal class Logik : Hra
     {
-        static readonly Color[] barvy = { Color.Blue, Color.Green, Color.Red, Color.Yellow, Color.Orange, Color.Purple, Color.Brown, Color.Pink, Color.LightBlue,Color.Turquoise };
+        static readonly Color[] barvy = { Color.DeepSkyBlue, Color.Green, Color.Red, Color.Yellow, Color.Orange, Color.Magenta, Color.Sienna, Color.Pink, Color.GreenYellow,Color.MediumBlue };
         NumericUpDown Nvyber, Nmoznosti;
         CheckBox CBopakovani;
         RadioButton lehke, stredni, tezke, vlastni;
         int[] kod;
         int kolik, z;
-        Button vybranabarva;
         TableLayoutPanel plocha;
         Label lcas;
         Size velka=new Size(35,35),mala=new Size(20,20);
-        const int velkyfont = 12, malyfont = 9;
+        const int velkyfont = 11, malyfont = 6;
         TableLayoutPanel vysledky;
+        int aktualniradek = 1;
+        TableLayoutPanel aktualnityp;
+        Button testButton, clear;
         public Logik(GameForm form) : base(form)
         {
             Nazev = "Logik";
         }
         protected override void KonecHry()
         {
-            throw new NotImplementedException();
+
+            stopky.Stop();
+            ukazVysledek();
+            clear.Enabled= false;
+            testButton.Enabled= false;
         }
 
         protected override void NastavCasovac()
@@ -62,7 +68,7 @@ namespace LogickeHry
 
         protected override void ProhraVlastni()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void Reset()
@@ -70,7 +76,7 @@ namespace LogickeHry
             kod = null;
             kolik = 0;
             z=0;
-            vybranabarva = null;
+            aktualniradek = 1;
             uplynulycas = 0;
             if (stopky != null)
             {
@@ -80,7 +86,7 @@ namespace LogickeHry
 
         protected override void VyhraVlastni()
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void VytvorHerniStranku()
@@ -94,9 +100,10 @@ namespace LogickeHry
         {
             plocha = new TableLayoutPanel()
             {
-                CellBorderStyle=TableLayoutPanelCellBorderStyle.Single,
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
                 Anchor = AnchorStyles.None,
                 AutoSize = true,
+                BackColor = Color.Gray,
             };
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 14);
@@ -104,15 +111,15 @@ namespace LogickeHry
             {
                 plocha.RowStyles.Add(new RowStyle(SizeType.Absolute, velka.Height));
             }
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velka.Width*2));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velka.Width * 2));
             plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velka.Width * kolik));
             plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, mala.Width * kolik));
             plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, mala.Width * kolik));
-            for(int i = 0;i < 12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 plocha.Controls.Add(new Label()
                 {
-                    Text = (i+1).ToString(),
+                    Text = (i + 1).ToString(),
                     Font = new Font("Segoe UI", velkyfont, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter
@@ -122,45 +129,147 @@ namespace LogickeHry
             {
                 Dock = DockStyle.Fill,
                 RowCount = 1,
-                ColumnCount = z,     
+                ColumnCount = z,
             };
             plocha.Controls.Add(buttonybarev, 1, 13);
             plocha.SetColumnSpan(buttonybarev, 3);
-            for (int i=0;i<z;i++)
+            for (int i = 0; i < z; i++)
             {
                 buttonybarev.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
                 Label l = new Label()
                 {
-                    Name=i.ToString(),
+                    Name = i.ToString(),
                     ForeColor = barvy[i],
                     Font = new Font("Segoe UI", velkyfont, FontStyle.Bold, GraphicsUnit.Point),
                     Text = "\U00002B24",
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.TopCenter
+
                 };
-                
-                buttonybarev.Controls.Add(l,i,0);
+                l.Click += klikNaBarvu;
+                buttonybarev.Controls.Add(l, i, 0);
             }
-            vysledky = new TableLayoutPanel()
+            vysledky = novyPanel();
+            for (int i = 0; i < kolik; i++)
+            {
+                Label l = new Label()
+                {
+                    Name = kod[i].ToString(),
+                    ForeColor = Color.White,
+                    Font = new Font("Segoe UI", velkyfont, FontStyle.Bold, GraphicsUnit.Point),
+                    Text = "\U00002B24",
+                };
+                vysledky.Controls.Add(l, i, 0);
+            }
+            plocha.Controls.Add(vysledky, 1, 0);
+            aktualnityp = novyPanel();
+            plocha.Controls.Add(aktualnityp, 1, 12);
+            testButton = new Button()
+            {
+                Text = "Test",
+                Dock = DockStyle.Fill
+            };
+            testButton.Click += Test;
+            plocha.Controls.Add(testButton, 2, 12);
+            clear = new Button()
+            {
+                Text = "Clear",
+                Dock = DockStyle.Fill
+            };
+            clear.Click += (s,e)=>aktualnityp.Controls.Clear();
+            plocha.Controls.Add(clear, 3, 12);
+
+        }
+
+        private void Test(object? sender, EventArgs e)
+        {
+            if (aktualnityp.Controls.Count < kolik)
+                return;
+            TableLayoutPanel odpoved = novyPanel();
+            List<int> spravne= new List<int>();
+            spravne.AddRange(kod);
+            List<int> tip = new List<int>();
+            foreach(Control c in aktualnityp.Controls) { 
+                tip.Add(int.Parse(c.Name));
+            }
+
+            for(int i = 0;i < tip.Count; i++)
+            {
+                if (spravne[i] == tip[i])
+                {
+                    odpoved.Controls.Add(new Label()
+                    {
+                        ForeColor = Color.Black,
+                        Font = new Font("Segoe UI", malyfont, FontStyle.Regular, GraphicsUnit.Point),
+                        Text = "\U00002B24",
+                    });
+                    spravne.RemoveAt(i);
+                    tip.RemoveAt(i);
+                    i--;
+                }
+            }
+            if(spravne.Count == 0) { Vyhra();return; }
+            if (aktualniradek == 12) { Prohra(); return; }
+            for (int i = 0; i < tip.Count; i++)
+            {
+                if (spravne.Contains(tip[i]))
+                {
+                    odpoved.Controls.Add(new Label()
+                    {
+                        ForeColor = Color.White,
+                        Font = new Font("Segoe UI", malyfont, FontStyle.Regular, GraphicsUnit.Point),
+                        Text = "\U00002B24",
+                    });
+                    spravne.Remove(tip[i]);
+                    tip.RemoveAt(i);
+                    i--;
+                }
+            }
+            aktualnityp = novyPanel();
+            
+            plocha.Controls.Remove(clear);
+            plocha.Controls.Remove(testButton);
+            plocha.Controls.Add(aktualnityp, 1, 12 - aktualniradek);
+            plocha.Controls.Add(testButton, 2, 12 - aktualniradek);
+            plocha.Controls.Add(clear, 3, 12 - aktualniradek);
+            plocha.Controls.Add(odpoved, 2, 13 - aktualniradek);
+            aktualniradek++;
+        }
+
+        private void klikNaBarvu(object? sender, EventArgs e)
+        {
+            if(aktualnityp.Controls.Count < kolik)
+            {
+                
+                Label l = (Label)sender;
+                if (!CBopakovani.Checked) {
+                    foreach (Control c in aktualnityp.Controls) {
+                        if (c.Name.Equals(l.Name))
+                            return;
+                    }
+                }
+                aktualnityp.Controls.Add(new Label()
+                {
+                    Name = l.Name,
+                    ForeColor = barvy[int.Parse(l.Name)],
+                    Font = new Font("Segoe UI", velkyfont, FontStyle.Regular, GraphicsUnit.Point),
+                    Text = "\U00002B24",
+                });
+            }
+        }
+        private TableLayoutPanel novyPanel()
+        {
+            TableLayoutPanel typ = new TableLayoutPanel()
             {
                 Dock = DockStyle.Fill,
                 RowCount = 1,
                 ColumnCount = kolik,
             };
-            plocha.Controls.Add(vysledky, 1, 0);
             for (int i = 0; i < kolik; i++)
             {
-                vysledky.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-                Label l = new Label()
-                {
-                    Name = kod[i].ToString(),
-                    ForeColor = barvy[kod[i]],
-                    Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point),
-                    Text = "\U00002B24",
-                };
-                vysledky.Controls.Add(l,i,0);
+                typ.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             }
-
+            return typ;
         }
 
         private void VytvorBocniPanel()
@@ -230,6 +339,14 @@ namespace LogickeHry
 
         }
 
+        private void ukazVysledek()
+        {
+            foreach(var x in vysledky.Controls)
+            {
+                Label l =(Label)x;
+                l.ForeColor = barvy[int.Parse(l.Name)];
+            }
+        }
         protected override void VytvorUvodniStranku()
         {
                 //vytvorim rozlozeni
