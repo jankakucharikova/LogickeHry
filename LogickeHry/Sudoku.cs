@@ -496,43 +496,38 @@ namespace LogickeHry
             internal int[,] kompletni;
             internal int[,] zadani;
             int dosazenepolicko = 0;
-            private HashSet<string> seenStates = new HashSet<string>();
             bool uspesne;
             
 
             internal void GenerateSudoku(SudokuObtiznost obtiznost)
             {
-                uspesne = false;
-                while (!uspesne)
-                {
-                    dosazenepolicko = 0;
-                    kompletni = new int[9, 9];
-
-                    GenerateCompleteSudoku(kompletni, 0);
-                    zadani = (int[,])kompletni.Clone();
-                    seenStates.Clear(); // Vyčištění HashSetu
-                    uspesne=RemoveNumbers(zadani, obtiznost);
-                }
+                kompletni = new int[9, 9];
+                zadani = new int[9, 9];
+                GenerateCompleteSudoku(0);
+                GenerateUniqueSudoku(obtiznost);
             }
 
-            bool GenerateCompleteSudoku(int[,] sudoku, int z)
+            bool GenerateCompleteSudoku(int z)
             {
+                
                 dosazenepolicko = z;
                 if (dosazenepolicko == 81)
                     return true;
 
                 int x = z % 9;
                 int y = z / 9;
-                List<int> list = GetAvailableNumbers(sudoku, x, y);
+                List<int> list = GetAvailableNumbers(kompletni, x, y);
 
-                foreach (int num in list)
+                while(list.Count()>0)
                 {
-                    sudoku[x, y] = num;
+                    int r = rnd.Next() % list.Count();
+                    kompletni[x, y] = list[r];
+                    list.RemoveAt(r);
 
-                    if (GenerateCompleteSudoku(sudoku, z + 1))
+                    if (GenerateCompleteSudoku(z + 1))
                         return true;
 
-                    sudoku[x, y] = 0;
+                    kompletni[x, y] = 0;
                 }
 
                 return false;
@@ -558,108 +553,103 @@ namespace LogickeHry
                 return list;
             }
 
-            bool RemoveNumbers(int[,] sudoku, SudokuObtiznost obtiznost)
+            void GenerateUniqueSudoku( SudokuObtiznost obtiznost)
             {
-                List<souradnice> zkousene = new List<souradnice>();
-                for(int i = 0; i < 9; i++)
-                {
-                    for (int j = 0;j < 9; j++)
-                    {
-                        zkousene.Add(new souradnice() { x = i, y =j }) ;
-                    }
-                }
-                dosazenepolicko = 0;
-                int odstraneni = 0;
-
+                int pridani=0;
                 switch (obtiznost)
                 {
                     case SudokuObtiznost.Lehke:
-                        odstraneni = rnd.Next(30, 40);
+                        pridani = 45;
                         break;
                     case SudokuObtiznost.Stredni:
-                        odstraneni = rnd.Next(40, 50);
+                        pridani = 35;
                         break;
                     case SudokuObtiznost.Tezke:
-                        odstraneni = rnd.Next(50, 60);
+                        pridani = 25;
                         break;
                 }
-                
-                for (int i = 0; i < odstraneni; i++)
+                for(int i = 0; i < pridani; i++)
                 {
-                    if (zkousene.Count() == 0)
-                        return false;
-                    int r=rnd.Next()%zkousene.Count();
-
-                    int col = zkousene[r].x;
-                    int row = zkousene[r].y;
-                    zkousene.RemoveAt(r);
-
-                    /*int col = rnd.Next(0,9);
-                    int row = rnd.Next(0, 9);*/
-
-                    if (sudoku[row, col] == 0)
-                    {
-                        i--;
-                        continue;
-                    }
-
-                    int bak = sudoku[row, col];
-                    bool dulezity = false;
-
-                    for (int j = 1; j <= 9 && j != bak; j++)
-                    {
-                        sudoku[row, col] = j;
-                        if (existujereseni(sudoku))
-                        {
-                            dulezity = true;
-                            break;
-                        }
-                    }
-
-                    if (dulezity)
-                    {
-                        sudoku[row, col] = bak;
-                        i--;
-                    }
-                    else
-                    {
-                        sudoku[row, col] = 0;
-                    }
+                    pridejRandomCislo();
                 }
-                return true;
-            }
+                int maxrozdil = 0;
+                List<souradnice> kde_rozdil = new List<souradnice>();
+                while(1==1)
+                {
+                    int[,] rozdily = rozdilyreseni();
+                    for(int i = 0;i<9;i++)
+                        for( int j = 0; j < 9; j++)
+                        {
+                            if (rozdily[i, j] >= maxrozdil)
+                            {
+                                if (rozdily[i, j] > maxrozdil)
+                                {
+                                    maxrozdil = rozdily[i, j];
+                                    kde_rozdil.Clear();
+                                }
 
-            private bool existujereseni(int[,] sudoku)
+                                kde_rozdil.Add(new souradnice() { x = i, y = j });
+                            }
+                        }
+                    if (maxrozdil == 0)
+                        break;
+                    souradnice s = kde_rozdil[rnd.Next(0, kde_rozdil.Count())];
+                    zadani[s.x, s.y] = kompletni[s.x, s.y];
+                    pridani++;
+                    maxrozdil = 0;
+                    kde_rozdil.Clear();
+                }
+                
+            }
+            public void pridejRandomCislo()
             {
+                int x = rnd.Next(0,9);
+                int y = rnd.Next(0, 9);
+                while (zadani[x,y]!= 0)
+                {
+                    x = rnd.Next(0, 9);
+                    y = rnd.Next(0, 9);
+                }
+                zadani[x, y] = kompletni[x, y];
+            }
+            private int[,] rozdilyreseni()
+            {
+                int[,] rozdily = new int[9, 9];
                 dosazenepolicko = 0;
-                return rekurzivnizkouseni(sudoku, 0);
+                rekurzivnizkouseni(rozdily, 0);
+                return rozdily;
             }
 
-            private bool rekurzivnizkouseni(int[,] sudoku, int z)
+            private bool rekurzivnizkouseni(int[,] rozdily, int z)
             {
                 dosazenepolicko = z;
                 if (dosazenepolicko == 81)
+                {
+                    for(int i = 0; i < 9; i++)
+                    {
+                        for (int j = 0; j < 9; j++)
+                            if (zadani[i, j] != kompletni[i, j])
+                                rozdily[i, j]++;
+                    }
                     return true;
+                }
+                    
 
                 int x = z % 9;
                 int y = z / 9;
 
-                if (sudoku[x, y] != 0)
-                    return rekurzivnizkouseni(sudoku, z + 1);
+                if (zadani[x, y] != 0)
+                    return rekurzivnizkouseni(rozdily, z + 1);
 
-                List<int> list = GetAvailableNumbers(sudoku, x, y);
+                List<int> list = GetAvailableNumbers(zadani, x, y);
 
                 foreach (int num in list)
                 {
-                    sudoku[x, y] = num;
-                    if (rekurzivnizkouseni(sudoku, z + 1))
-                    {
-                        sudoku[x, y] = 0;
-                        return true;
-                    }
+                    zadani[x, y] = num;
+                    rekurzivnizkouseni(rozdily, z + 1);
                 }
 
-                sudoku[x, y] = 0;
+                zadani[x, y] = 0;
                 return false;
             }
         }
