@@ -100,10 +100,11 @@ namespace LogickeHry
         {
             plocha = new TableLayoutPanel()
             {
-                CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
                 Anchor = AnchorStyles.None,
                 AutoSize = true,
                 BackColor = Color.Gray,
+                Visible = false,
             };
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 14);
@@ -178,7 +179,7 @@ namespace LogickeHry
             };
             clear.Click += (s,e)=>aktualnityp.Controls.Clear();
             plocha.Controls.Add(clear, 3, 12);
-
+            plocha.Visible = true;
         }
 
         private void Test(object? sender, EventArgs e)
@@ -395,7 +396,7 @@ namespace LogickeHry
 
                 Label lvyber = new Label()
                 {
-                    Text = "Výběr:",
+                    Text = "Délka kódu:",
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter
@@ -404,7 +405,7 @@ namespace LogickeHry
 
                 Label lmoznosti = new Label()
                 {
-                    Text = "Možností:",
+                    Text = "Počet barev:",
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter

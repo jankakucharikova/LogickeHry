@@ -161,5 +161,11 @@ namespace LogickeHry
             aktualnihra = new Logik(this);
             aktualnihra.SpustiUvod();
         }
+
+        private void HlavniBSudoku_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Sudoku(this);
+            aktualnihra.SpustiUvod();
+        }
     }
 }

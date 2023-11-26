@@ -293,6 +293,7 @@ namespace LogickeHry
         };
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 6);
+            plocha.Visible = false;
 
             lcas = new Label()
             {
@@ -373,6 +374,7 @@ namespace LogickeHry
             form.HraBox.SetColumnSpan(ukoncit, 2);
 
             vytvor_tlacitka();
+            plocha.Visible = true;
         }
         private void vytvor_tlacitka()
         {
