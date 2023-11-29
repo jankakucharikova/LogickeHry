@@ -9,7 +9,8 @@ namespace LogickeHry
         NumericUpDown Nvyska, Nsirka, Npocmin;
         RadioButton lehke, stredni, tezke, vlastni;
         TableLayoutPanel plocha;
-        Label lcas, lmin, lpolicek;
+        Label lmin, lpolicek;
+        List<Button> tlacitka;
         int sirka, vyska, pocmin, pocet_vlajek, pocetpolicek;
         public Miny(GameForm form) : base(form)
         {
@@ -115,7 +116,12 @@ namespace LogickeHry
                     Checked = true,
                     Dock = DockStyle.Fill,
                 };
-                lehke.CheckedChanged += (s, e) => { if (lehke.Checked) nastavRozmery(9, 9, 10); };
+                lehke.CheckedChanged += (s, e) => {
+                    if (lehke.Checked) { 
+                        nastavRozmery(9, 9, 10);
+                        this.obtiznost = Obtiznost.Lehke;
+                    }
+                };
 
 
                 stredni = new RadioButton()
@@ -124,7 +130,13 @@ namespace LogickeHry
                     Text = "Střední",
                     Dock = DockStyle.Fill
                 };
-                stredni.CheckedChanged += (s, e) => { if (stredni.Checked) nastavRozmery(16, 16, 40); };
+                stredni.CheckedChanged += (s, e) => {
+                    if (stredni.Checked)
+                    {
+                        nastavRozmery(16, 16, 40);
+                        this.obtiznost = Obtiznost.Stredni;
+                    } 
+                };
 
                 tezke = new RadioButton()
                 {
@@ -132,7 +144,13 @@ namespace LogickeHry
                     Text = "Těžké",
                     Dock = DockStyle.Fill
                 };
-                tezke.CheckedChanged += (s, e) => { if (tezke.Checked) nastavRozmery(30, 16, 99); };
+                tezke.CheckedChanged += (s, e) => {
+                    if (tezke.Checked)
+                    {
+                        nastavRozmery(30, 16, 99);
+                        this.obtiznost= Obtiznost.Tezke;
+                    }
+                };
 
 
                 vlastni = new RadioButton()
@@ -141,7 +159,14 @@ namespace LogickeHry
                     Text = "Vlastní",
                     Dock = DockStyle.Fill
                 };
-                vlastni.CheckedChanged += (s, e) => prepniNaVlastni(vlastni.Checked);
+                vlastni.CheckedChanged += (s, e) =>
+                {
+                    prepniNaVlastni(vlastni.Checked);
+                    if (vlastni.Checked)
+                    {
+                        this.obtiznost = Obtiznost.Vlastni;
+                    }
+                };
 
 
                 Nvyska = new NumericUpDown()
@@ -275,6 +300,11 @@ namespace LogickeHry
         //Vytvor herni stranku
         protected override void VytvorHerniStranku()
         {
+            VytvorBocniPanel();
+            VytvorHerniPlochu();
+        }
+        private void VytvorBocniPanel()
+        {
             form.HraBox.ColumnCount = 3;
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
@@ -285,15 +315,7 @@ namespace LogickeHry
             {
                 form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, (float)100 / 6));
             }
-            plocha = new TableLayoutPanel()
-            {
-                Anchor= AnchorStyles.None,
-                AutoScroll = true,
-                AutoSize = true,
-        };
-            form.HraBox.Controls.Add(plocha, 0, 0);
-            form.HraBox.SetRowSpan(plocha, 6);
-            plocha.Visible = false;
+
 
             lcas = new Label()
             {
@@ -373,11 +395,19 @@ namespace LogickeHry
             form.HraBox.Controls.Add(ukoncit, 1, 5);
             form.HraBox.SetColumnSpan(ukoncit, 2);
 
-            vytvor_tlacitka();
-            plocha.Visible = true;
         }
-        private void vytvor_tlacitka()
+        private void VytvorHerniPlochu()
         {
+            tlacitka = new List<Button>();
+            plocha = new TableLayoutPanel()
+            {
+                Anchor = AnchorStyles.None,
+                AutoScroll = true,
+                AutoSize = true,
+            };
+            form.HraBox.Controls.Add(plocha, 0, 0);
+            form.HraBox.SetRowSpan(plocha, 6);
+            plocha.Visible = false;
             Size rozmerbuttonu = new Size(40, 40);
             plocha.RowCount = vyska;
             plocha.ColumnCount = sirka;
@@ -405,18 +435,11 @@ namespace LogickeHry
                     b.EnabledChanged += (s, e) => { int c;if(int.TryParse(b.Text,out c)) b.ForeColor = barvy[c]; };
                     b.Margin = new Padding(0);
                     b.Padding = new Padding(0);
+                    tlacitka.Add(b);
                     plocha.Controls.Add(b, i, j);
                 }
             }
-        }
-        //Nastav casovac
-        protected override void NastavCasovac()
-        {
-            stopky = new System.Windows.Forms.Timer();
-            stopky.Interval = 1000;
-            stopky.Tick += (s, e) => uplynulycas++;
-            stopky.Tick += (s, e) => Obnoveni();
-            stopky.Start();
+            plocha.Visible = true;
         }
 
         //Procedury vyvolavane eventy
@@ -452,6 +475,17 @@ namespace LogickeHry
                 {
                     b.Text = mapka[i, j].ToString();
                     pocetpolicek--;
+                    if(b.Text=="0")
+                    foreach(Button t in tlacitka)
+                    {
+                            String[] s = t.Name.Split(' ');
+                            int x = int.Parse(s[0]);
+                            int y = int.Parse(s[1]);
+                            if (Math.Abs(i-x)<=1 && Math.Abs(j-y)<=1)
+                            {
+                                levy_klik(t, x, y);
+                            }
+                    }
                 }
                 else
                 {
@@ -496,7 +530,6 @@ namespace LogickeHry
 
         internal void Obnoveni()
         {
-            lcas.Text = TimeSpan.FromSeconds(uplynulycas).ToString(@"mm\:ss");
             lmin.Text = (pocmin - pocet_vlajek).ToString();
             lpolicek.Text = (pocetpolicek).ToString();
             if (pocetpolicek == 0)

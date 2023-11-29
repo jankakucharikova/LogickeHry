@@ -1,31 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace LogickeHry
 {
-    internal enum SudokuObtiznost
-    {
-        Tezke,Lehke,Stredni
-    }
+    
     internal class Sudoku : Hra
     {
         RadioButton lehke, stredni, tezke, vlastni;
         TableLayoutPanel plocha;
-        SudokuObtiznost obtiznost=SudokuObtiznost.Lehke;
-        Label lcas,lchyb;
+        Label lchyb;
         int[,] tabulka,tabulka_vyresena;
         int zbyva_policek,chyb;
         Size velikostTlacitka=new Size(40,40);
         Font font = new Font("Segoe UI", 13, FontStyle.Bold, GraphicsUnit.Point);
         Button vybranecislo;
         List<Button> tlacitka;
-        GeneratorSudoku generator=new GeneratorSudoku();
         public Sudoku(GameForm form) : base(form)
         {
             Nazev = "Sudoku";
@@ -36,37 +25,32 @@ namespace LogickeHry
             stopky.Stop();
         }
 
-        protected override void NastavCasovac()
-        {
-            stopky = new System.Windows.Forms.Timer();
-            stopky.Interval = 1000;
-            stopky.Tick += (s, e) => uplynulycas++;
-            stopky.Tick += (s, e) => lcas.Text = TimeSpan.FromSeconds(uplynulycas).ToString(@"mm\:ss");
-            stopky.Start();
-        }
-
         protected override void PouzijNastaveni()
         {
-            generator.GenerateSudoku(obtiznost);
-            tabulka = generator.zadani;
-            tabulka_vyresena = generator.kompletni;
-        }
+            Uzivatel u = form.databaze.uzivatele.Include(e => e.videl).FirstOrDefault(e=> e.Id == form.aktualniuzivatel.Id);
 
-        private string vypisSudoku(int[,] tabulka)
-        {
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < 9; i++)
+            List<SudokuZadani> l = form.databaze.sudoku.Where(e=> e.obtiznost == obtiznost.ToString() && !u.videl.Contains(e)).ToList();
+            SudokuZadani s;
+            if (l.Count() > 0)
             {
-                for(int j = 0; j < 9; j++)
-                {
-                    sb.Append(tabulka[i,j]);
-                    sb.Append("|");
-                }
-                sb.Append('\n');
+                s = l[0];
+                u.videl.Add(s);
+                s.Load();
             }
-            return sb.ToString();
+            else
+            {
+                s = new SudokuZadani();
+                s.vygeneruj(obtiznost);
+                s.save();
+                u.videl.Add(s);
+                form.databaze.sudoku.Add(s);
+            }
+            tabulka = s.zadani;
+            tabulka_vyresena = s.kompletni;
+            form.databaze.SaveChanges();
         }
 
+        
         protected override void ProhraVlastni()
         {
             
@@ -88,7 +72,6 @@ namespace LogickeHry
 
         protected override void VyhraVlastni()
         {
-            
         }
 
         protected override void VytvorHerniStranku()
@@ -135,13 +118,13 @@ namespace LogickeHry
             };
             switch (obtiznost)
             {
-                case SudokuObtiznost.Tezke:
+                case Obtiznost.Tezke:
                     lo.Text = "Těžké";
                     break;
-                case SudokuObtiznost.Stredni:
+                case Obtiznost.Stredni:
                     lo.Text = "Střední";
                     break;
-                case SudokuObtiznost.Lehke:
+                case Obtiznost.Lehke:
                     lo.Text = "Lehké";
                     break;
             }
@@ -226,7 +209,7 @@ namespace LogickeHry
                     Name = (i + 1).ToString(),
                     Size = velikostTlacitka,
                 };
-                button.Click += vybercisla;
+                button.Click += VyberCislo;
                 cisla.Controls.Add(button, i, 0);
             }
             plocha = new TableLayoutPanel()
@@ -269,7 +252,7 @@ namespace LogickeHry
                                 Margin = Padding.Empty,
                                 Size = velikostTlacitka,
 
-                                ForeColor = Color.DodgerBlue
+                                
                             };
                             if (tabulka[x, y] == 0)
                             {
@@ -282,7 +265,7 @@ namespace LogickeHry
                                 button.Enabled = false;
                             }
 
-                            button.Click += vybertlacitka;
+                            button.Click += VyberPolicko;
                             ctverec.Controls.Add(button, k, l);
                             tlacitka.Add(button);
                         }
@@ -292,7 +275,7 @@ namespace LogickeHry
             plocha.Visible = true;
         }
 
-        private void vybertlacitka(object? sender, EventArgs e)
+        private void VyberPolicko(object? sender, EventArgs e)
         {
             if (vybranecislo == null || Stav != StavHry.Bezi)
                 return;
@@ -301,10 +284,12 @@ namespace LogickeHry
             int x = int.Parse(souradnice[0]);
             int y = int.Parse(souradnice[1]);
             int c = int.Parse(vybranecislo.Name);
-            b.Text = vybranecislo.Text;
+            
             if (tabulka_vyresena[x, y] == c)
             {
+                b.Text = vybranecislo.Text;
                 b.BackColor = Color.LightCyan;
+                b.ForeColor = Color.DodgerBlue;
                 b.Text = vybranecislo.Text;
                 if (tabulka[x,y]==0)
                 {
@@ -318,6 +303,12 @@ namespace LogickeHry
             }
             else
             {
+                if (b.Text == vybranecislo.Text)
+                {
+                    b.Text = "";
+                    return;
+                }
+                    
                 b.ForeColor = Color.Red;
                 if (tabulka[x, y] != 0)
                 {
@@ -332,7 +323,7 @@ namespace LogickeHry
             
         }
 
-        private void vybercisla(object? sender, EventArgs e)
+        private void VyberCislo(object? sender, EventArgs e)
         {
             if (vybranecislo != null)
             {
@@ -355,303 +346,139 @@ namespace LogickeHry
 
         protected override void VytvorUvodniStranku()
         {
-            //vytvorim rozlozeni
-            form.HraBox.ColumnCount = 3;
-            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300));
-
-            form.HraBox.RowCount = 9;
-            for (int i = 0; i < 9; i++)
+            //rozlozeni cele stranky
             {
-                form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / 9));
-            }
+                form.HraBox.ColumnCount = 3;
+                form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+                form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 300));
 
-            //vpravo obrazek
-            PictureBox obrazek = new PictureBox()
-            {
-                Dock = DockStyle.Fill,
-                SizeMode = PictureBoxSizeMode.StretchImage
-            };
-            form.HraBox.Controls.Add(obrazek, 0, 0);
-            form.HraBox.SetRowSpan(obrazek, 9);
-
-            //groupbox obtiznost
-            GroupBox GBobtiznost = new GroupBox()
-            {
-                Dock = DockStyle.Fill,
-                Text = "Obtížnost",
-                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-            };
-            form.HraBox.Controls.Add(GBobtiznost, 1, 0);
-            form.HraBox.SetRowSpan(GBobtiznost, 3);
-            //rozlozeni obtiznosti
-            TableLayoutPanel obtiznostpanel = new TableLayoutPanel()
-            {
-                ColumnCount = 1,
-                RowCount = 2,
-                Dock = DockStyle.Fill
-            };
-            obtiznostpanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33));
-            obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33));
-            obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33));
-            GBobtiznost.Controls.Add(obtiznostpanel);
-
-            if (lehke == null || stredni == null || tezke == null || vlastni == null)
-            {
-                lehke = new RadioButton()
-                {
-                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                    Text = "Lehké",
-                    Checked = true,
-                    Dock = DockStyle.Fill,
-                };
-                lehke.CheckedChanged += (s, e) =>
-                {
-                    if (lehke.Checked)
-                    {
-                        obtiznost = SudokuObtiznost.Lehke;
-                    }
-                };
-
-                stredni = new RadioButton()
-                {
-                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                    Text = "Střední",
-                    Dock = DockStyle.Fill
-                };
-                stredni.CheckedChanged += (s, e) =>
-                {
-                    if (stredni.Checked)
-                    {
-                        obtiznost = SudokuObtiznost.Stredni;
-                    }
-                };
-
-                tezke = new RadioButton()
-                {
-                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                    Text = "Těžké",
-                    Dock = DockStyle.Fill
-                };
-                tezke.CheckedChanged += (s, e) =>
-                {
-                    if (tezke.Checked)
-                    {
-                        obtiznost = SudokuObtiznost.Tezke;
-                    }
-                };
-
-
-                
-            }
-            obtiznostpanel.Controls.Add(lehke, 0, 0);
-            obtiznostpanel.Controls.Add(stredni, 0, 1);
-            obtiznostpanel.Controls.Add(tezke, 0, 2);
-
-            Button bnavod = new Button()
-            {
-                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Text = "Návod",
-            };
-            form.HraBox.Controls.Add(bnavod, 1, 3);
-            form.HraBox.SetRowSpan(bnavod, 2);
-
-            Button bstatistiky = new Button()
-            {
-                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Text = "Statistiky",
-            };
-            form.HraBox.Controls.Add(bstatistiky, 1, 5);
-            form.HraBox.SetRowSpan(bstatistiky, 2);
-
-            Button bhrat = new Button()
-            {
-                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Text = "Hrát",
-            };
-            bhrat.Click += (s, e) => SpustiHru();
-            form.HraBox.Controls.Add(bhrat, 1, 7);
-            form.HraBox.SetRowSpan(bhrat, 2);
-        }
-
-        internal class GeneratorSudoku
-        {
-            struct souradnice
-            {
-                public int x,y;
-                public override bool Equals([NotNullWhen(true)] object? obj)
-                {
-                    if(obj.GetType()!=this.GetType()) return false;
-                    return x == ((souradnice)obj).x && y == ((souradnice)obj).y;
-                }
-            }
-            private Random rnd = new Random();
-            internal int[,] kompletni;
-            internal int[,] zadani;
-            int dosazenepolicko = 0;
-            bool uspesne;
-            
-
-            internal void GenerateSudoku(SudokuObtiznost obtiznost)
-            {
-                kompletni = new int[9, 9];
-                zadani = new int[9, 9];
-                GenerateCompleteSudoku(0);
-                GenerateUniqueSudoku(obtiznost);
-            }
-
-            bool GenerateCompleteSudoku(int z)
-            {
-                
-                dosazenepolicko = z;
-                if (dosazenepolicko == 81)
-                    return true;
-
-                int x = z % 9;
-                int y = z / 9;
-                List<int> list = GetAvailableNumbers(kompletni, x, y);
-
-                while(list.Count()>0)
-                {
-                    int r = rnd.Next() % list.Count();
-                    kompletni[x, y] = list[r];
-                    list.RemoveAt(r);
-
-                    if (GenerateCompleteSudoku(z + 1))
-                        return true;
-
-                    kompletni[x, y] = 0;
-                }
-
-                return false;
-            }
-
-            List<int> GetAvailableNumbers(int[,] sudoku, int x, int y)
-            {
-                List<int> list = new List<int>(Enumerable.Range(1, 9));
-
+                form.HraBox.RowCount = 9;
                 for (int i = 0; i < 9; i++)
                 {
-                    list.Remove(sudoku[i, y]); // Kontrola řádku
-                    list.Remove(sudoku[x, i]); // Kontrola sloupce
+                    form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / 9));
                 }
-
-                int blockRow = x / 3 * 3;
-                int blockCol = y / 3 * 3;
-
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        list.Remove(sudoku[blockRow + i, blockCol + j]); // Kontrola bloku
-
-                return list;
             }
-
-            void GenerateUniqueSudoku( SudokuObtiznost obtiznost)
+            //vlevo obrazek
             {
-                int pridani=0;
-                switch (obtiznost)
+                PictureBox obrazek = new PictureBox()
                 {
-                    case SudokuObtiznost.Lehke:
-                        pridani = 45;
-                        break;
-                    case SudokuObtiznost.Stredni:
-                        pridani = 35;
-                        break;
-                    case SudokuObtiznost.Tezke:
-                        pridani = 25;
-                        break;
-                }
-                for(int i = 0; i < pridani; i++)
-                {
-                    pridejRandomCislo();
-                }
-                int maxrozdil = 0;
-                List<souradnice> kde_rozdil = new List<souradnice>();
-                while(1==1)
-                {
-                    int[,] rozdily = rozdilyreseni();
-                    for(int i = 0;i<9;i++)
-                        for( int j = 0; j < 9; j++)
-                        {
-                            if (rozdily[i, j] >= maxrozdil)
-                            {
-                                if (rozdily[i, j] > maxrozdil)
-                                {
-                                    maxrozdil = rozdily[i, j];
-                                    kde_rozdil.Clear();
-                                }
-
-                                kde_rozdil.Add(new souradnice() { x = i, y = j });
-                            }
-                        }
-                    if (maxrozdil == 0)
-                        break;
-                    souradnice s = kde_rozdil[rnd.Next(0, kde_rozdil.Count())];
-                    zadani[s.x, s.y] = kompletni[s.x, s.y];
-                    pridani++;
-                    maxrozdil = 0;
-                    kde_rozdil.Clear();
-                }
-                
+                    Dock = DockStyle.Fill,
+                    SizeMode = PictureBoxSizeMode.StretchImage
+                };
+                form.HraBox.Controls.Add(obrazek, 0, 0);
+                form.HraBox.SetRowSpan(obrazek, 9);
             }
-            public void pridejRandomCislo()
+            //groupbox obtiznost
             {
-                int x = rnd.Next(0,9);
-                int y = rnd.Next(0, 9);
-                while (zadani[x,y]!= 0)
+                GroupBox GBobtiznost = new GroupBox()
                 {
-                    x = rnd.Next(0, 9);
-                    y = rnd.Next(0, 9);
-                }
-                zadani[x, y] = kompletni[x, y];
-            }
-            private int[,] rozdilyreseni()
-            {
-                int[,] rozdily = new int[9, 9];
-                dosazenepolicko = 0;
-                rekurzivnizkouseni(rozdily, 0);
-                return rozdily;
-            }
-
-            private bool rekurzivnizkouseni(int[,] rozdily, int z)
-            {
-                dosazenepolicko = z;
-                if (dosazenepolicko == 81)
+                    Dock = DockStyle.Fill,
+                    Text = "Obtížnost",
+                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                };
+                form.HraBox.Controls.Add(GBobtiznost, 1, 0);
+                form.HraBox.SetRowSpan(GBobtiznost, 3);
+                //rozlozeni obtiznosti a radiobuttony
                 {
-                    for(int i = 0; i < 9; i++)
+                    TableLayoutPanel obtiznostpanel = new TableLayoutPanel()
                     {
-                        for (int j = 0; j < 9; j++)
-                            if (zadani[i, j] != kompletni[i, j])
-                                rozdily[i, j]++;
+                        ColumnCount = 1,
+                        RowCount = 2,
+                        Dock = DockStyle.Fill
+                    };
+                    obtiznostpanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+                    obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33));
+                    obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33));
+                    obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 33));
+                    GBobtiznost.Controls.Add(obtiznostpanel);
+
+                    if (lehke == null || stredni == null || tezke == null || vlastni == null)
+                    {
+                        lehke = new RadioButton()
+                        {
+                            Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                            Text = "Lehké",
+                            Checked = true,
+                            Dock = DockStyle.Fill,
+                        };
+                        lehke.CheckedChanged += (s, e) =>
+                        {
+                            if (lehke.Checked)
+                            {
+                                obtiznost = Obtiznost.Lehke;
+                            }
+                        };
+
+                        stredni = new RadioButton()
+                        {
+                            Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                            Text = "Střední",
+                            Dock = DockStyle.Fill
+                        };
+                        stredni.CheckedChanged += (s, e) =>
+                        {
+                            if (stredni.Checked)
+                            {
+                                obtiznost = Obtiznost.Stredni;
+                            }
+                        };
+
+                        tezke = new RadioButton()
+                        {
+                            Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                            Text = "Těžké",
+                            Dock = DockStyle.Fill
+                        };
+                        tezke.CheckedChanged += (s, e) =>
+                        {
+                            if (tezke.Checked)
+                            {
+                                obtiznost = Obtiznost.Tezke;
+                            }
+                        };
+
+
+
                     }
-                    return true;
+                    obtiznostpanel.Controls.Add(lehke, 0, 0);
+                    obtiznostpanel.Controls.Add(stredni, 0, 1);
+                    obtiznostpanel.Controls.Add(tezke, 0, 2);
                 }
-                    
-
-                int x = z % 9;
-                int y = z / 9;
-
-                if (zadani[x, y] != 0)
-                    return rekurzivnizkouseni(rozdily, z + 1);
-
-                List<int> list = GetAvailableNumbers(zadani, x, y);
-
-                foreach (int num in list)
+            }
+            //buttony
+            {
+                Button bnavod = new Button()
                 {
-                    zadani[x, y] = num;
-                    rekurzivnizkouseni(rozdily, z + 1);
-                }
+                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Text = "Návod",
+                };
+                form.HraBox.Controls.Add(bnavod, 1, 3);
+                form.HraBox.SetRowSpan(bnavod, 2);
 
-                zadani[x, y] = 0;
-                return false;
+                Button bstatistiky = new Button()
+                {
+                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Text = "Statistiky",
+                };
+                form.HraBox.Controls.Add(bstatistiky, 1, 5);
+                form.HraBox.SetRowSpan(bstatistiky, 2);
+
+                Button bhrat = new Button()
+                {
+                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                    Dock = DockStyle.Fill,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Text = "Hrát",
+                };
+                bhrat.Click += (s, e) => SpustiHru();
+                form.HraBox.Controls.Add(bhrat, 1, 7);
+                form.HraBox.SetRowSpan(bhrat, 2);
             }
         }
+
     }
 }

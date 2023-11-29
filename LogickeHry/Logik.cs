@@ -15,9 +15,8 @@ namespace LogickeHry
         int[] kod;
         int kolik, z;
         TableLayoutPanel plocha;
-        Label lcas;
-        Size velka=new Size(35,35),mala=new Size(20,20);
-        const int velkyfont = 11, malyfont = 6;
+        Size velikost_tecky = new Size(30, 30);
+        const int velkyfont = 10, malyfont = 5;
         TableLayoutPanel vysledky;
         int aktualniradek = 1;
         TableLayoutPanel aktualnityp;
@@ -33,15 +32,6 @@ namespace LogickeHry
             ukazVysledek();
             clear.Enabled= false;
             testButton.Enabled= false;
-        }
-
-        protected override void NastavCasovac()
-        {
-            stopky = new System.Windows.Forms.Timer();
-            stopky.Interval = 1000;
-            stopky.Tick += (s, e) => uplynulycas++;
-            stopky.Tick += (s, e) => lcas.Text = TimeSpan.FromSeconds(uplynulycas).ToString(@"mm\:ss");
-            stopky.Start();
         }
 
         protected override void PouzijNastaveni()
@@ -110,12 +100,12 @@ namespace LogickeHry
             form.HraBox.SetRowSpan(plocha, 14);
             for (int i = 0; i < 14; i++)
             {
-                plocha.RowStyles.Add(new RowStyle(SizeType.Absolute, velka.Height));
+                plocha.RowStyles.Add(new RowStyle(SizeType.Absolute, velikost_tecky.Height));
             }
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velka.Width * 2));
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velka.Width * kolik));
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, mala.Width * kolik));
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, mala.Width * kolik));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * 2));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * kolik));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * kolik));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * kolik));
             for (int i = 0; i < 12; i++)
             {
                 plocha.Controls.Add(new Label()
@@ -141,6 +131,7 @@ namespace LogickeHry
                 {
                     Name = i.ToString(),
                     ForeColor = barvy[i],
+                    BackColor = barvy[i],
                     Font = new Font("Segoe UI", velkyfont, FontStyle.Bold, GraphicsUnit.Point),
                     Text = "\U00002B24",
                     Dock = DockStyle.Fill,
@@ -186,6 +177,7 @@ namespace LogickeHry
         {
             if (aktualnityp.Controls.Count < kolik)
                 return;
+            plocha.SuspendLayout();
             TableLayoutPanel odpoved = novyPanel();
             List<int> spravne= new List<int>();
             spravne.AddRange(kod);
@@ -235,6 +227,7 @@ namespace LogickeHry
             plocha.Controls.Add(clear, 3, 12 - aktualniradek);
             plocha.Controls.Add(odpoved, 2, 13 - aktualniradek);
             aktualniradek++;
+            plocha.ResumeLayout();
         }
 
         private void klikNaBarvu(object? sender, EventArgs e)
@@ -429,6 +422,7 @@ namespace LogickeHry
                         {
                             Nvyber.Value = 4;
                             Nmoznosti.Value = 6;
+                            this.obtiznost = Obtiznost.Lehke;
                         }
                     };
 
@@ -444,6 +438,7 @@ namespace LogickeHry
                         {
                             Nvyber.Value = 5;
                             Nmoznosti.Value = 8;
+                            this.obtiznost = Obtiznost.Stredni;
                         }
                     };
 
@@ -459,20 +454,27 @@ namespace LogickeHry
                     {
                         Nvyber.Value = 6;
                         Nmoznosti.Value = 10;
+                        this.obtiznost = Obtiznost.Tezke;
                     }
                 };
 
 
                 vlastni = new RadioButton()
-                    {
-                        Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                        Text = "Vlastní",
-                        Dock = DockStyle.Fill
+                {
+                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                    Text = "Vlastní",
+                    Dock = DockStyle.Fill
+                        
                     };
                 vlastni.CheckedChanged += (s, e) =>
                 {
                     Nvyber.Enabled=vlastni.Checked;
                     Nmoznosti.Enabled=vlastni.Checked;
+                    if (vlastni.Checked)
+                    {
+                        this.obtiznost = Obtiznost.Vlastni;
+                    }
+                    
                 };
 
 
