@@ -14,6 +14,7 @@ namespace LogickeHry
         {
 
             InitializeComponent();
+            this.BackColor = Color.Turquoise;
 
             boxy = this.Controls.OfType<TableLayoutPanel>().ToList();
             databaze = new DataContext();
@@ -264,13 +265,42 @@ namespace LogickeHry
 
         private void BSudoku_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this);
+            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku);
+            aktualnihra.SpustiUvod();
+        }
+        private void BSudokuZvirata_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_zvirata);
             aktualnihra.SpustiUvod();
         }
 
         private void StatistikaCBObtiznost_SelectedIndexChanged(object sender, EventArgs e)
         {
             Statistika.vysledky.Aktualizace(sender, e);
+        }
+
+        private void BSudokuPlanety_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_planety);
+            aktualnihra.SpustiUvod();
+        }
+
+        private void BSudokuOvoce_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_ovoce);
+            aktualnihra.SpustiUvod();
+        }
+
+        private void BSudokuPismenka_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_pismenka);
+            aktualnihra.SpustiUvod();
+        }
+
+        private void BSudokuTvary_Click(object sender, EventArgs e)
+        {
+            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_tvary);
+            aktualnihra.SpustiUvod();
         }
     }
 }

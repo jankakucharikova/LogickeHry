@@ -6,6 +6,7 @@ namespace LogickeHry
     
     internal class Sudoku : Hra
     {
+        List<Bitmap> obrazky;
         RadioButton lehke, stredni, tezke, vlastni;
         TableLayoutPanel plocha;
         Label lchyb;
@@ -15,9 +16,10 @@ namespace LogickeHry
         Font font = new Font("Segoe UI", 13, FontStyle.Bold, GraphicsUnit.Point);
         Button vybranecislo;
         List<Button> tlacitka;
-        public Sudoku(GameForm form) : base(form)
+        public Sudoku(GameForm form, Bitmap _obrazky) : base(form)
         {
             Nazev = "Sudoku";
+            obrazky = NactiIkonky(_obrazky);
         }
 
         protected override void KonecHry()
@@ -133,7 +135,7 @@ namespace LogickeHry
             Label lchybtext = new Label()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                Text = "Chyb:",
+                Text = "Chyby:",
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -204,8 +206,10 @@ namespace LogickeHry
             {
                 Button button = new Button()
                 {
+                    Dock = DockStyle.Fill,
                     Font = font,
-                    Text = (i + 1).ToString(),
+                    BackgroundImage = obrazky[i],
+                    BackgroundImageLayout = ImageLayout.Stretch,
                     Name = (i + 1).ToString(),
                     Size = velikostTlacitka,
                 };
@@ -251,17 +255,17 @@ namespace LogickeHry
                                 Name = $"{x},{y}",
                                 Margin = Padding.Empty,
                                 Size = velikostTlacitka,
+                                BackgroundImageLayout = ImageLayout.Stretch,
 
-                                
                             };
                             if (tabulka[x, y] == 0)
                             {
-                                button.Text = "";
+                                button.BackgroundImage=obrazky[9];
                                 zbyva_policek++;
                             }
                             else
                             {
-                                button.Text = tabulka[x, y].ToString();
+                                button.BackgroundImage = obrazky[tabulka[x, y]-1];
                                 button.Enabled = false;
                             }
 
@@ -287,10 +291,7 @@ namespace LogickeHry
             
             if (tabulka_vyresena[x, y] == c)
             {
-                b.Text = vybranecislo.Text;
-                b.BackColor = Color.LightCyan;
-                b.ForeColor = Color.DodgerBlue;
-                b.Text = vybranecislo.Text;
+                b.BackgroundImage = obrazky[c - 1];
                 if (tabulka[x,y]==0)
                 {
                     zbyva_policek--;
@@ -303,13 +304,6 @@ namespace LogickeHry
             }
             else
             {
-                if (b.Text == vybranecislo.Text)
-                {
-                    b.Text = "";
-                    return;
-                }
-                    
-                b.ForeColor = Color.Red;
                 if (tabulka[x, y] != 0)
                 {
                     zbyva_policek++;

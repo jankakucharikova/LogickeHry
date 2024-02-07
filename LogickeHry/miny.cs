@@ -3,6 +3,8 @@ namespace LogickeHry
 {
     internal class Miny : Hra
     {
+
+        List<Bitmap> obrazky;
         const int hodnota_bomby = 1000;
         static readonly Color[] barvy = { Color.Gray, Color.Blue, Color.Green, Color.Red, Color.Purple, Color.LightBlue, Color.Pink, Color.Orange, Color.LightGreen };
         int[,] mapka;
@@ -10,16 +12,20 @@ namespace LogickeHry
         RadioButton lehke, stredni, tezke, vlastni;
         TableLayoutPanel plocha;
         Label lmin, lpolicek;
+        Button hint;
+        int hintu = 3;
         List<Button> tlacitka;
         int sirka, vyska, pocmin, pocet_vlajek, pocetpolicek;
         public Miny(GameForm form) : base(form)
         {
             Nazev = "Miny";
+            obrazky= NactiIkonky(LogickeHry.Properties.Resources.miny);
         }
 
         //reset do uvodniho stavu
         protected override void Reset()
         {
+            hintu = 3;
             vyska = 0;
             sirka = 0;
             pocmin = 0;
@@ -363,13 +369,15 @@ namespace LogickeHry
             };
             form.HraBox.Controls.Add(lpolicek, 2, 2);
 
-            Button hint = new Button()
+            hint = new Button()
             {
-                Text = "Hint(3)",
+                Text = $"Hint({hintu})",
                 Dock = DockStyle.Fill,
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 TextAlign = ContentAlignment.MiddleCenter
             };
+            hint.Click += Hint_Click;
+            
             form.HraBox.Controls.Add(hint, 1, 3);
             form.HraBox.SetColumnSpan(hint, 2);
 
@@ -396,6 +404,30 @@ namespace LogickeHry
             form.HraBox.SetColumnSpan(ukoncit, 2);
 
         }
+
+        private void Hint_Click(object? sender, EventArgs e)
+        {
+            if (hintu < 1)
+                return;
+            hintu--;
+            hint.Text = $"Hint({hintu})";
+            Random rnd = new Random();
+            var kliknutelne = from b in tlacitka where jeKliknutelne(b)==true select b;
+            Button k = kliknutelne.ElementAt(rnd.Next() % kliknutelne.Count());
+            levy_klik(k);
+        }
+        private bool jeKliknutelne(Button b)
+        {
+            String[] parametry = b.Name.Split(" ");
+            int i = int.Parse(parametry[0]);
+            int j = int.Parse(parametry[1]);
+            if (parametry[2].Equals("true"))
+                return false;
+            if (parametry[3].Equals("false"))
+                return false;
+            return mapka[i, j] != hodnota_bomby;
+        }
+
         private void VytvorHerniPlochu()
         {
             tlacitka = new List<Button>();
@@ -408,7 +440,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 6);
             plocha.Visible = false;
-            Size rozmerbuttonu = new Size(40, 40);
+            Size rozmerbuttonu = new Size(50, 50);
             plocha.RowCount = vyska;
             plocha.ColumnCount = sirka;
             plocha.RowStyles.Clear();
@@ -426,13 +458,12 @@ namespace LogickeHry
                 for (int j = 0; j < vyska; j++)
                 {
                     Button b = new Button();
-                    b.Name = $"{i} {j}";
-                    b.Text = "";
+                    b.Name = $"{i} {j} false true";
+                    b.Image = obrazky[11];
                     b.Size = rozmerbuttonu;
                     b.Anchor = AnchorStyles.None;
                     b.Font = new Font("Segoe UI", 14, FontStyle.Bold, GraphicsUnit.Point);
                     b.MouseDown += (s, e) => vyhodnot_kliknuti(s, e);
-                    b.EnabledChanged += (s, e) => { int c;if(int.TryParse(b.Text,out c)) b.ForeColor = barvy[c]; };
                     b.Margin = new Padding(0);
                     b.Padding = new Padding(0);
                     tlacitka.Add(b);
@@ -449,12 +480,13 @@ namespace LogickeHry
                 return;
             Button b = (Button)s;
             String[] x = b.Name.Split(' ');
-            int i = int.Parse(x[0]);
-            int j = int.Parse(x[1]);
+            String enabled = x[3];
+            if (!enabled.Equals("true"))
+                return;
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    levy_klik(b, i, j);
+                    levy_klik(b);
                     break;
 
                 case MouseButtons.Right:
@@ -465,17 +497,24 @@ namespace LogickeHry
             Obnoveni();
 
         }
-        public void levy_klik(Button b, int i, int j)
+        public void levy_klik(Button b, bool konec=false)
         {
+            String[] parametry = b.Name.Split(' ');
+            String enabled = parametry[3];
+            int i = int.Parse(parametry[0]);
+            int j = int.Parse(parametry[1]);
+            if (!enabled.Equals("true"))
+                return;
             
-            if (b.Text.Equals(""))
+            string vlajka = parametry[2];
+            b.Name = $"{i} {j} {vlajka} false";
+            if (vlajka.Equals("false"))
             {
-                b.Enabled = false;
                 if (mapka[i, j] != hodnota_bomby)
                 {
-                    b.Text = mapka[i, j].ToString();
+                    b.Image = obrazky[mapka[i, j]];
                     pocetpolicek--;
-                    if(b.Text=="0")
+                    if(mapka[i, j]==0)
                     foreach(Button t in tlacitka)
                     {
                             String[] s = t.Name.Split(' ');
@@ -483,32 +522,44 @@ namespace LogickeHry
                             int y = int.Parse(s[1]);
                             if (Math.Abs(i-x)<=1 && Math.Abs(j-y)<=1)
                             {
-                                levy_klik(t, x, y);
+                                levy_klik(t);
                             }
                     }
                 }
                 else
                 {
-                    b.Text = "\U0001F4A3";
+                    b.Image = obrazky[9];
                     Prohra();
                     b.BackColor = Color.Red;
                 }
                 
             }
+            else if (konec)
+            {
+                if(mapka[i, j] != hodnota_bomby)
+                    b.Image= obrazky[12];
+            }
         }
         public void pravy_klik(Button b)
         {
-            if (!b.Text.Equals("\U0001F6A9"))
+            String[] x = b.Name.Split(' ');
+            int i = int.Parse(x[0]);
+            int j = int.Parse(x[1]);
+            String vlajka = x[2];
+            String enabled = x[3];
+            if (!enabled.Equals("true"))
+                return;
+            if (vlajka.Equals("false"))
             {
-                b.Text = "\U0001F6A9";
-                b.ForeColor = Color.Red;
+                b.Image = obrazky[10];
                 pocet_vlajek++;
+                b.Name = $"{i} {j} true {enabled}";
             }
             else
             {
-                b.Text = "";
-                b.ForeColor = Color.Black;
+                b.Image = obrazky[11];
                 pocet_vlajek--;
+                b.Name = $"{i} {j} false {enabled}";
             }
         }
 
@@ -547,23 +598,7 @@ namespace LogickeHry
             foreach (var v in plocha.Controls)
             {
                 Button b = (Button)v;
-                String[] x = b.Name.Split(' ');
-                int i = int.Parse(x[0]);
-                int j = int.Parse(x[1]);
-                b.Enabled = !b.Enabled;
-                if (b.Text.Equals("🚩"))
-                {
-                    if (mapka[i, j] != hodnota_bomby)
-                        b.BackColor = Color.Red;
-                }
-                else if (mapka[i, j] == hodnota_bomby)
-                {
-                    b.Text = "\U0001F4A3";
-                }
-                else
-                {
-                    b.Text = mapka[i, j].ToString();
-                }
+                levy_klik(b,true);
             }
         }
 

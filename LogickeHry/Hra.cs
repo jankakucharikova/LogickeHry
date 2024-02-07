@@ -1,4 +1,7 @@
-﻿namespace LogickeHry
+﻿using static System.Windows.Forms.LinkLabel;
+using System.Drawing.Imaging;
+
+namespace LogickeHry
 {
     internal enum StavHry
     {
@@ -73,6 +76,7 @@
         {
             KonecHry();
             ProhraVlastni();
+            //new MessageBox("phohral si");
         }
 
         protected abstract void ProhraVlastni();
@@ -106,5 +110,22 @@
 
         protected abstract void VyhraVlastni();
         protected abstract void Reset();
+        protected List<Bitmap> NactiIkonky(Bitmap bmp)
+        {
+            int RozmerIkonky = bmp.Height;
+            var pocet = bmp.Width / RozmerIkonky; 
+
+            var vyrezy = new Rectangle[pocet];
+            for (var i = 0; i < pocet; i++)
+            {
+                vyrezy[i] = new Rectangle(i * RozmerIkonky, 0, RozmerIkonky, RozmerIkonky);
+            }
+            List<Bitmap> v = new List<Bitmap>();
+            for(int i = 0; i < vyrezy.Length; i++) 
+            {
+                v.Add(bmp.Clone(vyrezy[i], PixelFormat.DontCare));
+            }
+            return v;
+        }
     }
 }

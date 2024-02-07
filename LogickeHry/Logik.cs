@@ -8,6 +8,7 @@ namespace LogickeHry
 {
     internal class Logik : Hra
     {
+        List<Bitmap> obrazky;
         static readonly Color[] barvy = { Color.DeepSkyBlue, Color.Green, Color.Red, Color.Yellow, Color.Orange, Color.Magenta, Color.Sienna, Color.Pink, Color.GreenYellow,Color.MediumBlue };
         NumericUpDown Nvyber, Nmoznosti;
         CheckBox CBopakovani;
@@ -15,8 +16,9 @@ namespace LogickeHry
         int[] kod;
         int kolik, z;
         TableLayoutPanel plocha;
-        Size velikost_tecky = new Size(30, 30);
-        const int velkyfont = 10, malyfont = 5;
+        Size velikost_radku = new Size(30, 30);
+        Size velikost_kolecek = new Size(20, 20);
+        Size velikost_puntiku = new Size(10, 10);
         TableLayoutPanel vysledky;
         int aktualniradek = 1;
         TableLayoutPanel aktualnityp;
@@ -24,6 +26,7 @@ namespace LogickeHry
         public Logik(GameForm form) : base(form)
         {
             Nazev = "Logik";
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.logik);
         }
         protected override void KonecHry()
         {
@@ -93,25 +96,27 @@ namespace LogickeHry
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
                 Anchor = AnchorStyles.None,
                 AutoSize = true,
-                BackColor = Color.Gray,
+                BackColor = Color.Peru,
                 Visible = false,
             };
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 14);
+            plocha.RowStyles.Clear();
+            plocha.ColumnStyles.Clear();
             for (int i = 0; i < 14; i++)
             {
-                plocha.RowStyles.Add(new RowStyle(SizeType.Absolute, velikost_tecky.Height));
+                plocha.RowStyles.Add(new RowStyle(SizeType.Absolute, velikost_radku.Height));
             }
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * 2));
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * kolik));
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * kolik));
-            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_tecky.Width * kolik));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_radku.Width * 2));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_radku.Width * kolik));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_radku.Width * kolik));
+            plocha.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_kolecek.Width * kolik));
             for (int i = 0; i < 12; i++)
             {
                 plocha.Controls.Add(new Label()
                 {
                     Text = (i + 1).ToString(),
-                    Font = new Font("Segoe UI", velkyfont, FontStyle.Regular, GraphicsUnit.Point),
+                    Font = new Font("Segoe UI", 10, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter
                 }, 0, 12 - i);
@@ -120,36 +125,33 @@ namespace LogickeHry
             {
                 Dock = DockStyle.Fill,
                 RowCount = 1,
-                ColumnCount = z,
+                ColumnCount = z+1,
             };
             plocha.Controls.Add(buttonybarev, 1, 13);
             plocha.SetColumnSpan(buttonybarev, 3);
             for (int i = 0; i < z; i++)
             {
-                buttonybarev.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-                Label l = new Label()
+                buttonybarev.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_radku.Width));
+                PictureBox b = new PictureBox()
                 {
                     Name = i.ToString(),
-                    ForeColor = barvy[i],
-                    BackColor = barvy[i],
-                    Font = new Font("Segoe UI", velkyfont, FontStyle.Bold, GraphicsUnit.Point),
-                    Text = "\U00002B24",
-                    Dock = DockStyle.Fill,
-                    TextAlign = ContentAlignment.TopCenter
-
+                    BackgroundImage = obrazky[i],
+                    BackgroundImageLayout=ImageLayout.Stretch,
+                    Size = velikost_kolecek
                 };
-                l.Click += klikNaBarvu;
-                buttonybarev.Controls.Add(l, i, 0);
+                b.Click += klikNaBarvu;
+                buttonybarev.Controls.Add(b, i, 0);
             }
+            buttonybarev.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             vysledky = novyPanel();
             for (int i = 0; i < kolik; i++)
             {
-                Label l = new Label()
+                PictureBox l = new PictureBox()
                 {
                     Name = kod[i].ToString(),
-                    ForeColor = Color.White,
-                    Font = new Font("Segoe UI", velkyfont, FontStyle.Bold, GraphicsUnit.Point),
-                    Text = "\U00002B24",
+                    BackgroundImage= obrazky[11],
+                    BackgroundImageLayout = ImageLayout.Stretch,
+                    Size = velikost_kolecek
                 };
                 vysledky.Controls.Add(l, i, 0);
             }
@@ -190,11 +192,11 @@ namespace LogickeHry
             {
                 if (spravne[i] == tip[i])
                 {
-                    odpoved.Controls.Add(new Label()
+                    odpoved.Controls.Add(new PictureBox()
                     {
-                        ForeColor = Color.Black,
-                        Font = new Font("Segoe UI", malyfont, FontStyle.Regular, GraphicsUnit.Point),
-                        Text = "\U00002B24",
+                        BackgroundImage = obrazky[10],
+                        BackgroundImageLayout = ImageLayout.Stretch,
+                        Size = velikost_puntiku
                     });
                     spravne.RemoveAt(i);
                     tip.RemoveAt(i);
@@ -207,11 +209,11 @@ namespace LogickeHry
             {
                 if (spravne.Contains(tip[i]))
                 {
-                    odpoved.Controls.Add(new Label()
+                    odpoved.Controls.Add(new PictureBox()
                     {
-                        ForeColor = Color.White,
-                        Font = new Font("Segoe UI", malyfont, FontStyle.Regular, GraphicsUnit.Point),
-                        Text = "\U00002B24",
+                        BackgroundImage = obrazky[11],
+                        BackgroundImageLayout = ImageLayout.Stretch,
+                        Size= velikost_puntiku
                     });
                     spravne.Remove(tip[i]);
                     tip.RemoveAt(i);
@@ -235,19 +237,19 @@ namespace LogickeHry
             if(aktualnityp.Controls.Count < kolik)
             {
                 
-                Label l = (Label)sender;
+                PictureBox l = (PictureBox)sender;
                 if (!CBopakovani.Checked) {
                     foreach (Control c in aktualnityp.Controls) {
                         if (c.Name.Equals(l.Name))
                             return;
                     }
                 }
-                aktualnityp.Controls.Add(new Label()
+                aktualnityp.Controls.Add(new PictureBox()
                 {
                     Name = l.Name,
-                    ForeColor = barvy[int.Parse(l.Name)],
-                    Font = new Font("Segoe UI", velkyfont, FontStyle.Regular, GraphicsUnit.Point),
-                    Text = "\U00002B24",
+                    BackgroundImage = obrazky[int.Parse(l.Name)],
+                    BackgroundImageLayout = ImageLayout.Stretch,
+                    Size = velikost_kolecek
                 });
             }
         }
@@ -257,12 +259,13 @@ namespace LogickeHry
             {
                 Dock = DockStyle.Fill,
                 RowCount = 1,
-                ColumnCount = kolik,
+                ColumnCount = kolik+1,
             };
             for (int i = 0; i < kolik; i++)
             {
-                typ.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+                typ.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikost_radku.Width));
             }
+            typ.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             return typ;
         }
 
@@ -337,8 +340,8 @@ namespace LogickeHry
         {
             foreach(var x in vysledky.Controls)
             {
-                Label l =(Label)x;
-                l.ForeColor = barvy[int.Parse(l.Name)];
+                PictureBox l =(PictureBox)x;
+                l.BackgroundImage = obrazky[int.Parse(l.Name)];
             }
         }
         protected override void VytvorUvodniStranku()

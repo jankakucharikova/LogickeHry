@@ -52,7 +52,7 @@ namespace LogickeHry
         }
         public List<vysledek_hry> NactiStatistiky(Uzivatel u, String hra, String obtiznost)
         {
-            IQueryable<vysledek_hry> x= form.databaze.statistiky;
+            IQueryable<vysledek_hry> x= form.databaze.statistiky.Include(u=>u.uzivatel);
             if(u!=null)
                 x=x.Where(e=>e.uzivatel==u);
             if(hra!=null && hra!="")
