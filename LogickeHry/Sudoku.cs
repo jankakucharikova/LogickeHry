@@ -6,22 +6,23 @@ namespace LogickeHry
     
     internal class Sudoku : Hra
     {
-        List<Bitmap> obrazky;
-        Bitmap uvodniobrazek;
-        RadioButton lehke, stredni, tezke, vlastni;
-        TableLayoutPanel plocha;
-        Label lchyb;
-        int[,] tabulka,tabulka_vyresena;
-        int zbyva_policek,chyb;
-        Size velikostTlacitka=new Size(40,40);
-        Font font = new Font("Segoe UI", 13, FontStyle.Bold, GraphicsUnit.Point);
-        Button vybranecislo;
-        List<Button> tlacitka;
-        public Sudoku(GameForm form,String nazev, Bitmap _obrazky, Bitmap uvod) : base(form)
+        protected List<Bitmap> obrazky;
+        protected Bitmap uvodniobrazek;
+        protected RadioButton lehke, stredni, tezke, vlastni;
+        protected TableLayoutPanel plocha;
+        protected Label lchyb;
+        protected int[,] tabulka,tabulka_vyresena;
+        protected int zbyva_policek,chyb;
+        protected Size velikostTlacitka =new Size(40,40);
+        protected Font font = new Font("Segoe UI", 13, FontStyle.Bold, GraphicsUnit.Point);
+        protected Button vybranecislo;
+        protected List<Button> tlacitka;
+        public Sudoku(GameForm form) : base(form)
         {
-            Nazev = nazev;
-            obrazky = NactiIkonky(_obrazky);
-            uvodniobrazek = uvod;
+            Nazev = "SUDOKU";
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku);
+            uvodniobrazek = Properties.Resources.sudoku_uvod;
+            navod = $"{Nazev} je mřížka 9x9 s některými prázdnými, jinými předvyplněnými poli čísel 1-9. Hráč na základě 3 pravidel vyplňuje čísla do prázdných polí. Každé číslo se musí nacházet právě 1-krát v každém řádku, sloupci a vyznačeném čtverci 3x3. \r\n\r\nVýběr čísel ze spodní lišty se potvrdí kliknutím. Dalšími kliknutími na hrací pole se číslo doplňuje. Pokud ho doplní na nesprávné místo, číslo se nezobrazí, ale bude mu započítaná chyba. Hráč má povolené maximálně 3 chyby. \r\n\r\nPokud chce hráč vygenerovat novou hru stiskne tlačítko „Nová hra“.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nPokud hráč vyplní všechna políčka správnými obrázky a neudělá během toho víc jak 3 chyby vyhrál. \r\n";
         }
 
         protected override void KonecHry()
@@ -451,6 +452,7 @@ namespace LogickeHry
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Návod",
                 };
+                bnavod.Click += UkazNavod;
                 form.HraBox.Controls.Add(bnavod, 1, 3);
                 form.HraBox.SetRowSpan(bnavod, 2);
 
@@ -460,6 +462,11 @@ namespace LogickeHry
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Statistiky",
+                };
+                bstatistiky.Click += (s, e) =>
+                {
+                    form.StatistikyCBHra.Text = Nazev;
+                    form.Ukazbox(form.StatistikaBox);
                 };
                 form.HraBox.Controls.Add(bstatistiky, 1, 5);
                 form.HraBox.SetRowSpan(bstatistiky, 2);
@@ -478,4 +485,64 @@ namespace LogickeHry
         }
 
     }
+    internal class ObrazkoveSudoku : Sudoku
+    {
+        public ObrazkoveSudoku(GameForm form) : base(form) {
+            navod = " je mřížka 9x9 s některými prázdnými, jinými předvyplněnými poli obrázků. Hráč na základě 3 pravidel vyplňuje obrázky do prázdných polí. Každý obrázek se musí nacházet právě 1-krát v každém řádku, sloupci a vyznačeném čtverci 3x3. \r\n\r\nVýběr obrázku ze spodní lišty se potvrdí kliknutím. Dalšími kliknutími na hrací pole se obrázek doplňuje. Pokud ho doplní na nesprávné místo, obrázek se nezobrazí, ale bude mu započítaná chyba. Hráč má povolené maximálně 3 chyby. \r\n\r\nPokud chce hráč vygenerovat novou hru stiskne tlačítko „Nová hra“.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nPokud hráč vyplní všechna políčka správnými čísly a neudělá během toho víc jak 3 chyby vyhrál. \r\n";
+        }
+    }
+    internal class SudokuPlanety : ObrazkoveSudoku
+    {
+        public SudokuPlanety(GameForm form) : base(form)
+        {
+            Nazev = "Vesmírné SUDOKU";
+            navod = Nazev + navod;
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_planety);
+            uvodniobrazek = Properties.Resources.planety_uvod;
+        }
+    }
+
+    internal class SudokuOvoce : ObrazkoveSudoku
+    {
+        public SudokuOvoce(GameForm form) : base(form)
+        {
+            Nazev = "SUDOKU ovoce";
+            navod = Nazev + navod;
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_ovoce);
+            uvodniobrazek = Properties.Resources.ovoce_uvod;
+        }
+    }
+    internal class SudokuPismenka : ObrazkoveSudoku
+    {
+        public SudokuPismenka(GameForm form) : base(form)
+        {
+            Nazev = "SUDOKU písmenka";
+            navod = Nazev + navod;
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_pismenka);
+            uvodniobrazek = Properties.Resources.pismenka_uvod;
+        }
+    }
+    internal class SudokuTvary : ObrazkoveSudoku
+    {
+        public SudokuTvary(GameForm form) : base(form)
+        {
+            Nazev = "SUDOKU tvary";
+            navod = Nazev + navod;
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_tvary);
+            uvodniobrazek = Properties.Resources.tvary_uvod;
+        }
+    }
+    internal class SudokuZOO : ObrazkoveSudoku
+    {
+        public SudokuZOO(GameForm form) : base(form)
+        {
+            Nazev = "SUDOKU ZOO";
+            navod = Nazev + navod;
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_zoo);
+            uvodniobrazek = Properties.Resources.zoo_uvod;
+        }
+    }
+
+
+
 }

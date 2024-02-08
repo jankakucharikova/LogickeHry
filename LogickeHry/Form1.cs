@@ -46,7 +46,7 @@ namespace LogickeHry
             if (t.Visible)
             {
                 t.BringToFront();
-                PRLPodnadpis.Text = t.Name;
+                PRLPodnadpis.Text = (String)t.Tag;
                 PRHlavicka.Show();
                 PRHlavicka.BringToFront();
             }
@@ -280,12 +280,12 @@ namespace LogickeHry
 
         private void BSudoku_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, "SUDOKU", LogickeHry.Properties.Resources.sudoku, Properties.Resources.sudoku_uvod);
+            aktualnihra = new Sudoku(this);
             aktualnihra.SpustiUvod();
         }
         private void BSudokuZvirata_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, "SUDOKU ZOO", LogickeHry.Properties.Resources.sudoku_zoo, Properties.Resources.zoo_uvod);
+            aktualnihra = new SudokuZOO(this);
             aktualnihra.SpustiUvod();
         }
 
@@ -296,25 +296,25 @@ namespace LogickeHry
 
         private void BSudokuPlanety_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, "Vesmírné SUDOKU", LogickeHry.Properties.Resources.sudoku_planety, Properties.Resources.planety_uvod);
+            aktualnihra = new SudokuPlanety(this);
             aktualnihra.SpustiUvod();
         }
 
         private void BSudokuOvoce_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, "SUDOKU ovoce", LogickeHry.Properties.Resources.sudoku_ovoce, Properties.Resources.ovoce_uvod);
+            aktualnihra = new SudokuOvoce(this);
             aktualnihra.SpustiUvod();
         }
 
         private void BSudokuPismenka_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, "SUDOKU písmenka", LogickeHry.Properties.Resources.sudoku_pismenka, Properties.Resources.pismenka_uvod);
+            aktualnihra = new SudokuPismenka(this);
             aktualnihra.SpustiUvod();
         }
 
         private void BSudokuTvary_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, "SUDOKU tvary", LogickeHry.Properties.Resources.sudoku_tvary, Properties.Resources.tvary_uvod);
+            aktualnihra = new SudokuTvary(this);
             aktualnihra.SpustiUvod();
         }
     }

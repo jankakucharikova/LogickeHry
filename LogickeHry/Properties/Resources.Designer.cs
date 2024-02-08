@@ -193,16 +193,6 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sudoku_kostka {
-            get {
-                object obj = ResourceManager.GetObject("sudoku_kostka", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap sudoku_ovoce {
             get {
                 object obj = ResourceManager.GetObject("sudoku_ovoce", resourceCulture);

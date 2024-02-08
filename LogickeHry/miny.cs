@@ -20,6 +20,7 @@ namespace LogickeHry
         {
             Nazev = "Miny";
             obrazky= NactiIkonky(LogickeHry.Properties.Resources.miny);
+            navod = "Pole je poseto minami, které musí hráč najít a neodkrýt, nebo je označit pravým tlačítkem myši (vlajkou). \r\nKliknutím na poličko se hráč doví jestli políčko obsahuje minu nebo nikoliv. Pokud jo, hra je ukončena prohrou, pokud ne, na políčku se objeví číslo s počtem bomb v jejím nejbližším okolí (na všech osmi políčkách s ním sousedících). \r\nPokud je zřejmé, že některé neodkryté políčko obsahuje minu, hráč může pro přehlednost označit políčko vlaječkou. Tímto se stává políčko neaktivní pro další neúmyslné odkrytí.\r\nHráč může také použít 3 hinty, kdy je odhaleno náhodné bezpečné políčko.\r\nTlačítko „Nová hra“ vygeneruje nové hrací pole.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nPo správném označení všech políček s minami, nebo odkrytí všech polí bez min hráč vyhrává.\r\nObtížnost: \r\nLehká: pole o velikosti 9x9, počet min 10\r\nStřední: pole o velikosti 16x16, počet min 40\r\nTěžká: pole o velikosti 30x16, počet min 99\r\nVlastní: pole o velikosti 9x9 – 30x24, počet min 10–667, maximálně (x − 1) × (y − 1); x, y = rozměry hracího pole\r\n";
         }
 
         //reset do uvodniho stavu
@@ -231,6 +232,7 @@ namespace LogickeHry
                 TextAlign = ContentAlignment.MiddleCenter,
                 Text = "Návod",
             };
+            bnavod.Click += UkazNavod;
             form.HraBox.Controls.Add(bnavod, 1, 6);
             form.HraBox.SetColumnSpan(bnavod, 2);
 
@@ -240,6 +242,11 @@ namespace LogickeHry
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Text = "Statistiky",
+            };
+            bstatistiky.Click += (s, e) =>
+            {
+                form.StatistikyCBHra.Text = Nazev;
+                form.Ukazbox(form.StatistikaBox);
             };
             form.HraBox.Controls.Add(bstatistiky, 1, 7);
             form.HraBox.SetColumnSpan(bstatistiky, 2);

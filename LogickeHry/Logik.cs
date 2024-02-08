@@ -27,6 +27,7 @@ namespace LogickeHry
         {
             Nazev = "Logik";
             obrazky = NactiIkonky(LogickeHry.Properties.Resources.logik);
+            navod = "Hráč hádá barevnou kombinaci o počtu koleček, který si hráč sám zvolí. Barvy se mohou opakovat, pokud si tak hráč zvolí. \r\nHráč musí uhodnout barevnou kombinaci a její správné pořadí ve dvanácti krocích.\r\nHráč vybírá barvy ze spodní lišty. Pokud vyplnil všechny políčka může zažádat o kontrolu tlačítkem „Test“. \r\nPokud chce svou odpověď změnit, smaže svůj výběr tlačítkem „Clear“. \r\nKaždý odehraný pokus je vyhodnocený černými a bílými puntíky. Za každé kolečko, které udává správnou barvu, ale je na špatném místě, se uděluje bílý puntík. Za každé kolečko se správnou barvou na správném místě se dává černý puntík. Pořadí puntíků není stejné jako pořadí koleček, zobrazují se vždy nejprve černé a pak bílé puntíky.\r\nPokud chce hráč vygenerovat novou barevnou kombinaci stiskne tlačítko „Nová hra“.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nHra končí v momentě, kdy je uhodnuta barevná kombinace nebo je-li vyčerpáno všech 12 pokusů. \r\nObtížnost:\r\nLehká: 4-místný kód ze 6 barev\r\nStřední: 5-místný kód z 8 barev\r\nTěžká: 6-místný kód z 10 barev\r\nVlastní: 4 až 10-místný kód ze 4 až 10 barev\r\n";
         }
         protected override void KonecHry()
         {
@@ -541,6 +542,7 @@ namespace LogickeHry
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Návod",
                 };
+                bnavod.Click += UkazNavod;
                 form.HraBox.Controls.Add(bnavod, 1, 6);
                 form.HraBox.SetColumnSpan(bnavod, 2);
 
@@ -550,6 +552,11 @@ namespace LogickeHry
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Statistiky",
+                };
+                bstatistiky.Click += (s, e) =>
+                {
+                    form.StatistikyCBHra.Text = Nazev;
+                    form.Ukazbox(form.StatistikaBox);
                 };
                 form.HraBox.Controls.Add(bstatistiky, 1, 7);
                 form.HraBox.SetColumnSpan(bstatistiky, 2);

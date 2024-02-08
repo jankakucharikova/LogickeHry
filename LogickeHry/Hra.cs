@@ -20,9 +20,14 @@ namespace LogickeHry
         internal int uplynulycas;
         internal Obtiznost obtiznost = Obtiznost.Lehke;
         internal Label lcas;
+        protected string navod;
         public Hra(GameForm form)
         {
             this.form = form;
+        }
+        protected void UkazNavod(object sender, EventArgs e)
+        {
+            MessageBox.Show(navod,$"Návod ke hře {Nazev}");
         }
         public void SmazHerniPole()
         {
@@ -76,7 +81,7 @@ namespace LogickeHry
         {
             KonecHry();
             ProhraVlastni();
-            //new MessageBox("phohral si");
+            MessageBox.Show("Prohra!");
         }
 
         protected abstract void ProhraVlastni();
@@ -106,6 +111,7 @@ namespace LogickeHry
                 }
             }
             form.databaze.SaveChanges();
+            MessageBox.Show("Vyhra!");
         }
 
         protected abstract void VyhraVlastni();
