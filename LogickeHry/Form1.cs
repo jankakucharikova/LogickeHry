@@ -78,7 +78,22 @@ namespace LogickeHry
             if (t.Visible)
             {
                 t.BringToFront();
-                HlavniLPodnadpis.Text = t.Name;
+                HlavniLPodnadpis.Text = "Hlavní stránka";
+                HlavniHlavicka.Show();
+                HlavniHlavicka.BringToFront();
+            }
+            else
+            {
+                HlavniHlavicka.Hide();
+            }
+        }
+        private void StatistikaBox_VisibleChanged(object sender, EventArgs e)
+        {
+            TableLayoutPanel t = (TableLayoutPanel)sender;
+            if (t.Visible)
+            {
+                t.BringToFront();
+                HlavniLPodnadpis.Text = "Statistika";
                 HlavniHlavicka.Show();
                 HlavniHlavicka.BringToFront();
             }
@@ -265,12 +280,12 @@ namespace LogickeHry
 
         private void BSudoku_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku);
+            aktualnihra = new Sudoku(this, "SUDOKU", LogickeHry.Properties.Resources.sudoku, Properties.Resources.sudoku_uvod);
             aktualnihra.SpustiUvod();
         }
         private void BSudokuZvirata_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_zvirata);
+            aktualnihra = new Sudoku(this, "SUDOKU ZOO", LogickeHry.Properties.Resources.sudoku_zoo, Properties.Resources.zoo_uvod);
             aktualnihra.SpustiUvod();
         }
 
@@ -281,25 +296,25 @@ namespace LogickeHry
 
         private void BSudokuPlanety_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_planety);
+            aktualnihra = new Sudoku(this, "Vesmírné SUDOKU", LogickeHry.Properties.Resources.sudoku_planety, Properties.Resources.planety_uvod);
             aktualnihra.SpustiUvod();
         }
 
         private void BSudokuOvoce_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_ovoce);
+            aktualnihra = new Sudoku(this, "SUDOKU ovoce", LogickeHry.Properties.Resources.sudoku_ovoce, Properties.Resources.ovoce_uvod);
             aktualnihra.SpustiUvod();
         }
 
         private void BSudokuPismenka_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_pismenka);
+            aktualnihra = new Sudoku(this, "SUDOKU písmenka", LogickeHry.Properties.Resources.sudoku_pismenka, Properties.Resources.pismenka_uvod);
             aktualnihra.SpustiUvod();
         }
 
         private void BSudokuTvary_Click(object sender, EventArgs e)
         {
-            aktualnihra = new Sudoku(this, LogickeHry.Properties.Resources.sudoku_tvary);
+            aktualnihra = new Sudoku(this, "SUDOKU tvary", LogickeHry.Properties.Resources.sudoku_tvary, Properties.Resources.tvary_uvod);
             aktualnihra.SpustiUvod();
         }
     }

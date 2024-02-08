@@ -54,11 +54,12 @@ namespace LogickeHry
                 form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, 100 / 9));
             }
 
-            //vpravo obrazek
+            //vlevo obrazek
             PictureBox obrazek = new PictureBox()
             {
                 Dock = DockStyle.Fill,
-                SizeMode = PictureBoxSizeMode.StretchImage
+                SizeMode = PictureBoxSizeMode.CenterImage,
+                Image = Properties.Resources.miny_uvod
             };
             form.HraBox.Controls.Add(obrazek, 0, 0);
             form.HraBox.SetRowSpan(obrazek, 9);

@@ -121,17 +121,50 @@
   <data name="logik" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logikcb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="logiktit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logiktit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logik_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logik_uvod.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="miny" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="minytit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\minytit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="miny_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\miny.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ovocetit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ovocetit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ovoce_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ovoce.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pismenkatit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pismenkatit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pismenka_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pismenka.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="planetytit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planetytit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="planety_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\planety_uvod.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="sudoku" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sudoku merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sudokutit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sudokutit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="sudoku_kostka" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kockymerged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="sudoku_ovoce" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ovocie merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\image (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="sudoku_pismenka" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pismenka merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -140,12 +173,27 @@
     <value>..\Resources\planety merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="sudoku_tvary" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tvarymerged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\toto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sudoku_zvirata" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\zvieramerged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sudoku_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sudoku4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sudoku_zoo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tvarytit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tvarytit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tvary_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tvary.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="UvodObrazek" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UvodObrazek.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zootit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zviratzatit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="zoo_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\zoo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -7,6 +7,7 @@ namespace LogickeHry
     internal class Sudoku : Hra
     {
         List<Bitmap> obrazky;
+        Bitmap uvodniobrazek;
         RadioButton lehke, stredni, tezke, vlastni;
         TableLayoutPanel plocha;
         Label lchyb;
@@ -16,10 +17,11 @@ namespace LogickeHry
         Font font = new Font("Segoe UI", 13, FontStyle.Bold, GraphicsUnit.Point);
         Button vybranecislo;
         List<Button> tlacitka;
-        public Sudoku(GameForm form, Bitmap _obrazky) : base(form)
+        public Sudoku(GameForm form,String nazev, Bitmap _obrazky, Bitmap uvod) : base(form)
         {
-            Nazev = "Sudoku";
+            Nazev = nazev;
             obrazky = NactiIkonky(_obrazky);
+            uvodniobrazek = uvod;
         }
 
         protected override void KonecHry()
@@ -357,7 +359,8 @@ namespace LogickeHry
                 PictureBox obrazek = new PictureBox()
                 {
                     Dock = DockStyle.Fill,
-                    SizeMode = PictureBoxSizeMode.StretchImage
+                    SizeMode = PictureBoxSizeMode.CenterImage,
+                    Image = uvodniobrazek
                 };
                 form.HraBox.Controls.Add(obrazek, 0, 0);
                 form.HraBox.SetRowSpan(obrazek, 9);
