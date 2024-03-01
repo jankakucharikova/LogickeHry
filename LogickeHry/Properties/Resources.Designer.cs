@@ -63,6 +63,26 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap aqua {
+            get {
+                object obj = ResourceManager.GetObject("aqua", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cyan {
+            get {
+                object obj = ResourceManager.GetObject("cyan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap logik {
             get {
                 object obj = ResourceManager.GetObject("logik", resourceCulture);
@@ -143,6 +163,16 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pink {
+            get {
+                object obj = ResourceManager.GetObject("pink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pismenka_uvod {
             get {
                 object obj = ResourceManager.GetObject("pismenka_uvod", resourceCulture);
@@ -183,9 +213,9 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sudoku {
+        internal static System.Drawing.Bitmap sudoku_bile {
             get {
-                object obj = ResourceManager.GetObject("sudoku", resourceCulture);
+                object obj = ResourceManager.GetObject("sudoku_bile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +233,29 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sudoku_ovoce_bile {
+            get {
+                object obj = ResourceManager.GetObject("sudoku_ovoce_bile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sudoku_pismenka {
             get {
                 object obj = ResourceManager.GetObject("sudoku_pismenka", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sudoku_pismenka_bile {
+            get {
+                object obj = ResourceManager.GetObject("sudoku_pismenka_bile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +273,29 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap sudoku_planety_bile {
+            get {
+                object obj = ResourceManager.GetObject("sudoku_planety_bile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap sudoku_tvary {
             get {
                 object obj = ResourceManager.GetObject("sudoku_tvary", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sudoku_tvary_bile {
+            get {
+                object obj = ResourceManager.GetObject("sudoku_tvary_bile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +313,19 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap sudoku_zoo {
+        internal static System.Drawing.Bitmap sudoku_zoo_bile {
             get {
-                object obj = ResourceManager.GetObject("sudoku_zoo", resourceCulture);
+                object obj = ResourceManager.GetObject("sudoku_zoo_bile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap sudoku_zvirata {
+            get {
+                object obj = ResourceManager.GetObject("sudoku_zvirata", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

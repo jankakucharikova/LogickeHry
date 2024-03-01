@@ -20,7 +20,7 @@ namespace LogickeHry
         public Sudoku(GameForm form) : base(form)
         {
             Nazev = "SUDOKU";
-            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku);
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_bile);
             uvodniobrazek = Properties.Resources.sudoku_uvod;
             navod = $"{Nazev} je mřížka 9x9 s některými prázdnými, jinými předvyplněnými poli čísel 1-9. Hráč na základě 3 pravidel vyplňuje čísla do prázdných polí. Každé číslo se musí nacházet právě 1-krát v každém řádku, sloupci a vyznačeném čtverci 3x3. \r\n\r\nVýběr čísel ze spodní lišty se potvrdí kliknutím. Dalšími kliknutími na hrací pole se číslo doplňuje. Pokud ho doplní na nesprávné místo, číslo se nezobrazí, ale bude mu započítaná chyba. Hráč má povolené maximálně 3 chyby. \r\n\r\nPokud chce hráč vygenerovat novou hru stiskne tlačítko „Nová hra“.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nPokud hráč vyplní všechna políčka správnými obrázky a neudělá během toho víc jak 3 chyby vyhrál. \r\n";
         }
@@ -32,11 +32,17 @@ namespace LogickeHry
 
         protected override void PouzijNastaveni()
         {
-            Uzivatel u = form.databaze.uzivatele.Include(e => e.videl).FirstOrDefault(e=> e.Id == form.aktualniuzivatel.Id);
+            Uzivatel u=null;
+            List<SudokuZadani> l=null;
+            if (form.aktualniuzivatel != null)
+            {
+                u = form.databaze.uzivatele.Include(e => e.videl).FirstOrDefault(e => e.Id == form.aktualniuzivatel.Id);
+                l = form.databaze.sudoku.Where(e => e.obtiznost == obtiznost.ToString() && !u.videl.Contains(e)).ToList();
+            }
 
-            List<SudokuZadani> l = form.databaze.sudoku.Where(e=> e.obtiznost == obtiznost.ToString() && !u.videl.Contains(e)).ToList();
+             
             SudokuZadani s;
-            if (l.Count() > 0)
+            if (l!=null && l.Count() > 0)
             {
                 s = l[0];
                 u.videl.Add(s);
@@ -47,7 +53,10 @@ namespace LogickeHry
                 s = new SudokuZadani();
                 s.vygeneruj(obtiznost);
                 s.save();
-                u.videl.Add(s);
+                if (u != null)
+                {
+                    u.videl.Add(s);
+                }
                 form.databaze.sudoku.Add(s);
             }
             tabulka = s.zadani;
@@ -154,7 +163,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(lchyb, 2, 4);
             form.HraBox.SetRowSpan(lchyb, 1);
 
-            Button restart = new Button()
+            Button restart = new RoundedButton()
             {
                 Text = "Nová hra",
                 Dock = DockStyle.Fill,
@@ -166,7 +175,7 @@ namespace LogickeHry
             form.HraBox.SetColumnSpan(restart, 2);
             form.HraBox.SetRowSpan(restart, 2);
 
-            Button ukoncit = new Button()
+            Button ukoncit = new RoundedButton()
             {
                 Text = "Ukončit hru",
                 Dock = DockStyle.Fill,
@@ -203,13 +212,13 @@ namespace LogickeHry
             velke.Controls.Add(cisla, 0, 1);
             for (int i = 0; i < 9; i++)
             {
-                cisla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikostTlacitka.Width));
+                cisla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikostTlacitka.Width+10));
             }
             for (int i = 0; i < 9; i++)
             {
                 Button button = new Button()
                 {
-                    Dock = DockStyle.Fill,
+                    Dock = DockStyle.None,
                     Font = font,
                     BackgroundImage = obrazky[i],
                     BackgroundImageLayout = ImageLayout.Stretch,
@@ -294,6 +303,7 @@ namespace LogickeHry
             
             if (tabulka_vyresena[x, y] == c)
             {
+                b.BackColor = Color.White;
                 b.BackgroundImage = obrazky[c - 1];
                 if (tabulka[x,y]==0)
                 {
@@ -307,6 +317,8 @@ namespace LogickeHry
             }
             else
             {
+                b.BackgroundImage = null;
+                b.BackColor = Color.Red;
                 if (tabulka[x, y] != 0)
                 {
                     zbyva_policek++;
@@ -445,7 +457,7 @@ namespace LogickeHry
             }
             //buttony
             {
-                Button bnavod = new Button()
+                Button bnavod = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
@@ -456,7 +468,7 @@ namespace LogickeHry
                 form.HraBox.Controls.Add(bnavod, 1, 3);
                 form.HraBox.SetRowSpan(bnavod, 2);
 
-                Button bstatistiky = new Button()
+                Button bstatistiky = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
@@ -471,7 +483,7 @@ namespace LogickeHry
                 form.HraBox.Controls.Add(bstatistiky, 1, 5);
                 form.HraBox.SetRowSpan(bstatistiky, 2);
 
-                Button bhrat = new Button()
+                Button bhrat = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
@@ -497,7 +509,7 @@ namespace LogickeHry
         {
             Nazev = "Vesmírné SUDOKU";
             navod = Nazev + navod;
-            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_planety);
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_planety_bile);
             uvodniobrazek = Properties.Resources.planety_uvod;
         }
     }
@@ -508,7 +520,7 @@ namespace LogickeHry
         {
             Nazev = "SUDOKU ovoce";
             navod = Nazev + navod;
-            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_ovoce);
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_ovoce_bile);
             uvodniobrazek = Properties.Resources.ovoce_uvod;
         }
     }
@@ -518,7 +530,7 @@ namespace LogickeHry
         {
             Nazev = "SUDOKU písmenka";
             navod = Nazev + navod;
-            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_pismenka);
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_pismenka_bile);
             uvodniobrazek = Properties.Resources.pismenka_uvod;
         }
     }
@@ -528,7 +540,7 @@ namespace LogickeHry
         {
             Nazev = "SUDOKU tvary";
             navod = Nazev + navod;
-            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_tvary);
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_tvary_bile);
             uvodniobrazek = Properties.Resources.tvary_uvod;
         }
     }
@@ -538,7 +550,7 @@ namespace LogickeHry
         {
             Nazev = "SUDOKU ZOO";
             navod = Nazev + navod;
-            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_zoo);
+            obrazky = NactiIkonky(LogickeHry.Properties.Resources.sudoku_zoo_bile);
             uvodniobrazek = Properties.Resources.zoo_uvod;
         }
     }

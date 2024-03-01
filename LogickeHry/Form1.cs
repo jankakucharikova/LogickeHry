@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 
 namespace LogickeHry
 {
@@ -14,7 +15,12 @@ namespace LogickeHry
         {
 
             InitializeComponent();
-            this.BackColor = Color.Turquoise;
+            //this.BackColor = Color.Turquoise;
+            this.BackgroundImage = Properties.Resources.pink;
+            this.BackgroundImageLayout = ImageLayout.Stretch;
+            
+            this.DoubleBuffered = true;
+
 
             boxy = this.Controls.OfType<TableLayoutPanel>().ToList();
             databaze = new DataContext();

@@ -35,17 +35,17 @@
             PrihlaseniLChHlaska = new Label();
             PrihlaseniTBHeslo = new TextBox();
             PrihlaseniLHeslo = new Label();
-            PrihlaseniBPrihlaseni = new Button();
+            PrihlaseniBPrihlaseni = new RoundedButton();
             UvodBox = new TableLayoutPanel();
             UvodTabulkaMenu = new TableLayoutPanel();
             UvodPopis = new Label();
-            UvodButtonPrihlaseni = new Button();
-            UvodButtonRegistrace = new Button();
-            UvodButtonPreskocit = new Button();
+            UvodButtonPrihlaseni = new RoundedButton();
+            UvodButtonRegistrace = new RoundedButton();
+            UvodButtonPreskocit = new RoundedButton();
             UvodObrazek = new PictureBox();
             UvodNazev = new Label();
             RegistraceBox = new TableLayoutPanel();
-            RegistraceBRegistrovat = new Button();
+            RegistraceBRegistrovat = new RoundedButton();
             RegistraceUdajeBox = new TableLayoutPanel();
             RegistraceLJmeno = new Label();
             RegistraceLPohlavi = new Label();
@@ -77,7 +77,7 @@
             toolStripSeparator2 = new ToolStripSeparator();
             ProfilBOdhlasit = new ToolStripMenuItem();
             NastaveniBox = new TableLayoutPanel();
-            NastaveniBUlozit = new Button();
+            NastaveniBUlozit = new RoundedButton();
             NastaveniTUdaje = new TableLayoutPanel();
             NastaveniLJmeno = new Label();
             NastaveniLPohlavi = new Label();
@@ -90,18 +90,18 @@
             NastaveniCBPohlavi = new ComboBox();
             HlavniLMenu = new Label();
             PRHlavicka = new TableLayoutPanel();
-            PRBZpet = new Button();
+            PRBZpet = new RoundedButton();
             PRLNazev = new Label();
             PRLPodnadpis = new Label();
             HlavniBox = new TableLayoutPanel();
-            HlavniBLogik = new Button();
-            HlavniBMiny = new Button();
-            HlavniBSudoku = new Button();
-            BSudokuZvirata = new Button();
-            BSudokuPlanety = new Button();
-            BSudokuOvoce = new Button();
-            BSudokuPismenka = new Button();
-            BSudokuTvary = new Button();
+            HlavniBLogik = new RoundedButton();
+            HlavniBMiny = new RoundedButton();
+            HlavniBSudoku = new RoundedButton();
+            BSudokuZvirata = new RoundedButton();
+            BSudokuPlanety = new RoundedButton();
+            BSudokuOvoce = new RoundedButton();
+            BSudokuPismenka = new RoundedButton();
+            BSudokuTvary = new RoundedButton();
             HraBox = new TableLayoutPanel();
             StatistikaBox = new TableLayoutPanel();
             StatistikyCBMoje = new CheckBox();
@@ -149,7 +149,7 @@
             PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            PrihlaseniBox.Size = new Size(766, 246);
+            PrihlaseniBox.Size = new Size(753, 246);
             PrihlaseniBox.TabIndex = 0;
             PrihlaseniBox.Tag = "Přihlášení";
             PrihlaseniBox.Visible = false;
@@ -165,7 +165,7 @@
             PrihlaseniUdajeBox.Controls.Add(PrihlaseniLChHlaska, 0, 4);
             PrihlaseniUdajeBox.Controls.Add(PrihlaseniTBHeslo, 0, 3);
             PrihlaseniUdajeBox.Controls.Add(PrihlaseniLHeslo, 0, 2);
-            PrihlaseniUdajeBox.Location = new Point(257, 3);
+            PrihlaseniUdajeBox.Location = new Point(253, 3);
             PrihlaseniUdajeBox.Name = "PrihlaseniUdajeBox";
             PrihlaseniUdajeBox.RowCount = 5;
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 18F));
@@ -173,7 +173,7 @@
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 18F));
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 14F));
-            PrihlaseniUdajeBox.Size = new Size(249, 170);
+            PrihlaseniUdajeBox.Size = new Size(245, 170);
             PrihlaseniUdajeBox.TabIndex = 8;
             // 
             // PrihlaseniLJmeno
@@ -182,7 +182,7 @@
             PrihlaseniLJmeno.AutoSize = true;
             PrihlaseniLJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             PrihlaseniLJmeno.ImageAlign = ContentAlignment.BottomCenter;
-            PrihlaseniLJmeno.Location = new Point(15, 0);
+            PrihlaseniLJmeno.Location = new Point(13, 0);
             PrihlaseniLJmeno.Name = "PrihlaseniLJmeno";
             PrihlaseniLJmeno.Size = new Size(219, 30);
             PrihlaseniLJmeno.TabIndex = 2;
@@ -195,7 +195,7 @@
             PrihlaseniTBJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             PrihlaseniTBJmeno.Location = new Point(3, 33);
             PrihlaseniTBJmeno.Name = "PrihlaseniTBJmeno";
-            PrihlaseniTBJmeno.Size = new Size(243, 41);
+            PrihlaseniTBJmeno.Size = new Size(239, 41);
             PrihlaseniTBJmeno.TabIndex = 4;
             PrihlaseniTBJmeno.TextAlign = HorizontalAlignment.Center;
             // 
@@ -207,7 +207,7 @@
             PrihlaseniLChHlaska.ForeColor = Color.IndianRed;
             PrihlaseniLChHlaska.Location = new Point(3, 144);
             PrihlaseniLChHlaska.Name = "PrihlaseniLChHlaska";
-            PrihlaseniLChHlaska.Size = new Size(243, 20);
+            PrihlaseniLChHlaska.Size = new Size(239, 20);
             PrihlaseniLChHlaska.TabIndex = 6;
             PrihlaseniLChHlaska.Text = "Chybné přihlašovací údaje.";
             PrihlaseniLChHlaska.TextAlign = ContentAlignment.TopCenter;
@@ -220,7 +220,7 @@
             PrihlaseniTBHeslo.Location = new Point(3, 105);
             PrihlaseniTBHeslo.Name = "PrihlaseniTBHeslo";
             PrihlaseniTBHeslo.PasswordChar = '*';
-            PrihlaseniTBHeslo.Size = new Size(243, 41);
+            PrihlaseniTBHeslo.Size = new Size(239, 41);
             PrihlaseniTBHeslo.TabIndex = 5;
             PrihlaseniTBHeslo.TextAlign = HorizontalAlignment.Center;
             // 
@@ -231,7 +231,7 @@
             PrihlaseniLHeslo.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             PrihlaseniLHeslo.Location = new Point(3, 72);
             PrihlaseniLHeslo.Name = "PrihlaseniLHeslo";
-            PrihlaseniLHeslo.Size = new Size(243, 30);
+            PrihlaseniLHeslo.Size = new Size(239, 30);
             PrihlaseniLHeslo.TabIndex = 3;
             PrihlaseniLHeslo.Text = "Heslo:";
             PrihlaseniLHeslo.TextAlign = ContentAlignment.BottomCenter;
@@ -240,9 +240,9 @@
             // 
             PrihlaseniBPrihlaseni.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             PrihlaseniBPrihlaseni.Font = new Font("Segoe UI", 19F, FontStyle.Regular, GraphicsUnit.Point);
-            PrihlaseniBPrihlaseni.Location = new Point(257, 179);
+            PrihlaseniBPrihlaseni.Location = new Point(253, 179);
             PrihlaseniBPrihlaseni.Name = "PrihlaseniBPrihlaseni";
-            PrihlaseniBPrihlaseni.Size = new Size(249, 64);
+            PrihlaseniBPrihlaseni.Size = new Size(245, 64);
             PrihlaseniBPrihlaseni.TabIndex = 7;
             PrihlaseniBPrihlaseni.Text = "Přihlásit se";
             PrihlaseniBPrihlaseni.Click += PrihlaseniBPrihlaseni_Click;
@@ -266,6 +266,7 @@
             UvodBox.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
             UvodBox.Size = new Size(1103, 700);
             UvodBox.TabIndex = 0;
+            UvodBox.BackColor = Color.Transparent;
             // 
             // UvodTabulkaMenu
             // 
@@ -374,20 +375,21 @@
             RegistraceBox.RowCount = 2;
             RegistraceBox.RowStyles.Add(new RowStyle());
             RegistraceBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
-            RegistraceBox.Size = new Size(766, 441);
+            RegistraceBox.Size = new Size(753, 441);
             RegistraceBox.TabIndex = 0;
             RegistraceBox.Tag = "Registrace";
             RegistraceBox.Visible = false;
             RegistraceBox.VisibleChanged += PRBox_VisibleChanged;
+            RegistraceBox.BackColor = Color.Transparent;
             // 
             // RegistraceBRegistrovat
             // 
             RegistraceBRegistrovat.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             RegistraceBRegistrovat.FlatStyle = FlatStyle.System;
             RegistraceBRegistrovat.Font = new Font("Segoe UI", 19F, FontStyle.Regular, GraphicsUnit.Point);
-            RegistraceBRegistrovat.Location = new Point(257, 374);
+            RegistraceBRegistrovat.Location = new Point(253, 374);
             RegistraceBRegistrovat.Name = "RegistraceBRegistrovat";
-            RegistraceBRegistrovat.Size = new Size(249, 64);
+            RegistraceBRegistrovat.Size = new Size(245, 64);
             RegistraceBRegistrovat.TabIndex = 13;
             RegistraceBRegistrovat.Text = "Registrovat";
             RegistraceBRegistrovat.Click += RegistraceBRegistrovat_Click;
@@ -408,7 +410,7 @@
             RegistraceUdajeBox.Controls.Add(RegistraceCBVek, 0, 5);
             RegistraceUdajeBox.Controls.Add(RegistraceChHlaska, 0, 8);
             RegistraceUdajeBox.ForeColor = SystemColors.ActiveCaptionText;
-            RegistraceUdajeBox.Location = new Point(257, 3);
+            RegistraceUdajeBox.Location = new Point(253, 3);
             RegistraceUdajeBox.Name = "RegistraceUdajeBox";
             RegistraceUdajeBox.RowCount = 9;
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 9.677421F));
@@ -420,8 +422,9 @@
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 9.677421F));
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 13.4408607F));
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 7.526882F));
-            RegistraceUdajeBox.Size = new Size(249, 365);
+            RegistraceUdajeBox.Size = new Size(245, 365);
             RegistraceUdajeBox.TabIndex = 14;
+            RegistraceUdajeBox.BackColor = Color.Transparent;
             // 
             // RegistraceLJmeno
             // 
@@ -430,7 +433,7 @@
             RegistraceLJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLJmeno.Location = new Point(3, 0);
             RegistraceLJmeno.Name = "RegistraceLJmeno";
-            RegistraceLJmeno.Size = new Size(243, 35);
+            RegistraceLJmeno.Size = new Size(239, 35);
             RegistraceLJmeno.TabIndex = 0;
             RegistraceLJmeno.Text = "Uživatelské jméno:";
             RegistraceLJmeno.TextAlign = ContentAlignment.BottomCenter;
@@ -442,7 +445,7 @@
             RegistraceLPohlavi.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLPohlavi.Location = new Point(3, 84);
             RegistraceLPohlavi.Name = "RegistraceLPohlavi";
-            RegistraceLPohlavi.Size = new Size(243, 35);
+            RegistraceLPohlavi.Size = new Size(239, 35);
             RegistraceLPohlavi.TabIndex = 1;
             RegistraceLPohlavi.Text = "Pohlaví:";
             RegistraceLPohlavi.TextAlign = ContentAlignment.BottomCenter;
@@ -454,7 +457,7 @@
             RegistraceLVek.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLVek.Location = new Point(3, 168);
             RegistraceLVek.Name = "RegistraceLVek";
-            RegistraceLVek.Size = new Size(243, 35);
+            RegistraceLVek.Size = new Size(239, 35);
             RegistraceLVek.TabIndex = 2;
             RegistraceLVek.Text = "Věk:";
             RegistraceLVek.TextAlign = ContentAlignment.BottomCenter;
@@ -466,7 +469,7 @@
             RegistraceLHeslo.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLHeslo.Location = new Point(3, 252);
             RegistraceLHeslo.Name = "RegistraceLHeslo";
-            RegistraceLHeslo.Size = new Size(243, 35);
+            RegistraceLHeslo.Size = new Size(239, 35);
             RegistraceLHeslo.TabIndex = 3;
             RegistraceLHeslo.Text = "Heslo:";
             RegistraceLHeslo.TextAlign = ContentAlignment.BottomCenter;
@@ -477,7 +480,7 @@
             RegistraceTBJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceTBJmeno.Location = new Point(3, 38);
             RegistraceTBJmeno.Name = "RegistraceTBJmeno";
-            RegistraceTBJmeno.Size = new Size(243, 41);
+            RegistraceTBJmeno.Size = new Size(239, 41);
             RegistraceTBJmeno.TabIndex = 4;
             // 
             // RegistraceTBHeslo
@@ -487,7 +490,7 @@
             RegistraceTBHeslo.Location = new Point(3, 290);
             RegistraceTBHeslo.Name = "RegistraceTBHeslo";
             RegistraceTBHeslo.PasswordChar = '*';
-            RegistraceTBHeslo.Size = new Size(243, 41);
+            RegistraceTBHeslo.Size = new Size(239, 41);
             RegistraceTBHeslo.TabIndex = 5;
             // 
             // RegistraceCBPohlavi
@@ -499,7 +502,7 @@
             RegistraceCBPohlavi.Items.AddRange(new object[] { "Muž", "Žena", "Jiné" });
             RegistraceCBPohlavi.Location = new Point(3, 122);
             RegistraceCBPohlavi.Name = "RegistraceCBPohlavi";
-            RegistraceCBPohlavi.Size = new Size(243, 43);
+            RegistraceCBPohlavi.Size = new Size(239, 43);
             RegistraceCBPohlavi.TabIndex = 6;
             // 
             // RegistraceCBVek
@@ -511,7 +514,7 @@
             RegistraceCBVek.Items.AddRange(new object[] { "0-10", "11-20", "21-30", "31-40", "41-50", "51-60", "61-70", "70+" });
             RegistraceCBVek.Location = new Point(3, 206);
             RegistraceCBVek.Name = "RegistraceCBVek";
-            RegistraceCBVek.Size = new Size(243, 43);
+            RegistraceCBVek.Size = new Size(239, 43);
             RegistraceCBVek.TabIndex = 7;
             // 
             // RegistraceChHlaska
@@ -521,7 +524,7 @@
             RegistraceChHlaska.ForeColor = Color.IndianRed;
             RegistraceChHlaska.Location = new Point(3, 336);
             RegistraceChHlaska.Name = "RegistraceChHlaska";
-            RegistraceChHlaska.Size = new Size(243, 29);
+            RegistraceChHlaska.Size = new Size(239, 29);
             RegistraceChHlaska.TabIndex = 8;
             RegistraceChHlaska.Text = "Uživatelské jméno již existuje.";
             RegistraceChHlaska.TextAlign = ContentAlignment.TopCenter;
@@ -552,6 +555,7 @@
             HlavniHlavicka.TabIndex = 1;
             HlavniHlavicka.Tag = "";
             HlavniHlavicka.Visible = false;
+            HlavniHlavicka.BackColor = Color.Transparent;
             // 
             // HlavniLNazev
             // 
@@ -590,6 +594,7 @@
             HlavniSProfil.Size = new Size(203, 70);
             HlavniSProfil.TabIndex = 15;
             HlavniSProfil.Text = "HlavniSProfil";
+            HlavniSProfil.BackColor = Color.Transparent;
             // 
             // ProfilBProfil
             // 
@@ -633,6 +638,7 @@
             HlavniSMenu.Size = new Size(260, 70);
             HlavniSMenu.TabIndex = 14;
             HlavniSMenu.Text = "menuStrip1";
+            HlavniSMenu.BackColor = Color.Transparent;
             // 
             // MenuBMenu
             // 
@@ -727,18 +733,19 @@
             NastaveniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             NastaveniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             NastaveniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            NastaveniBox.Size = new Size(766, 428);
+            NastaveniBox.Size = new Size(753, 428);
             NastaveniBox.TabIndex = 0;
             NastaveniBox.Visible = false;
             NastaveniBox.VisibleChanged += NastaveniBox_VisibleChanged;
+            NastaveniBox.BackColor = Color.Transparent;
             // 
             // NastaveniBUlozit
             // 
             NastaveniBUlozit.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             NastaveniBUlozit.Font = new Font("Segoe UI", 19F, FontStyle.Regular, GraphicsUnit.Point);
-            NastaveniBUlozit.Location = new Point(257, 361);
+            NastaveniBUlozit.Location = new Point(253, 361);
             NastaveniBUlozit.Name = "NastaveniBUlozit";
-            NastaveniBUlozit.Size = new Size(249, 64);
+            NastaveniBUlozit.Size = new Size(245, 64);
             NastaveniBUlozit.TabIndex = 2;
             NastaveniBUlozit.Text = "Uložit";
             NastaveniBUlozit.UseVisualStyleBackColor = true;
@@ -759,7 +766,7 @@
             NastaveniTUdaje.Controls.Add(NastaveniTBHeslo, 0, 7);
             NastaveniTUdaje.Controls.Add(NastaveniCBVek, 0, 5);
             NastaveniTUdaje.Controls.Add(NastaveniCBPohlavi, 0, 3);
-            NastaveniTUdaje.Location = new Point(257, 3);
+            NastaveniTUdaje.Location = new Point(253, 3);
             NastaveniTUdaje.Name = "NastaveniTUdaje";
             NastaveniTUdaje.RowCount = 9;
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
@@ -771,7 +778,7 @@
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
-            NastaveniTUdaje.Size = new Size(249, 352);
+            NastaveniTUdaje.Size = new Size(245, 352);
             NastaveniTUdaje.TabIndex = 3;
             // 
             // NastaveniLJmeno
@@ -781,7 +788,7 @@
             NastaveniLJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLJmeno.Location = new Point(3, 0);
             NastaveniLJmeno.Name = "NastaveniLJmeno";
-            NastaveniLJmeno.Size = new Size(243, 35);
+            NastaveniLJmeno.Size = new Size(239, 35);
             NastaveniLJmeno.TabIndex = 0;
             NastaveniLJmeno.Text = "Uživatelské jméno:";
             NastaveniLJmeno.TextAlign = ContentAlignment.BottomCenter;
@@ -793,7 +800,7 @@
             NastaveniLPohlavi.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLPohlavi.Location = new Point(3, 82);
             NastaveniLPohlavi.Name = "NastaveniLPohlavi";
-            NastaveniLPohlavi.Size = new Size(243, 35);
+            NastaveniLPohlavi.Size = new Size(239, 35);
             NastaveniLPohlavi.TabIndex = 5;
             NastaveniLPohlavi.Text = "Pohlaví:";
             NastaveniLPohlavi.TextAlign = ContentAlignment.BottomCenter;
@@ -805,7 +812,7 @@
             NastaveniLVek.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLVek.Location = new Point(3, 166);
             NastaveniLVek.Name = "NastaveniLVek";
-            NastaveniLVek.Size = new Size(243, 35);
+            NastaveniLVek.Size = new Size(239, 35);
             NastaveniLVek.TabIndex = 6;
             NastaveniLVek.Text = "Věk:";
             NastaveniLVek.TextAlign = ContentAlignment.BottomCenter;
@@ -817,7 +824,7 @@
             NastaveniLHeslo.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLHeslo.Location = new Point(3, 250);
             NastaveniLHeslo.Name = "NastaveniLHeslo";
-            NastaveniLHeslo.Size = new Size(243, 35);
+            NastaveniLHeslo.Size = new Size(239, 35);
             NastaveniLHeslo.TabIndex = 7;
             NastaveniLHeslo.Text = "Heslo:";
             NastaveniLHeslo.TextAlign = ContentAlignment.BottomCenter;
@@ -829,7 +836,7 @@
             NastaveniLChHlaska.ForeColor = Color.IndianRed;
             NastaveniLChHlaska.Location = new Point(3, 332);
             NastaveniLChHlaska.Name = "NastaveniLChHlaska";
-            NastaveniLChHlaska.Size = new Size(243, 20);
+            NastaveniLChHlaska.Size = new Size(239, 20);
             NastaveniLChHlaska.TabIndex = 8;
             NastaveniLChHlaska.Text = "Chybová hláška.";
             NastaveniLChHlaska.TextAlign = ContentAlignment.TopCenter;
@@ -841,7 +848,7 @@
             NastaveniTBJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniTBJmeno.Location = new Point(3, 38);
             NastaveniTBJmeno.Name = "NastaveniTBJmeno";
-            NastaveniTBJmeno.Size = new Size(243, 41);
+            NastaveniTBJmeno.Size = new Size(239, 41);
             NastaveniTBJmeno.TabIndex = 9;
             // 
             // NastaveniTBHeslo
@@ -851,7 +858,7 @@
             NastaveniTBHeslo.Location = new Point(3, 288);
             NastaveniTBHeslo.Name = "NastaveniTBHeslo";
             NastaveniTBHeslo.PasswordChar = '*';
-            NastaveniTBHeslo.Size = new Size(243, 41);
+            NastaveniTBHeslo.Size = new Size(239, 41);
             NastaveniTBHeslo.TabIndex = 10;
             // 
             // NastaveniCBVek
@@ -863,7 +870,7 @@
             NastaveniCBVek.Items.AddRange(new object[] { "0-10", "11-20", "21-30", "31-40", "41-50", "51-60", "61-70", "70+" });
             NastaveniCBVek.Location = new Point(3, 204);
             NastaveniCBVek.Name = "NastaveniCBVek";
-            NastaveniCBVek.Size = new Size(243, 43);
+            NastaveniCBVek.Size = new Size(239, 43);
             NastaveniCBVek.Sorted = true;
             NastaveniCBVek.TabIndex = 11;
             // 
@@ -876,7 +883,7 @@
             NastaveniCBPohlavi.Items.AddRange(new object[] { "Muž", "Žena", "Jiné" });
             NastaveniCBPohlavi.Location = new Point(3, 120);
             NastaveniCBPohlavi.Name = "NastaveniCBPohlavi";
-            NastaveniCBPohlavi.Size = new Size(243, 43);
+            NastaveniCBPohlavi.Size = new Size(239, 43);
             NastaveniCBPohlavi.TabIndex = 12;
             // 
             // HlavniLMenu
@@ -907,9 +914,10 @@
             PRHlavicka.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
             PRHlavicka.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             PRHlavicka.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            PRHlavicka.Size = new Size(1090, 200);
+            PRHlavicka.Size = new Size(1078, 200);
             PRHlavicka.TabIndex = 2;
             PRHlavicka.Visible = false;
+            PRHlavicka.BackColor = Color.Transparent;
             // 
             // PRBZpet
             // 
@@ -917,7 +925,7 @@
             PRBZpet.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
             PRBZpet.Location = new Point(3, 93);
             PRBZpet.Name = "PRBZpet";
-            PRBZpet.Size = new Size(157, 64);
+            PRBZpet.Size = new Size(155, 64);
             PRBZpet.TabIndex = 9;
             PRBZpet.Text = "🢠";
             PRBZpet.Click += PRBZpet_Click;
@@ -939,9 +947,9 @@
             PRLPodnadpis.AutoSize = true;
             PRHlavicka.SetColumnSpan(PRLPodnadpis, 3);
             PRLPodnadpis.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            PRLPodnadpis.Location = new Point(166, 90);
+            PRLPodnadpis.Location = new Point(164, 90);
             PRLPodnadpis.Name = "PRLPodnadpis";
-            PRLPodnadpis.Size = new Size(755, 67);
+            PRLPodnadpis.Size = new Size(747, 67);
             PRLPodnadpis.TabIndex = 12;
             PRLPodnadpis.Text = "Registrace";
             PRLPodnadpis.TextAlign = ContentAlignment.TopCenter;
@@ -973,6 +981,7 @@
             HlavniBox.TabIndex = 3;
             HlavniBox.Visible = false;
             HlavniBox.VisibleChanged += HlavniBox_VisibleChanged;
+            HlavniBox.BackColor = Color.Transparent;
             // 
             // HlavniBLogik
             // 
@@ -1099,6 +1108,8 @@
             HraBox.TabIndex = 10;
             HraBox.Visible = false;
             HraBox.VisibleChanged += HraBox_VisibleChanged;
+            HraBox.BackColor = Color.Transparent;
+
             // 
             // StatistikaBox
             // 
@@ -1126,6 +1137,7 @@
             StatistikaBox.TabIndex = 11;
             StatistikaBox.Visible = false;
             StatistikaBox.VisibleChanged += StatistikaBox_VisibleChanged;
+            StatistikaBox.BackColor = Color.Transparent;
             // 
             // StatistikyCBMoje
             // 

@@ -98,8 +98,8 @@ namespace LogickeHry
                 Anchor = AnchorStyles.None,
                 AutoSize = true,
                 BackColor = Color.Peru,
-                Visible = false,
-            };
+                Visible = false
+        };
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 14);
             plocha.RowStyles.Clear();
@@ -159,14 +159,14 @@ namespace LogickeHry
             plocha.Controls.Add(vysledky, 1, 0);
             aktualnityp = novyPanel();
             plocha.Controls.Add(aktualnityp, 1, 12);
-            testButton = new Button()
+            testButton = new RoundedButton()
             {
                 Text = "Test",
                 Dock = DockStyle.Fill
             };
             testButton.Click += Test;
             plocha.Controls.Add(testButton, 2, 12);
-            clear = new Button()
+            clear = new RoundedButton()
             {
                 Text = "Clear",
                 Dock = DockStyle.Fill
@@ -311,7 +311,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(lo, 2, 5);
             form.HraBox.SetRowSpan(lo, 3);
 
-            Button restart = new Button()
+            Button restart = new RoundedButton()
             {
                 Text = "Nová hra",
                 Dock = DockStyle.Fill,
@@ -323,7 +323,7 @@ namespace LogickeHry
             form.HraBox.SetColumnSpan(restart, 2);
             form.HraBox.SetRowSpan(restart, 3);
 
-            Button ukoncit = new Button()
+            Button ukoncit = new RoundedButton()
             {
                 Text = "Ukončit hru",
                 Dock = DockStyle.Fill,
@@ -384,8 +384,10 @@ namespace LogickeHry
                 {
                     ColumnCount = 2,
                     RowCount = 2,
-                    Dock = DockStyle.Fill
-                };
+                    Dock = DockStyle.Fill,
+                    BackColor = Color.Transparent
+
+        };
                 obtiznostpanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
                 obtiznostpanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
                 obtiznostpanel.RowStyles.Add(new RowStyle(SizeType.Percent, 50));
@@ -535,7 +537,7 @@ namespace LogickeHry
                 form.HraBox.Controls.Add(CBopakovani, 1, 5);
                 form.HraBox.SetColumnSpan(CBopakovani, 2);
 
-                Button bnavod = new Button()
+                Button bnavod = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
@@ -546,7 +548,7 @@ namespace LogickeHry
                 form.HraBox.Controls.Add(bnavod, 1, 6);
                 form.HraBox.SetColumnSpan(bnavod, 2);
 
-                Button bstatistiky = new Button()
+                Button bstatistiky = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
@@ -561,7 +563,7 @@ namespace LogickeHry
                 form.HraBox.Controls.Add(bstatistiky, 1, 7);
                 form.HraBox.SetColumnSpan(bstatistiky, 2);
 
-                Button bhrat = new Button()
+                Button bhrat = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,

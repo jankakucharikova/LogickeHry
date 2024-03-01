@@ -225,7 +225,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(Nsirka, 2, 4);
             form.HraBox.Controls.Add(Npocmin, 2, 5);
 
-            Button bnavod = new Button()
+            Button bnavod = new RoundedButton()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Dock = DockStyle.Fill,
@@ -236,7 +236,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(bnavod, 1, 6);
             form.HraBox.SetColumnSpan(bnavod, 2);
 
-            Button bstatistiky = new Button()
+            Button bstatistiky = new RoundedButton()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Dock = DockStyle.Fill,
@@ -251,7 +251,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(bstatistiky, 1, 7);
             form.HraBox.SetColumnSpan(bstatistiky, 2);
 
-            Button bhrat = new Button()
+            Button bhrat = new RoundedButton()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Dock = DockStyle.Fill,
@@ -377,7 +377,7 @@ namespace LogickeHry
             };
             form.HraBox.Controls.Add(lpolicek, 2, 2);
 
-            hint = new Button()
+            hint = new RoundedButton()
             {
                 Text = $"Hint({hintu})",
                 Dock = DockStyle.Fill,
@@ -389,7 +389,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(hint, 1, 3);
             form.HraBox.SetColumnSpan(hint, 2);
 
-            Button restart = new Button()
+            Button restart = new RoundedButton()
             {
                 Text = "Nová hra",
                 Dock = DockStyle.Fill,
@@ -400,7 +400,7 @@ namespace LogickeHry
             form.HraBox.Controls.Add(restart, 1, 4);
             form.HraBox.SetColumnSpan(restart, 2);
 
-            Button ukoncit = new Button()
+            Button ukoncit = new RoundedButton()
             {
                 Text = "Ukončit hru",
                 Dock = DockStyle.Fill,
@@ -537,7 +537,7 @@ namespace LogickeHry
                 else
                 {
                     b.Image = obrazky[9];
-                    Prohra();
+                    if(Stav==StavHry.Bezi)Prohra();
                     b.BackColor = Color.Red;
                 }
                 
@@ -591,7 +591,7 @@ namespace LogickeHry
         {
             lmin.Text = (pocmin - pocet_vlajek).ToString();
             lpolicek.Text = (pocetpolicek).ToString();
-            if (pocetpolicek == 0)
+            if (pocetpolicek == 0 && Stav == StavHry.Bezi)
                 Vyhra();
         }
 
