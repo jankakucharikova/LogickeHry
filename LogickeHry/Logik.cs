@@ -9,13 +9,12 @@ namespace LogickeHry
     internal class Logik : Hra
     {
         List<Bitmap> obrazky;
-        static readonly Color[] barvy = { Color.DeepSkyBlue, Color.Green, Color.Red, Color.Yellow, Color.Orange, Color.Magenta, Color.Sienna, Color.Pink, Color.GreenYellow,Color.MediumBlue };
+        //static readonly Color[] barvy = { Color.DeepSkyBlue, Color.Green, Color.Red, Color.Yellow, Color.Orange, Color.Magenta, Color.Sienna, Color.Pink, Color.GreenYellow,Color.MediumBlue };
         NumericUpDown Nvyber, Nmoznosti;
         CheckBox CBopakovani;
         RadioButton lehke, stredni, tezke, vlastni;
         int[] kod;
         int kolik, z;
-        TableLayoutPanel plocha;
         Size velikost_radku = new Size(30, 30);
         Size velikost_kolecek = new Size(20, 20);
         Size velikost_puntiku = new Size(10, 10);
@@ -83,14 +82,7 @@ namespace LogickeHry
             
         }
 
-        protected override void VytvorHerniStranku()
-        {
-            VytvorBocniPanel();
-            VytvorHerniPlochu();
-
-        }
-
-        private void VytvorHerniPlochu()
+        protected override void VytvorHerniPlochu()
         {
             plocha = new TableLayoutPanel()
             {
@@ -270,7 +262,7 @@ namespace LogickeHry
             return typ;
         }
 
-        private void VytvorBocniPanel()
+        protected override void VytvorBocniPanel()
         {
             form.HraBox.ColumnCount = 3;
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));

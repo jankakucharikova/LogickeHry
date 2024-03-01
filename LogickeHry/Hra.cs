@@ -20,6 +20,7 @@ namespace LogickeHry
         internal int uplynulycas;
         internal Obtiznost obtiznost = Obtiznost.Lehke;
         internal Label lcas;
+        internal TableLayoutPanel plocha;
         protected string navod;
         public Hra(GameForm form)
         {
@@ -43,9 +44,9 @@ namespace LogickeHry
         }
         internal virtual void SpustiUvod()
         {
+            ZobrazStranku();
             SmazHerniPole();
             VytvorUvodniStranku();
-            ZobrazStranku();
             Stav = StavHry.Pripravena;
         }
 
@@ -67,8 +68,12 @@ namespace LogickeHry
         {
             stopky = new System.Windows.Forms.Timer();
             stopky.Interval = 1000;
-            stopky.Tick += (s, e) => uplynulycas++;
-            stopky.Tick += (s, e) => lcas.Text = TimeSpan.FromSeconds(uplynulycas).ToString(@"mm\:ss");
+            stopky.Tick += (s, e) =>
+            {
+                uplynulycas++;
+                lcas.TextChanged += (s, e) => lcas.Invalidate();
+                lcas.Text = TimeSpan.FromSeconds(uplynulycas).ToString(@"mm\:ss");
+            };
             stopky.Start();
         }
         internal virtual void ZobrazStranku()
@@ -76,7 +81,15 @@ namespace LogickeHry
             form.Ukazbox(form.HraBox);
         }
 
-        protected abstract void VytvorHerniStranku();
+        protected virtual void VytvorHerniStranku()
+        {
+            form.HraBox.SuspendLayout();
+            VytvorBocniPanel();
+            VytvorHerniPlochu();
+            form.HraBox.ResumeLayout();
+        }
+        protected abstract void VytvorBocniPanel();
+        protected abstract void VytvorHerniPlochu();
         protected virtual void Prohra()
         {
             KonecHry();

@@ -10,7 +10,6 @@ namespace LogickeHry
         int[,] mapka;
         NumericUpDown Nvyska, Nsirka, Npocmin;
         RadioButton lehke, stredni, tezke, vlastni;
-        TableLayoutPanel plocha;
         Label lmin, lpolicek;
         Button hint;
         int hintu = 3;
@@ -311,13 +310,7 @@ namespace LogickeHry
 
         }
 
-        //Vytvor herni stranku
-        protected override void VytvorHerniStranku()
-        {
-            VytvorBocniPanel();
-            VytvorHerniPlochu();
-        }
-        private void VytvorBocniPanel()
+        protected override void VytvorBocniPanel()
         {
             form.HraBox.ColumnCount = 3;
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
@@ -436,7 +429,7 @@ namespace LogickeHry
             return mapka[i, j] != hodnota_bomby;
         }
 
-        private void VytvorHerniPlochu()
+        protected override void VytvorHerniPlochu()
         {
             tlacitka = new List<Button>();
             plocha = new TableLayoutPanel()

@@ -9,7 +9,6 @@ namespace LogickeHry
         protected List<Bitmap> obrazky;
         protected Bitmap uvodniobrazek;
         protected RadioButton lehke, stredni, tezke, vlastni;
-        protected TableLayoutPanel plocha;
         protected Label lchyb;
         protected int[,] tabulka,tabulka_vyresena;
         protected int zbyva_policek,chyb;
@@ -87,13 +86,7 @@ namespace LogickeHry
         protected override void VyhraVlastni()
         {
         }
-
-        protected override void VytvorHerniStranku()
-        {
-            VytvorBocniPanel();
-            VytvorHerniPlochu();
-        }
-        private void VytvorBocniPanel()
+        protected override void VytvorBocniPanel()
         {
             form.HraBox.ColumnCount = 3;
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
@@ -188,7 +181,7 @@ namespace LogickeHry
             form.HraBox.SetRowSpan(ukoncit, 2);
 
         }
-        private void VytvorHerniPlochu()
+        protected override void VytvorHerniPlochu()
         {
             tlacitka = new List<Button>();
             TableLayoutPanel velke = new TableLayoutPanel()

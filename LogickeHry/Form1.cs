@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -16,9 +17,11 @@ namespace LogickeHry
 
             InitializeComponent();
             //this.BackColor = Color.Turquoise;
-            this.BackgroundImage = Properties.Resources.pink;
-            this.BackgroundImageLayout = ImageLayout.Stretch;
-            
+            this.BackColor = Color.White;
+            this.Paint += VykresliPozadi;
+
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+
             this.DoubleBuffered = true;
 
 
@@ -33,10 +36,33 @@ namespace LogickeHry
             }
             Statistika.vysledky.Nastav(this);
         }
+        private void VykresliPozadi(object sender, PaintEventArgs e)
+        {
+            // Definice barev pro přechod
+            Color startColor = Color.Turquoise;
+            Color endColor = Color.Pink;
+
+            // Vytvoření lineárního přechodového kartáče
+            LinearGradientBrush gradientBrush = new LinearGradientBrush(
+                this.ClientRectangle, // oblast, kde se přechod má vykreslit
+                startColor, // počáteční barva přechodu
+                endColor, // konečná barva přechodu
+                LinearGradientMode.Vertical); // směr přechodu (vodorovný)
+
+            // Vykreslení přechodu na pozadí formuláře
+            e.Graphics.FillRectangle(gradientBrush, this.ClientRectangle);
+
+            // Zničení použitého kartáče, aby nedocházelo k úniku paměti
+            gradientBrush.Dispose();
+        }
         internal void Ukazbox(TableLayoutPanel box)
         {
             foreach (var b in boxy)
-                b.Hide();
+            {
+                if(b.Visible)
+                    b.Hide();
+            }
+            
             box.Show();
             box.Select();
         }
@@ -57,7 +83,10 @@ namespace LogickeHry
                 PRHlavicka.BringToFront();
             }
             else
+            {
                 PRHlavicka.Hide();
+            }
+                
         }
 
         private void NastaveniBox_VisibleChanged(object sender, EventArgs e)
@@ -99,7 +128,7 @@ namespace LogickeHry
             if (t.Visible)
             {
                 t.BringToFront();
-                HlavniLPodnadpis.Text = "Statistika";
+                HlavniLPodnadpis.Text = "Statistika";               
                 HlavniHlavicka.Show();
                 HlavniHlavicka.BringToFront();
             }
