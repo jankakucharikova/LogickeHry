@@ -31,10 +31,7 @@ namespace LogickeHry
         }
         public void SmazHerniPole()
         {
-            /*while (form.HraBox.Controls.Count > 0)
-            {
-                form.HraBox.Controls[0].Dispose();
-            }*/
+
             form.HraBox.Controls.Clear();
             form.HraBox.ColumnCount = 0;
             form.HraBox.ColumnStyles.Clear();
@@ -79,6 +76,7 @@ namespace LogickeHry
         protected abstract void VytvorHerniStranku();
         protected virtual void Prohra()
         {
+            Stav = StavHry.Prohra;
             KonecHry();
             ProhraVlastni();
             MessageBox.Show("Prohra!");
@@ -89,28 +87,32 @@ namespace LogickeHry
 
         protected virtual void Vyhra()
         {
+            Stav = StavHry.Vyhra;
             KonecHry();
             VyhraVlastni();
-            vysledek_hry v = form.databaze.statistiky.Where(e => e.uzivatel == form.aktualniuzivatel && e.hra == Nazev && e.obtiznost == obtiznost.ToString()).FirstOrDefault();
-            if (v == null)
+            if (form.aktualniuzivatel != null)
             {
-                form.databaze.statistiky.Add(
-                    new vysledek_hry()
-                    {
-                        uzivatel = form.aktualniuzivatel,
-                        hra = Nazev,
-                        obtiznost = obtiznost.ToString(),
-                        cas = uplynulycas,
-                    });
-            }
-            else
-            {
-                if (v.cas> uplynulycas)
+                VysledekHry v = form.databaze.statistiky.Where(e => e.uzivatel == form.aktualniuzivatel && e.hra == Nazev && e.obtiznost == obtiznost.ToString()).FirstOrDefault();
+                if (v == null)
                 {
-                    v.cas = uplynulycas;
+                    form.databaze.statistiky.Add(
+                        new VysledekHry()
+                        {
+                            uzivatel = form.aktualniuzivatel,
+                            hra = Nazev,
+                            obtiznost = obtiznost.ToString(),
+                            cas = uplynulycas,
+                        });
                 }
+                else
+                {
+                    if (v.cas > uplynulycas)
+                    {
+                        v.cas = uplynulycas;
+                    }
+                }
+                form.databaze.SaveChanges();
             }
-            form.databaze.SaveChanges();
             MessageBox.Show("Vyhra!");
         }
 

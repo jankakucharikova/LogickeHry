@@ -1,4 +1,6 @@
-﻿namespace LogickeHry
+﻿using System.Drawing.Drawing2D;
+
+namespace LogickeHry
 {
     class RoundedButton : Button
     {
@@ -35,4 +37,5 @@
         }
 
     }
+    
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LogickeHry
 {
-    internal class vysledek_hry
+    internal class VysledekHry
     {
 
         internal Guid Id { get; set; } = Guid.NewGuid();

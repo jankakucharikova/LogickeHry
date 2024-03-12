@@ -145,8 +145,8 @@
             PrihlaseniBox.Name = "PrihlaseniBox";
             PrihlaseniBox.RowCount = 2;
             PrihlaseniBox.RowStyles.Add(new RowStyle());
-            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             PrihlaseniBox.Size = new Size(753, 246);
@@ -335,7 +335,7 @@
             // UvodObrazek
             // 
             UvodObrazek.Dock = DockStyle.Fill;
-            UvodObrazek.Image = Properties.Resources.UvodObrazek;
+            UvodObrazek.Image = Properties.Resources.mozek;
             UvodObrazek.Location = new Point(15, 217);
             UvodObrazek.Name = "UvodObrazek";
             UvodObrazek.Size = new Size(533, 468);
@@ -585,7 +585,7 @@
             // 
             // HlavniSProfil
             // 
-            HlavniSProfil.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            HlavniSProfil.Anchor =  AnchorStyles.Right;
             HlavniSProfil.Dock = DockStyle.None;
             HlavniSProfil.ImageScalingSize = new Size(20, 20);
             HlavniSProfil.Items.AddRange(new ToolStripItem[] { ProfilBProfil });
@@ -598,12 +598,13 @@
             // 
             // ProfilBProfil
             // 
+            ProfilBProfil.BackColor = Color.White;
             ProfilBProfil.DropDownItems.AddRange(new ToolStripItem[] { ProfilBPrihlaseni, toolStripSeparator3, ProfilBRegistrace });
             ProfilBProfil.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             ProfilBProfil.Name = "ProfilBProfil";
             ProfilBProfil.Overflow = ToolStripItemOverflow.AsNeeded;
             ProfilBProfil.Size = new Size(153, 66);
-            ProfilBProfil.Text = "👤 \n Jméno Uživatele";
+            ProfilBProfil.Text = " 👤 \n Jméno Uživatele ";
             // 
             // ProfilBPrihlaseni
             // 
@@ -642,6 +643,8 @@
             // 
             // MenuBMenu
             // 
+            MenuBMenu.Anchor = AnchorStyles.Left;
+            MenuBMenu.BackColor = Color.White;
             MenuBMenu.DropDownItems.AddRange(new ToolStripItem[] { MenuBHlavniStranka, MenuBStatistiky });
             MenuBMenu.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
             MenuBMenu.Name = "MenuBMenu";
@@ -1097,7 +1100,7 @@
             // 
             // HraBox
             // 
-            HraBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            HraBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             HraBox.AutoSize = true;
             HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             HraBox.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
