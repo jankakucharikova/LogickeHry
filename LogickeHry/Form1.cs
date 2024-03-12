@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -12,16 +13,15 @@ namespace LogickeHry
         internal Hra aktualnihra;
         internal DataContext databaze;
         internal Uzivatel aktualniuzivatel;
+        
         public GameForm()
         {
-
+            
             InitializeComponent();
-            //this.BackColor = Color.Turquoise;
-            this.BackColor = Color.White;
-            this.Paint += VykresliPozadi;
-
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-
+            this.BackColor = Color.Turquoise;
+           // this.BackgroundImage = Properties.Resources.pink;
+            //this.BackgroundImageLayout = ImageLayout.Stretch;
+            
             this.DoubleBuffered = true;
 
 
@@ -159,7 +159,7 @@ namespace LogickeHry
             aktualniuzivatel = null;
             ProfilBProfil.DropDownItems.Clear();
             ProfilBProfil.DropDownItems.AddRange(new ToolStripItem[] { ProfilBPrihlaseni, toolStripSeparator3, ProfilBRegistrace });
-            ProfilBProfil.Text = $"👤 \n Nepřihlášený";
+            ProfilBProfil.Text = $" 👤 \n Nepřihlášený ";
             MenuBMenu.DropDownItems.Remove(MenuBNastaveni);
             Ukazbox(UvodBox);
         }
@@ -171,7 +171,7 @@ namespace LogickeHry
             Properties.Settings.Default.Save();
             ProfilBProfil.DropDownItems.Clear();
             ProfilBProfil.DropDownItems.AddRange(new ToolStripItem[] { ProfilLJmeno, ProfilLPohlavi, ProfilLVek, toolStripSeparator1, ProfilBNastaveni, toolStripSeparator2, ProfilBOdhlasit });
-            ProfilBProfil.Text = $"👤 \n {aktualniuzivatel.Jmeno}";
+            ProfilBProfil.Text = $" 👤 \n {aktualniuzivatel.Jmeno} ";
             ProfilLJmeno.Text = aktualniuzivatel.Jmeno;
             ProfilLPohlavi.Text = aktualniuzivatel.Pohlavi;
             ProfilLVek.Text = aktualniuzivatel.Vek;

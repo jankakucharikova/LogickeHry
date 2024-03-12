@@ -22,6 +22,7 @@ namespace LogickeHry
         int aktualniradek = 1;
         TableLayoutPanel aktualnityp;
         Button testButton, clear;
+        
         public Logik(GameForm form) : base(form)
         {
             Nazev = "Logik";
@@ -154,22 +155,33 @@ namespace LogickeHry
             testButton = new RoundedButton()
             {
                 Text = "Test",
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                BackColor= Color.White
+               
             };
             testButton.Click += Test;
             plocha.Controls.Add(testButton, 2, 12);
             clear = new RoundedButton()
             {
                 Text = "Clear",
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Fill,
+                BackColor= Color.White
+                
             };
-            clear.Click += (s,e)=>aktualnityp.Controls.Clear();
+            clear.Click += (s, e) =>
+            {
+                if (Stav != StavHry.Bezi)
+                    return;
+                aktualnityp.Controls.Clear();
+            };
             plocha.Controls.Add(clear, 3, 12);
             plocha.Visible = true;
         }
 
         private void Test(object? sender, EventArgs e)
         {
+            if (Stav != StavHry.Bezi)
+                return;
             if (aktualnityp.Controls.Count < kolik)
                 return;
             plocha.SuspendLayout();
@@ -227,7 +239,9 @@ namespace LogickeHry
 
         private void klikNaBarvu(object? sender, EventArgs e)
         {
-            if(aktualnityp.Controls.Count < kolik)
+            if (Stav != StavHry.Bezi)
+                return;
+            if (aktualnityp.Controls.Count < kolik)
             {
                 
                 PictureBox l = (PictureBox)sender;
@@ -367,7 +381,9 @@ namespace LogickeHry
                     Dock = DockStyle.Fill,
                     Text = "Obtížnost",
                     Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
-                };
+                    FlatStyle = FlatStyle.Flat,
+                    
+                };  
                 form.HraBox.Controls.Add(obtiznost, 1, 0);
                 form.HraBox.SetRowSpan(obtiznost, 3);
                 form.HraBox.SetColumnSpan(obtiznost, 2);

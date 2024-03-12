@@ -408,6 +408,8 @@ namespace LogickeHry
 
         private void Hint_Click(object? sender, EventArgs e)
         {
+            if (Stav != StavHry.Bezi)
+                return;
             if (hintu < 1)
                 return;
             hintu--;
@@ -505,7 +507,7 @@ namespace LogickeHry
             int i = int.Parse(parametry[0]);
             int j = int.Parse(parametry[1]);
             if (!enabled.Equals("true"))
-                return;
+                return;  
             
             string vlajka = parametry[2];
             b.Name = $"{i} {j} {vlajka} false";

@@ -33,7 +33,7 @@ namespace LogickeHry
                 entity.Property(e => e.text).IsRequired();
                 entity.Property(e => e.obtiznost).IsRequired();
             });
-            modelBuilder.Entity<vysledek_hry>(entity =>
+            modelBuilder.Entity<VysledekHry>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.HasOne(e => e.uzivatel).WithMany().IsRequired();
@@ -45,6 +45,6 @@ namespace LogickeHry
         public DbSet<Uzivatel> uzivatele { get; set; }
         public DbSet<SudokuZadani> sudoku { get; set; }
 
-        public DbSet<vysledek_hry> statistiky { get; set; }
+        public DbSet<VysledekHry> statistiky { get; set; }
     }
 }

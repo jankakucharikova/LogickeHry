@@ -143,6 +143,16 @@ namespace LogickeHry.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mozek {
+            get {
+                object obj = ResourceManager.GetObject("mozek", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ovoce_uvod {
             get {
                 object obj = ResourceManager.GetObject("ovoce_uvod", resourceCulture);

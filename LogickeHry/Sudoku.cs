@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using static System.Windows.Forms.LinkLabel;
 using System.Text;
 
 namespace LogickeHry
@@ -10,6 +11,7 @@ namespace LogickeHry
         protected Bitmap uvodniobrazek;
         protected RadioButton lehke, stredni, tezke, vlastni;
         protected Label lchyb;
+        protected Button starachyba=new();
         protected int[,] tabulka,tabulka_vyresena;
         protected int zbyva_policek,chyb;
         protected Size velikostTlacitka =new Size(40,40);
@@ -88,14 +90,18 @@ namespace LogickeHry
         }
         protected override void VytvorBocniPanel()
         {
+            //form.HraBox.Anchor = AnchorStyles.Top;
+            //form.HraBox.Dock = DockStyle.None;
+            //form.HraBox.AutoSize = true;
+            
             form.HraBox.ColumnCount = 3;
-            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
-            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
+            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,150));
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
             form.HraBox.RowCount = 9;
             for (int i = 0; i < 9; i++)
             {
-                form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, (float)100 / 9));
+                form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             }
             lcas = new Label()
             {
@@ -186,21 +192,23 @@ namespace LogickeHry
             tlacitka = new List<Button>();
             TableLayoutPanel velke = new TableLayoutPanel()
             {
-                Dock = DockStyle.Fill,
+                Anchor = AnchorStyles.None,
                 RowCount =2,
                 ColumnCount = 1,
-                RowStyles = { new RowStyle(SizeType.Percent, 100), new RowStyle(SizeType.Absolute, velikostTlacitka.Height+10) },
-                ColumnStyles = { new ColumnStyle(SizeType.Percent, 100) },
+                RowStyles = { new RowStyle(SizeType.AutoSize), new RowStyle(SizeType.AutoSize) },
+                ColumnStyles = { new ColumnStyle(SizeType.AutoSize) },
+               // CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
+                AutoSize = true,
             };
             form.HraBox.Controls.Add(velke, 0, 0);
             form.HraBox.SetRowSpan(velke, 9);
             TableLayoutPanel cisla = new TableLayoutPanel()
             {
                 AutoSize =true,
-                Anchor  = AnchorStyles.None,
+                Anchor  = AnchorStyles.Top,
                 ColumnCount = 9,
                 RowCount=1,
-                RowStyles = { new RowStyle(SizeType.Absolute,velikostTlacitka.Height+10)},
+                RowStyles = { new RowStyle(SizeType.AutoSize)},
             };
             velke.Controls.Add(cisla, 0, 1);
             for (int i = 0; i < 9; i++)
@@ -310,6 +318,7 @@ namespace LogickeHry
             }
             else
             {
+                starachyba.BackColor = Color.White;
                 b.BackgroundImage = null;
                 b.BackColor = Color.Red;
                 if (tabulka[x, y] != 0)
@@ -318,6 +327,7 @@ namespace LogickeHry
                     tabulka[x, y] = 0;
                 }
                 chyb++;
+                starachyba = b;
                 lchyb.Text = $"{chyb}/3";
                 if (chyb == 3)
                     Prohra();
@@ -327,22 +337,18 @@ namespace LogickeHry
 
         private void VyberCislo(object? sender, EventArgs e)
         {
+            if (Stav != StavHry.Bezi)
+                return;
+            starachyba.BackColor = Color.White;
             if (vybranecislo != null)
             {
                 vybranecislo.Enabled = true;
-                vybranecislo.BackColor= SystemColors.Window;
+                //vybranecislo.BackColor= SystemColors.Window;
+                vybranecislo.BackColor = Color.Azure;
             }
             vybranecislo = (Button)sender;
             vybranecislo.Enabled = false;
-            vybranecislo.BackColor = Color.LightCyan;
-            foreach(Button b in tlacitka)
-            {
-                if (b.Text.Equals(vybranecislo.Text)) {
-                    b.BackColor = Color.LightCyan;
-                }
-                else
-                    b.BackColor = Color.White;
-            }
+            vybranecislo.BackColor = Color.LightCyan;           
             vybranecislo.Parent.Select();
         }
 
@@ -478,10 +484,12 @@ namespace LogickeHry
 
                 Button bhrat = new RoundedButton()
                 {
-                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                    Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point),
+                    //ForeColor = Color.White,
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Hrát",
+                    //BackColor = Color.Navy,
                 };
                 bhrat.Click += (s, e) => SpustiHru();
                 form.HraBox.Controls.Add(bhrat, 1, 7);

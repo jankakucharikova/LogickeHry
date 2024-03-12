@@ -36,7 +36,7 @@ namespace LogickeHry
         }
         public void Aktualizace(object sender, EventArgs e)
         {
-            List<vysledek_hry> s = NactiStatistiky(form.StatistikyCBMoje.Checked ? form.aktualniuzivatel : null, form.StatistikyCBHra.Text, form.StatistikaCBObtiznost.Text);
+            List<VysledekHry> s = NactiStatistiky(form.StatistikyCBMoje.Checked ? form.aktualniuzivatel : null, form.StatistikyCBHra.Text, form.StatistikaCBObtiznost.Text);
             panel.Controls.Clear();
             panel.RowStyles.Clear();
             panel.RowCount = s.Count;
@@ -50,16 +50,16 @@ namespace LogickeHry
 
             }
         }
-        public List<vysledek_hry> NactiStatistiky(Uzivatel u, String hra, String obtiznost)
+        public List<VysledekHry> NactiStatistiky(Uzivatel u, String hra, String obtiznost)
         {
-            IQueryable<vysledek_hry> x= form.databaze.statistiky.Include(u=>u.uzivatel);
+            IQueryable<VysledekHry> x= form.databaze.statistiky.Include(u=>u.uzivatel);
             if(u!=null)
                 x=x.Where(e=>e.uzivatel==u);
             if(hra!=null && hra!="")
                 x=x.Where(x=>x.hra==hra);
             if(obtiznost!=null && obtiznost!="")
                 x=x.Where(x=>x.obtiznost==obtiznost);
-            List<vysledek_hry> s=x.ToList();
+            List<VysledekHry> s=x.ToList();
             s.Sort((x, y) => x.cas.CompareTo(y.cas));
             return s;
         }
