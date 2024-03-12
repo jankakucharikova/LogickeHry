@@ -15,6 +15,8 @@ namespace LogickeHry
         int hintu = 3;
         List<Button> tlacitka;
         int sirka, vyska, pocmin, pocet_vlajek, pocetpolicek;
+        double multiplikator, ziskLevel;
+        double skoredesetine;
         public Miny(GameForm form) : base(form)
         {
             Nazev = "Miny";
@@ -32,6 +34,8 @@ namespace LogickeHry
             pocet_vlajek = 0;
             pocetpolicek = 0;
             uplynulycas = 0;
+            ziskaneskore = 0;
+            skoredesetine = 0;
             if (stopky != null)
             {
                 stopky.Dispose();
@@ -252,7 +256,7 @@ namespace LogickeHry
 
             Button bhrat = new RoundedButton()
             {
-                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point),
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Text = "Hrát",
@@ -317,8 +321,8 @@ namespace LogickeHry
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
 
-            form.HraBox.RowCount = 6;
-            for (int i = 0; i < 6; i++)
+            form.HraBox.RowCount = 7;
+            for (int i = 0; i < 7; i++)
             {
                 form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, (float)100 / 6));
             }
@@ -333,7 +337,22 @@ namespace LogickeHry
             };
             form.HraBox.Controls.Add(lcas, 1, 0);
             form.HraBox.SetColumnSpan(lcas, 2);
-
+            Label lskoretext= new Label()
+            {
+                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                Text = "Skóre:",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+            form.HraBox.Controls.Add(lskoretext, 1, 1);
+            lskore = new Label()
+            {
+                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                Text = "0",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleRight
+            };
+            form.HraBox.Controls.Add(lskore, 2, 1);
             Label lm = new Label()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
@@ -341,7 +360,7 @@ namespace LogickeHry
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft
             };
-            form.HraBox.Controls.Add(lm, 1, 1);
+            form.HraBox.Controls.Add(lm, 1, 2);
 
             lmin = new Label()
             {
@@ -350,7 +369,7 @@ namespace LogickeHry
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleRight
             };
-            form.HraBox.Controls.Add(lmin, 2, 1);
+            form.HraBox.Controls.Add(lmin, 2, 2);
 
             Label lp = new Label()
             {
@@ -359,7 +378,7 @@ namespace LogickeHry
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleLeft
             };
-            form.HraBox.Controls.Add(lp, 1, 2);
+            form.HraBox.Controls.Add(lp, 1, 3);
 
             lpolicek = new Label()
             {
@@ -368,7 +387,7 @@ namespace LogickeHry
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleRight
             };
-            form.HraBox.Controls.Add(lpolicek, 2, 2);
+            form.HraBox.Controls.Add(lpolicek, 2, 3);
 
             hint = new RoundedButton()
             {
@@ -379,7 +398,7 @@ namespace LogickeHry
             };
             hint.Click += Hint_Click;
             
-            form.HraBox.Controls.Add(hint, 1, 3);
+            form.HraBox.Controls.Add(hint, 1, 4);
             form.HraBox.SetColumnSpan(hint, 2);
 
             Button restart = new RoundedButton()
@@ -390,7 +409,7 @@ namespace LogickeHry
                 TextAlign = ContentAlignment.MiddleCenter
             };
             restart.Click += (s, e) => { SpustiHru(); };
-            form.HraBox.Controls.Add(restart, 1, 4);
+            form.HraBox.Controls.Add(restart, 1, 5);
             form.HraBox.SetColumnSpan(restart, 2);
 
             Button ukoncit = new RoundedButton()
@@ -401,7 +420,7 @@ namespace LogickeHry
                 TextAlign = ContentAlignment.MiddleCenter
             };
             ukoncit.Click += (s, e) => { SpustiUvod(); };
-            form.HraBox.Controls.Add(ukoncit, 1, 5);
+            form.HraBox.Controls.Add(ukoncit, 1, 6);
             form.HraBox.SetColumnSpan(ukoncit, 2);
 
         }
@@ -417,7 +436,12 @@ namespace LogickeHry
             Random rnd = new Random();
             var kliknutelne = from b in tlacitka where jeKliknutelne(b)==true select b;
             Button k = kliknutelne.ElementAt(rnd.Next() % kliknutelne.Count());
+            int pred = pocetpolicek;
             levy_klik(k);
+            int odekryto = pred - pocetpolicek;
+            skoredesetine -= multiplikator * ziskLevel * odekryto*2;
+            ziskaneskore = (int)skoredesetine;
+            lskore.Text = ziskaneskore.ToString();
         }
         private bool jeKliknutelne(Button b)
         {
@@ -433,6 +457,29 @@ namespace LogickeHry
 
         protected override void VytvorHerniPlochu()
         {
+            stopky.Tick += (s, e) =>
+            {
+                if (uplynulycas % 15 == 14)
+                {
+                    if (multiplikator > 0)
+                        multiplikator--;
+                }
+            };
+            switch (obtiznost)
+            {
+                case Obtiznost.Lehke:
+                    multiplikator = 20;
+                    ziskLevel = 4;
+                    break;
+                case Obtiznost.Stredni:
+                    multiplikator = 40;
+                    ziskLevel = 1.9;
+                    break;
+                case Obtiznost.Tezke:
+                    multiplikator = 60;
+                    ziskLevel = 1.9;
+                    break;
+            }
             tlacitka = new List<Button>();
             plocha = new TableLayoutPanel()
             {
@@ -441,7 +488,7 @@ namespace LogickeHry
                 AutoSize = true,
             };
             form.HraBox.Controls.Add(plocha, 0, 0);
-            form.HraBox.SetRowSpan(plocha, 6);
+            form.HraBox.SetRowSpan(plocha, 7);
             plocha.Visible = false;
             Size rozmerbuttonu = new Size(50, 50);
             plocha.RowCount = vyska;
@@ -502,45 +549,54 @@ namespace LogickeHry
         }
         public void levy_klik(Button b, bool konec=false)
         {
-            String[] parametry = b.Name.Split(' ');
-            String enabled = parametry[3];
-            int i = int.Parse(parametry[0]);
-            int j = int.Parse(parametry[1]);
-            if (!enabled.Equals("true"))
-                return;  
-            
-            string vlajka = parametry[2];
-            b.Name = $"{i} {j} {vlajka} false";
-            if (vlajka.Equals("false"))
+            lock (b)
             {
-                if (mapka[i, j] != hodnota_bomby)
+                String[] parametry = b.Name.Split(' ');
+                String enabled = parametry[3];
+                int i = int.Parse(parametry[0]);
+                int j = int.Parse(parametry[1]);
+                if (!enabled.Equals("true"))
+                    return;
+
+                string vlajka = parametry[2];
+                b.Name = $"{i} {j} {vlajka} false";
+                if (vlajka.Equals("false"))
                 {
-                    b.Image = obrazky[mapka[i, j]];
-                    pocetpolicek--;
-                    if(mapka[i, j]==0)
-                    foreach(Button t in tlacitka)
+                    if (mapka[i, j] != hodnota_bomby)
                     {
-                            String[] s = t.Name.Split(' ');
-                            int x = int.Parse(s[0]);
-                            int y = int.Parse(s[1]);
-                            if (Math.Abs(i-x)<=1 && Math.Abs(j-y)<=1)
-                            {
-                                levy_klik(t);
-                            }
+                        b.Image = obrazky[mapka[i, j]];
+                        pocetpolicek--;
+                        if (!konec)
+                        {
+                            skoredesetine += multiplikator * ziskLevel;
+                            ziskaneskore = (int)skoredesetine;
+                            lskore.Text = ziskaneskore.ToString();
+                            if (mapka[i, j] == 0)
+                                foreach (Button t in tlacitka)
+                                {
+                                    String[] s = t.Name.Split(' ');
+                                    int x = int.Parse(s[0]);
+                                    int y = int.Parse(s[1]);
+                                    if (Math.Abs(i - x) <= 1 && Math.Abs(j - y) <= 1)
+                                    {
+                                        levy_klik(t);
+                                    }
+                                }
+                        }
                     }
+                    else
+                    {
+                        b.Image = obrazky[9];
+                        if (Stav == StavHry.Bezi) Prohra();
+                        b.BackColor = Color.Red;
+                    }
+
                 }
-                else
+                else if (konec)
                 {
-                    b.Image = obrazky[9];
-                    if(Stav==StavHry.Bezi)Prohra();
-                    b.BackColor = Color.Red;
+                    if (mapka[i, j] != hodnota_bomby)
+                        b.Image = obrazky[12];
                 }
-                
-            }
-            else if (konec)
-            {
-                if(mapka[i, j] != hodnota_bomby)
-                    b.Image= obrazky[12];
             }
         }
         public void pravy_klik(Button b)
@@ -597,17 +653,21 @@ namespace LogickeHry
 
         protected override void ProhraVlastni()
         {
-            Stav = StavHry.Prohra;
-            foreach (var v in plocha.Controls)
+            foreach (Button b in tlacitka)
             {
-                Button b = (Button)v;
                 levy_klik(b,true);
             }
         }
 
         protected override void VyhraVlastni()
         {
-            Stav = StavHry.Vyhra;
+            if (multiplikator > 0)
+            {
+                skoredesetine+= multiplikator * 15 * 2;
+                skoredesetine += (15 - (uplynulycas % 15)) * 2;
+            }
+            ziskaneskore = (int)skoredesetine;
+            lskore.Text = ziskaneskore.ToString();
         }
 
 

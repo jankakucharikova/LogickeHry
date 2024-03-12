@@ -14,10 +14,12 @@ namespace LogickeHry
         protected Button starachyba=new();
         protected int[,] tabulka,tabulka_vyresena;
         protected int zbyva_policek,chyb;
-        protected Size velikostTlacitka =new Size(40,40);
+        protected Size velikostTlacitka =new Size(45,45);
         protected Font font = new Font("Segoe UI", 13, FontStyle.Bold, GraphicsUnit.Point);
         protected Button vybranecislo;
+        protected Button vybranysymbol;
         protected List<Button> tlacitka;
+        protected int multiplikator,chyba;
         public Sudoku(GameForm form) : base(form)
         {
             Nazev = "SUDOKU";
@@ -87,6 +89,7 @@ namespace LogickeHry
             tabulka = null;
             tlacitka = null;
             uplynulycas = 0;
+            ziskaneskore = 0;
             if (stopky != null)
             {
                 stopky.Dispose();
@@ -95,6 +98,11 @@ namespace LogickeHry
 
         protected override void VyhraVlastni()
         {
+            if (multiplikator > 0)
+            {
+                ziskaneskore+= multiplikator*15*2;
+                ziskaneskore += (15 - (uplynulycas % 15))*2;
+            }
         }
         protected override void VytvorBocniPanel()
         {
@@ -103,7 +111,7 @@ namespace LogickeHry
             //form.HraBox.AutoSize = true;
             
             form.HraBox.ColumnCount = 3;
-            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute,150));
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
             form.HraBox.RowCount = 9;
@@ -120,8 +128,24 @@ namespace LogickeHry
             };
             form.HraBox.Controls.Add(lcas, 1, 0);
             form.HraBox.SetColumnSpan(lcas, 2);
-            form.HraBox.SetRowSpan(lcas, 3);
+            form.HraBox.SetRowSpan(lcas, 2);
 
+            Label lskorenazev = new Label()
+            {
+                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                Text = "Skóre:",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            form.HraBox.Controls.Add(lskorenazev, 1, 2);
+            lskore = new Label()
+            {
+                Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                Text = "0",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            form.HraBox.Controls.Add(lskore, 2, 2);
             Label lopakovani = new Label()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
@@ -130,7 +154,6 @@ namespace LogickeHry
                 TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lopakovani, 1, 3);
-            form.HraBox.SetRowSpan(lopakovani, 1);
             Label lo = new Label()
             {
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
@@ -197,19 +220,57 @@ namespace LogickeHry
         }
         protected override void VytvorHerniPlochu()
         {
+            stopky.Tick += (s, e) =>
+            {
+                if (uplynulycas % 15 == 14)
+                {
+                    if (multiplikator > 0)
+                        multiplikator--;
+                }
+            };
+            switch (obtiznost)
+            {
+                case Obtiznost.Lehke:
+                    multiplikator = 40;
+                    break;
+                case Obtiznost.Stredni:
+                    multiplikator = 80;
+                    break;
+                case Obtiznost.Tezke:
+                    multiplikator = 120;
+                    break;
+                default:
+                    multiplikator = 0;
+                    break;
+            }
+            chyba = multiplikator * 5;
             tlacitka = new List<Button>();
             TableLayoutPanel velke = new TableLayoutPanel()
             {
                 Anchor = AnchorStyles.None,
-                RowCount =2,
-                ColumnCount = 1,
-                RowStyles = { new RowStyle(SizeType.AutoSize), new RowStyle(SizeType.AutoSize) },
-                ColumnStyles = { new ColumnStyle(SizeType.AutoSize) },
-               // CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
+                RowCount =4,
+                ColumnCount = 2,
+                RowStyles = { new RowStyle(SizeType.Absolute,100),new RowStyle(SizeType.Absolute,120), new RowStyle(SizeType.AutoSize), new RowStyle(SizeType.AutoSize) },
+                ColumnStyles = { new ColumnStyle(SizeType.Absolute,120),new ColumnStyle(SizeType.AutoSize) },
+                //CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
                 AutoSize = true,
             };
             form.HraBox.Controls.Add(velke, 0, 0);
             form.HraBox.SetRowSpan(velke, 9);
+            Label symbol = new Label()
+            {
+                Text = "Vybraný symbol:",
+                Font = font,
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter,
+            };
+            vybranysymbol = new Button()
+            {
+                BackgroundImageLayout = ImageLayout.Stretch,
+                Dock= DockStyle.Fill,
+            };
+            velke.Controls.Add(symbol,0,0);
+            velke.Controls.Add(vybranysymbol, 0, 1);
             TableLayoutPanel cisla = new TableLayoutPanel()
             {
                 AutoSize =true,
@@ -218,7 +279,7 @@ namespace LogickeHry
                 RowCount=1,
                 RowStyles = { new RowStyle(SizeType.AutoSize)},
             };
-            velke.Controls.Add(cisla, 0, 1);
+            velke.Controls.Add(cisla, 1, 3);
             for (int i = 0; i < 9; i++)
             {
                 cisla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, velikostTlacitka.Width+10));
@@ -245,7 +306,8 @@ namespace LogickeHry
                 RowCount = 3,
                 ColumnCount = 3,
             };
-            velke.Controls.Add(plocha, 0, 0);
+            velke.Controls.Add(plocha, 1, 0);
+            velke.SetRowSpan(plocha, 3);
             plocha.Visible = false;
             for (int i = 0; i < 3; i++)
             {
@@ -312,6 +374,7 @@ namespace LogickeHry
             
             if (tabulka_vyresena[x, y] == c)
             {
+                ziskaneskore += 5 * multiplikator;
                 b.BackColor = Color.White;
                 b.BackgroundImage = obrazky[c - 1];
                 if (tabulka[x,y]==0)
@@ -326,6 +389,7 @@ namespace LogickeHry
             }
             else
             {
+                ziskaneskore -= chyba;
                 starachyba.BackColor = Color.White;
                 b.BackgroundImage = null;
                 b.BackColor = Color.Red;
@@ -340,7 +404,7 @@ namespace LogickeHry
                 if (chyb == 3)
                     Prohra();
             }
-            
+            lskore.Text=ziskaneskore.ToString();
         }
 
         private void VyberCislo(object? sender, EventArgs e)
@@ -354,9 +418,11 @@ namespace LogickeHry
                 //vybranecislo.BackColor= SystemColors.Window;
                 vybranecislo.BackColor = Color.Azure;
             }
+            
             vybranecislo = (Button)sender;
             vybranecislo.Enabled = false;
-            vybranecislo.BackColor = Color.LightCyan;           
+            vybranecislo.BackColor = Color.LightCyan;
+            vybranysymbol.BackgroundImage = vybranecislo.BackgroundImage;
             vybranecislo.Parent.Select();
         }
 

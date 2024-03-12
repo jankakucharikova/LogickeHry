@@ -68,8 +68,9 @@
             MenuBMenu = new ToolStripMenuItem();
             MenuBHlavniStranka = new ToolStripMenuItem();
             MenuBStatistiky = new ToolStripMenuItem();
-            HlavniBZpet = new RoundedButton();
+            toolStripMenuItem1 = new ToolStripMenuItem();
             HlavniLDatabaze = new Label();
+            HlavniBZpet = new RoundedButton();
             MenuBNastaveni = new ToolStripMenuItem();
             ProfilLJmeno = new ToolStripLabel();
             ProfilLPohlavi = new ToolStripLabel();
@@ -131,8 +132,7 @@
             // 
             // PrihlaseniBox
             // 
-            PrihlaseniBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PrihlaseniBox.AutoSize = true;
+            PrihlaseniBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             PrihlaseniBox.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             PrihlaseniBox.ColumnCount = 5;
             PrihlaseniBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.001F));
@@ -145,13 +145,11 @@
             PrihlaseniBox.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             PrihlaseniBox.Location = new Point(0, 200);
             PrihlaseniBox.Name = "PrihlaseniBox";
-            PrihlaseniBox.RowCount = 2;
+            PrihlaseniBox.RowCount = 3;
             PrihlaseniBox.RowStyles.Add(new RowStyle());
-            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
-            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            PrihlaseniBox.Size = new Size(747, 196);
+            PrihlaseniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 130F));
+            PrihlaseniBox.RowStyles.Add(new RowStyle());
+            PrihlaseniBox.Size = new Size(1101, 500);
             PrihlaseniBox.TabIndex = 0;
             PrihlaseniBox.Tag = "Přihlášení";
             PrihlaseniBox.Visible = false;
@@ -167,7 +165,7 @@
             PrihlaseniUdajeBox.Controls.Add(PrihlaseniLChHlaska, 0, 4);
             PrihlaseniUdajeBox.Controls.Add(PrihlaseniTBHeslo, 0, 3);
             PrihlaseniUdajeBox.Controls.Add(PrihlaseniLHeslo, 0, 2);
-            PrihlaseniUdajeBox.Location = new Point(251, 3);
+            PrihlaseniUdajeBox.Location = new Point(369, 3);
             PrihlaseniUdajeBox.Name = "PrihlaseniUdajeBox";
             PrihlaseniUdajeBox.RowCount = 5;
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 18F));
@@ -175,7 +173,7 @@
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 18F));
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             PrihlaseniUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 14F));
-            PrihlaseniUdajeBox.Size = new Size(243, 170);
+            PrihlaseniUdajeBox.Size = new Size(361, 170);
             PrihlaseniUdajeBox.TabIndex = 8;
             // 
             // PrihlaseniLJmeno
@@ -184,7 +182,7 @@
             PrihlaseniLJmeno.AutoSize = true;
             PrihlaseniLJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             PrihlaseniLJmeno.ImageAlign = ContentAlignment.BottomCenter;
-            PrihlaseniLJmeno.Location = new Point(12, 0);
+            PrihlaseniLJmeno.Location = new Point(71, 0);
             PrihlaseniLJmeno.Name = "PrihlaseniLJmeno";
             PrihlaseniLJmeno.Size = new Size(219, 30);
             PrihlaseniLJmeno.TabIndex = 2;
@@ -197,7 +195,7 @@
             PrihlaseniTBJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             PrihlaseniTBJmeno.Location = new Point(3, 33);
             PrihlaseniTBJmeno.Name = "PrihlaseniTBJmeno";
-            PrihlaseniTBJmeno.Size = new Size(237, 41);
+            PrihlaseniTBJmeno.Size = new Size(355, 41);
             PrihlaseniTBJmeno.TabIndex = 4;
             PrihlaseniTBJmeno.TextAlign = HorizontalAlignment.Center;
             // 
@@ -209,7 +207,7 @@
             PrihlaseniLChHlaska.ForeColor = Color.IndianRed;
             PrihlaseniLChHlaska.Location = new Point(3, 144);
             PrihlaseniLChHlaska.Name = "PrihlaseniLChHlaska";
-            PrihlaseniLChHlaska.Size = new Size(237, 20);
+            PrihlaseniLChHlaska.Size = new Size(355, 20);
             PrihlaseniLChHlaska.TabIndex = 6;
             PrihlaseniLChHlaska.Text = "Chybné přihlašovací údaje.";
             PrihlaseniLChHlaska.TextAlign = ContentAlignment.TopCenter;
@@ -222,7 +220,7 @@
             PrihlaseniTBHeslo.Location = new Point(3, 105);
             PrihlaseniTBHeslo.Name = "PrihlaseniTBHeslo";
             PrihlaseniTBHeslo.PasswordChar = '*';
-            PrihlaseniTBHeslo.Size = new Size(237, 41);
+            PrihlaseniTBHeslo.Size = new Size(355, 41);
             PrihlaseniTBHeslo.TabIndex = 5;
             PrihlaseniTBHeslo.TextAlign = HorizontalAlignment.Center;
             // 
@@ -233,7 +231,7 @@
             PrihlaseniLHeslo.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             PrihlaseniLHeslo.Location = new Point(3, 72);
             PrihlaseniLHeslo.Name = "PrihlaseniLHeslo";
-            PrihlaseniLHeslo.Size = new Size(237, 30);
+            PrihlaseniLHeslo.Size = new Size(355, 30);
             PrihlaseniLHeslo.TabIndex = 3;
             PrihlaseniLHeslo.Text = "Heslo:";
             PrihlaseniLHeslo.TextAlign = ContentAlignment.BottomCenter;
@@ -241,12 +239,14 @@
             // PrihlaseniBPrihlaseni
             // 
             PrihlaseniBPrihlaseni.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            PrihlaseniBPrihlaseni.BackColor = Color.White;
             PrihlaseniBPrihlaseni.Font = new Font("Segoe UI", 19F, FontStyle.Regular, GraphicsUnit.Point);
-            PrihlaseniBPrihlaseni.Location = new Point(251, 179);
+            PrihlaseniBPrihlaseni.Location = new Point(369, 179);
             PrihlaseniBPrihlaseni.Name = "PrihlaseniBPrihlaseni";
-            PrihlaseniBPrihlaseni.Size = new Size(243, 14);
+            PrihlaseniBPrihlaseni.Size = new Size(361, 124);
             PrihlaseniBPrihlaseni.TabIndex = 7;
             PrihlaseniBPrihlaseni.Text = "Přihlásit se";
+            PrihlaseniBPrihlaseni.UseVisualStyleBackColor = false;
             PrihlaseniBPrihlaseni.Click += PrihlaseniBPrihlaseni_Click;
             // 
             // UvodBox
@@ -360,8 +360,7 @@
             // 
             // RegistraceBox
             // 
-            RegistraceBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            RegistraceBox.AutoSize = true;
+            RegistraceBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             RegistraceBox.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             RegistraceBox.BackColor = Color.Transparent;
             RegistraceBox.ColumnCount = 5;
@@ -378,7 +377,7 @@
             RegistraceBox.RowCount = 2;
             RegistraceBox.RowStyles.Add(new RowStyle());
             RegistraceBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
-            RegistraceBox.Size = new Size(747, 441);
+            RegistraceBox.Size = new Size(1101, 500);
             RegistraceBox.TabIndex = 0;
             RegistraceBox.Tag = "Registrace";
             RegistraceBox.Visible = false;
@@ -387,13 +386,14 @@
             // RegistraceBRegistrovat
             // 
             RegistraceBRegistrovat.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            RegistraceBRegistrovat.FlatStyle = FlatStyle.System;
+            RegistraceBRegistrovat.BackColor = Color.White;
             RegistraceBRegistrovat.Font = new Font("Segoe UI", 19F, FontStyle.Regular, GraphicsUnit.Point);
-            RegistraceBRegistrovat.Location = new Point(251, 374);
+            RegistraceBRegistrovat.Location = new Point(369, 374);
             RegistraceBRegistrovat.Name = "RegistraceBRegistrovat";
-            RegistraceBRegistrovat.Size = new Size(243, 64);
+            RegistraceBRegistrovat.Size = new Size(361, 123);
             RegistraceBRegistrovat.TabIndex = 13;
             RegistraceBRegistrovat.Text = "Registrovat";
+            RegistraceBRegistrovat.UseVisualStyleBackColor = false;
             RegistraceBRegistrovat.Click += RegistraceBRegistrovat_Click;
             // 
             // RegistraceUdajeBox
@@ -413,7 +413,7 @@
             RegistraceUdajeBox.Controls.Add(RegistraceCBVek, 0, 5);
             RegistraceUdajeBox.Controls.Add(RegistraceChHlaska, 0, 8);
             RegistraceUdajeBox.ForeColor = SystemColors.ActiveCaptionText;
-            RegistraceUdajeBox.Location = new Point(251, 3);
+            RegistraceUdajeBox.Location = new Point(369, 3);
             RegistraceUdajeBox.Name = "RegistraceUdajeBox";
             RegistraceUdajeBox.RowCount = 9;
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 9.677421F));
@@ -425,7 +425,7 @@
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 9.677421F));
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 13.4408607F));
             RegistraceUdajeBox.RowStyles.Add(new RowStyle(SizeType.Percent, 7.526882F));
-            RegistraceUdajeBox.Size = new Size(243, 365);
+            RegistraceUdajeBox.Size = new Size(361, 365);
             RegistraceUdajeBox.TabIndex = 14;
             // 
             // RegistraceLJmeno
@@ -435,7 +435,7 @@
             RegistraceLJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLJmeno.Location = new Point(3, 0);
             RegistraceLJmeno.Name = "RegistraceLJmeno";
-            RegistraceLJmeno.Size = new Size(237, 35);
+            RegistraceLJmeno.Size = new Size(355, 35);
             RegistraceLJmeno.TabIndex = 0;
             RegistraceLJmeno.Text = "Uživatelské jméno:";
             RegistraceLJmeno.TextAlign = ContentAlignment.BottomCenter;
@@ -447,7 +447,7 @@
             RegistraceLPohlavi.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLPohlavi.Location = new Point(3, 84);
             RegistraceLPohlavi.Name = "RegistraceLPohlavi";
-            RegistraceLPohlavi.Size = new Size(237, 35);
+            RegistraceLPohlavi.Size = new Size(355, 35);
             RegistraceLPohlavi.TabIndex = 1;
             RegistraceLPohlavi.Text = "Pohlaví:";
             RegistraceLPohlavi.TextAlign = ContentAlignment.BottomCenter;
@@ -459,7 +459,7 @@
             RegistraceLVek.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLVek.Location = new Point(3, 168);
             RegistraceLVek.Name = "RegistraceLVek";
-            RegistraceLVek.Size = new Size(237, 35);
+            RegistraceLVek.Size = new Size(355, 35);
             RegistraceLVek.TabIndex = 2;
             RegistraceLVek.Text = "Věk:";
             RegistraceLVek.TextAlign = ContentAlignment.BottomCenter;
@@ -471,7 +471,7 @@
             RegistraceLHeslo.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceLHeslo.Location = new Point(3, 252);
             RegistraceLHeslo.Name = "RegistraceLHeslo";
-            RegistraceLHeslo.Size = new Size(237, 35);
+            RegistraceLHeslo.Size = new Size(355, 35);
             RegistraceLHeslo.TabIndex = 3;
             RegistraceLHeslo.Text = "Heslo:";
             RegistraceLHeslo.TextAlign = ContentAlignment.BottomCenter;
@@ -482,7 +482,7 @@
             RegistraceTBJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             RegistraceTBJmeno.Location = new Point(3, 38);
             RegistraceTBJmeno.Name = "RegistraceTBJmeno";
-            RegistraceTBJmeno.Size = new Size(237, 41);
+            RegistraceTBJmeno.Size = new Size(355, 41);
             RegistraceTBJmeno.TabIndex = 4;
             // 
             // RegistraceTBHeslo
@@ -492,7 +492,7 @@
             RegistraceTBHeslo.Location = new Point(3, 290);
             RegistraceTBHeslo.Name = "RegistraceTBHeslo";
             RegistraceTBHeslo.PasswordChar = '*';
-            RegistraceTBHeslo.Size = new Size(237, 41);
+            RegistraceTBHeslo.Size = new Size(355, 41);
             RegistraceTBHeslo.TabIndex = 5;
             // 
             // RegistraceCBPohlavi
@@ -504,7 +504,7 @@
             RegistraceCBPohlavi.Items.AddRange(new object[] { "Muž", "Žena", "Jiné" });
             RegistraceCBPohlavi.Location = new Point(3, 122);
             RegistraceCBPohlavi.Name = "RegistraceCBPohlavi";
-            RegistraceCBPohlavi.Size = new Size(237, 43);
+            RegistraceCBPohlavi.Size = new Size(355, 43);
             RegistraceCBPohlavi.TabIndex = 6;
             // 
             // RegistraceCBVek
@@ -516,7 +516,7 @@
             RegistraceCBVek.Items.AddRange(new object[] { "0-10", "11-20", "21-30", "31-40", "41-50", "51-60", "61-70", "70+" });
             RegistraceCBVek.Location = new Point(3, 206);
             RegistraceCBVek.Name = "RegistraceCBVek";
-            RegistraceCBVek.Size = new Size(237, 43);
+            RegistraceCBVek.Size = new Size(355, 43);
             RegistraceCBVek.TabIndex = 7;
             // 
             // RegistraceChHlaska
@@ -526,7 +526,7 @@
             RegistraceChHlaska.ForeColor = Color.IndianRed;
             RegistraceChHlaska.Location = new Point(3, 336);
             RegistraceChHlaska.Name = "RegistraceChHlaska";
-            RegistraceChHlaska.Size = new Size(237, 29);
+            RegistraceChHlaska.Size = new Size(355, 29);
             RegistraceChHlaska.TabIndex = 8;
             RegistraceChHlaska.Text = "Uživatelské jméno již existuje.";
             RegistraceChHlaska.TextAlign = ContentAlignment.TopCenter;
@@ -535,20 +535,17 @@
             // HlavniHlavicka
             // 
             HlavniHlavicka.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            HlavniHlavicka.AutoSize = true;
             HlavniHlavicka.BackColor = Color.Transparent;
-            HlavniHlavicka.ColumnCount = 5;
-            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.1729832F));
-            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle());
-            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62.0019455F));
-            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle());
-            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 19.7455025F));
-            HlavniHlavicka.Controls.Add(HlavniLNazev, 0, 0);
-            HlavniHlavicka.Controls.Add(HlavniLPodnadpis, 2, 1);
-            HlavniHlavicka.Controls.Add(HlavniSProfil, 4, 1);
+            HlavniHlavicka.ColumnCount = 3;
+            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
+            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            HlavniHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
+            HlavniHlavicka.Controls.Add(HlavniLNazev, 1, 0);
+            HlavniHlavicka.Controls.Add(HlavniLPodnadpis, 1, 1);
+            HlavniHlavicka.Controls.Add(HlavniSProfil, 2, 1);
             HlavniHlavicka.Controls.Add(HlavniSMenu, 0, 1);
-            HlavniHlavicka.Controls.Add(HlavniBZpet, 1, 1);
-            HlavniHlavicka.Controls.Add(HlavniLDatabaze, 4, 2);
+            HlavniHlavicka.Controls.Add(HlavniLDatabaze, 2, 2);
+            HlavniHlavicka.Controls.Add(HlavniBZpet, 0, 0);
             HlavniHlavicka.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             HlavniHlavicka.Location = new Point(0, 0);
             HlavniHlavicka.Name = "HlavniHlavicka";
@@ -564,25 +561,23 @@
             // HlavniLNazev
             // 
             HlavniLNazev.AutoSize = true;
-            HlavniHlavicka.SetColumnSpan(HlavniLNazev, 5);
             HlavniLNazev.Dock = DockStyle.Fill;
             HlavniLNazev.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            HlavniLNazev.ImageAlign = ContentAlignment.MiddleRight;
-            HlavniLNazev.Location = new Point(3, 0);
+            HlavniLNazev.Location = new Point(173, 0);
             HlavniLNazev.Name = "HlavniLNazev";
-            HlavniLNazev.Size = new Size(1095, 90);
+            HlavniLNazev.Size = new Size(755, 90);
             HlavniLNazev.TabIndex = 0;
             HlavniLNazev.Text = "Tělocvična pro mozek \U0001f9e0";
             HlavniLNazev.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // HlavniLPodnadpis
             // 
-            HlavniLPodnadpis.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             HlavniLPodnadpis.AutoSize = true;
+            HlavniLPodnadpis.Dock = DockStyle.Fill;
             HlavniLPodnadpis.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            HlavniLPodnadpis.Location = new Point(334, 90);
+            HlavniLPodnadpis.Location = new Point(173, 90);
             HlavniLPodnadpis.Name = "HlavniLPodnadpis";
-            HlavniLPodnadpis.Size = new Size(577, 70);
+            HlavniLPodnadpis.Size = new Size(755, 70);
             HlavniLPodnadpis.TabIndex = 1;
             HlavniLPodnadpis.Text = "Hlavní stránka";
             HlavniLPodnadpis.TextAlign = ContentAlignment.MiddleCenter;
@@ -590,24 +585,28 @@
             // HlavniSProfil
             // 
             HlavniSProfil.Anchor = AnchorStyles.Right;
+            HlavniSProfil.AutoSize = false;
             HlavniSProfil.BackColor = Color.Transparent;
             HlavniSProfil.Dock = DockStyle.None;
             HlavniSProfil.ImageScalingSize = new Size(20, 20);
             HlavniSProfil.Items.AddRange(new ToolStripItem[] { ProfilBProfil });
-            HlavniSProfil.Location = new Point(935, 98);
+            HlavniSProfil.LayoutStyle = ToolStripLayoutStyle.Flow;
+            HlavniSProfil.Location = new Point(931, 90);
             HlavniSProfil.Name = "HlavniSProfil";
-            HlavniSProfil.Size = new Size(166, 54);
+            HlavniSProfil.Size = new Size(170, 70);
+            HlavniSProfil.Stretch = false;
             HlavniSProfil.TabIndex = 15;
             HlavniSProfil.Text = "HlavniSProfil";
             // 
             // ProfilBProfil
             // 
+            ProfilBProfil.AutoSize = false;
             ProfilBProfil.BackColor = Color.White;
             ProfilBProfil.DropDownItems.AddRange(new ToolStripItem[] { ProfilBPrihlaseni, toolStripSeparator3, ProfilBRegistrace });
             ProfilBProfil.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             ProfilBProfil.Name = "ProfilBProfil";
             ProfilBProfil.Overflow = ToolStripItemOverflow.AsNeeded;
-            ProfilBProfil.Size = new Size(158, 50);
+            ProfilBProfil.Size = new Size(161, 66);
             ProfilBProfil.Text = " 👤 \n Jméno Uživatele ";
             // 
             // ProfilBPrihlaseni
@@ -638,7 +637,7 @@
             HlavniSMenu.BackColor = Color.Transparent;
             HlavniSMenu.Dock = DockStyle.None;
             HlavniSMenu.ImageScalingSize = new Size(20, 20);
-            HlavniSMenu.Items.AddRange(new ToolStripItem[] { MenuBMenu });
+            HlavniSMenu.Items.AddRange(new ToolStripItem[] { MenuBMenu, toolStripMenuItem1 });
             HlavniSMenu.Location = new Point(0, 90);
             HlavniSMenu.Name = "HlavniSMenu";
             HlavniSMenu.Size = new Size(170, 70);
@@ -668,24 +667,29 @@
             MenuBStatistiky.Text = "\U0001f947 Statistiky";
             MenuBStatistiky.Click += BStatistiky_Click;
             // 
-            // HlavniBZpet
+            // toolStripMenuItem1
             // 
-            HlavniBZpet.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            HlavniBZpet.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            HlavniBZpet.Location = new Point(173, 93);
-            HlavniBZpet.Name = "HlavniBZpet";
-            HlavniBZpet.Size = new Size(155, 64);
-            HlavniBZpet.TabIndex = 17;
-            HlavniBZpet.Text = "🢠";
-            HlavniBZpet.Click += HlavniBZpet_Click;
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(14, 66);
             // 
             // HlavniLDatabaze
             // 
             HlavniLDatabaze.AutoSize = true;
-            HlavniLDatabaze.Location = new Point(917, 160);
+            HlavniLDatabaze.Location = new Point(934, 160);
             HlavniLDatabaze.Name = "HlavniLDatabaze";
             HlavniLDatabaze.Size = new Size(0, 20);
             HlavniLDatabaze.TabIndex = 18;
+            // 
+            // HlavniBZpet
+            // 
+            HlavniBZpet.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            HlavniBZpet.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
+            HlavniBZpet.Location = new Point(3, 3);
+            HlavniBZpet.Name = "HlavniBZpet";
+            HlavniBZpet.Size = new Size(161, 84);
+            HlavniBZpet.TabIndex = 17;
+            HlavniBZpet.Text = "🢠";
+            HlavniBZpet.Click += HlavniBZpet_Click;
             // 
             // MenuBNastaveni
             // 
@@ -738,8 +742,7 @@
             // 
             // NastaveniBox
             // 
-            NastaveniBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            NastaveniBox.AutoSize = true;
+            NastaveniBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             NastaveniBox.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             NastaveniBox.BackColor = Color.Transparent;
             NastaveniBox.ColumnCount = 5;
@@ -759,7 +762,7 @@
             NastaveniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             NastaveniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             NastaveniBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            NastaveniBox.Size = new Size(747, 428);
+            NastaveniBox.Size = new Size(1101, 500);
             NastaveniBox.TabIndex = 0;
             NastaveniBox.Visible = false;
             NastaveniBox.VisibleChanged += NastaveniBox_VisibleChanged;
@@ -768,9 +771,9 @@
             // 
             NastaveniBUlozit.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             NastaveniBUlozit.Font = new Font("Segoe UI", 19F, FontStyle.Regular, GraphicsUnit.Point);
-            NastaveniBUlozit.Location = new Point(251, 361);
+            NastaveniBUlozit.Location = new Point(369, 361);
             NastaveniBUlozit.Name = "NastaveniBUlozit";
-            NastaveniBUlozit.Size = new Size(243, 64);
+            NastaveniBUlozit.Size = new Size(361, 136);
             NastaveniBUlozit.TabIndex = 2;
             NastaveniBUlozit.Text = "Uložit";
             NastaveniBUlozit.UseVisualStyleBackColor = true;
@@ -791,7 +794,7 @@
             NastaveniTUdaje.Controls.Add(NastaveniTBHeslo, 0, 7);
             NastaveniTUdaje.Controls.Add(NastaveniCBVek, 0, 5);
             NastaveniTUdaje.Controls.Add(NastaveniCBPohlavi, 0, 3);
-            NastaveniTUdaje.Location = new Point(251, 3);
+            NastaveniTUdaje.Location = new Point(369, 3);
             NastaveniTUdaje.Name = "NastaveniTUdaje";
             NastaveniTUdaje.RowCount = 9;
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
@@ -803,7 +806,7 @@
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
             NastaveniTUdaje.RowStyles.Add(new RowStyle());
-            NastaveniTUdaje.Size = new Size(243, 352);
+            NastaveniTUdaje.Size = new Size(361, 352);
             NastaveniTUdaje.TabIndex = 3;
             // 
             // NastaveniLJmeno
@@ -813,7 +816,7 @@
             NastaveniLJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLJmeno.Location = new Point(3, 0);
             NastaveniLJmeno.Name = "NastaveniLJmeno";
-            NastaveniLJmeno.Size = new Size(237, 35);
+            NastaveniLJmeno.Size = new Size(355, 35);
             NastaveniLJmeno.TabIndex = 0;
             NastaveniLJmeno.Text = "Uživatelské jméno:";
             NastaveniLJmeno.TextAlign = ContentAlignment.BottomCenter;
@@ -825,7 +828,7 @@
             NastaveniLPohlavi.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLPohlavi.Location = new Point(3, 82);
             NastaveniLPohlavi.Name = "NastaveniLPohlavi";
-            NastaveniLPohlavi.Size = new Size(237, 35);
+            NastaveniLPohlavi.Size = new Size(355, 35);
             NastaveniLPohlavi.TabIndex = 5;
             NastaveniLPohlavi.Text = "Pohlaví:";
             NastaveniLPohlavi.TextAlign = ContentAlignment.BottomCenter;
@@ -837,7 +840,7 @@
             NastaveniLVek.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLVek.Location = new Point(3, 166);
             NastaveniLVek.Name = "NastaveniLVek";
-            NastaveniLVek.Size = new Size(237, 35);
+            NastaveniLVek.Size = new Size(355, 35);
             NastaveniLVek.TabIndex = 6;
             NastaveniLVek.Text = "Věk:";
             NastaveniLVek.TextAlign = ContentAlignment.BottomCenter;
@@ -849,7 +852,7 @@
             NastaveniLHeslo.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniLHeslo.Location = new Point(3, 250);
             NastaveniLHeslo.Name = "NastaveniLHeslo";
-            NastaveniLHeslo.Size = new Size(237, 35);
+            NastaveniLHeslo.Size = new Size(355, 35);
             NastaveniLHeslo.TabIndex = 7;
             NastaveniLHeslo.Text = "Heslo:";
             NastaveniLHeslo.TextAlign = ContentAlignment.BottomCenter;
@@ -861,7 +864,7 @@
             NastaveniLChHlaska.ForeColor = Color.IndianRed;
             NastaveniLChHlaska.Location = new Point(3, 332);
             NastaveniLChHlaska.Name = "NastaveniLChHlaska";
-            NastaveniLChHlaska.Size = new Size(237, 20);
+            NastaveniLChHlaska.Size = new Size(355, 20);
             NastaveniLChHlaska.TabIndex = 8;
             NastaveniLChHlaska.Text = "Chybová hláška.";
             NastaveniLChHlaska.TextAlign = ContentAlignment.TopCenter;
@@ -873,7 +876,7 @@
             NastaveniTBJmeno.Font = new Font("Segoe UI", 15F, FontStyle.Regular, GraphicsUnit.Point);
             NastaveniTBJmeno.Location = new Point(3, 38);
             NastaveniTBJmeno.Name = "NastaveniTBJmeno";
-            NastaveniTBJmeno.Size = new Size(237, 41);
+            NastaveniTBJmeno.Size = new Size(355, 41);
             NastaveniTBJmeno.TabIndex = 9;
             // 
             // NastaveniTBHeslo
@@ -883,7 +886,7 @@
             NastaveniTBHeslo.Location = new Point(3, 288);
             NastaveniTBHeslo.Name = "NastaveniTBHeslo";
             NastaveniTBHeslo.PasswordChar = '*';
-            NastaveniTBHeslo.Size = new Size(237, 41);
+            NastaveniTBHeslo.Size = new Size(355, 41);
             NastaveniTBHeslo.TabIndex = 10;
             // 
             // NastaveniCBVek
@@ -895,7 +898,7 @@
             NastaveniCBVek.Items.AddRange(new object[] { "0-10", "11-20", "21-30", "31-40", "41-50", "51-60", "61-70", "70+" });
             NastaveniCBVek.Location = new Point(3, 204);
             NastaveniCBVek.Name = "NastaveniCBVek";
-            NastaveniCBVek.Size = new Size(237, 43);
+            NastaveniCBVek.Size = new Size(355, 43);
             NastaveniCBVek.Sorted = true;
             NastaveniCBVek.TabIndex = 11;
             // 
@@ -908,7 +911,7 @@
             NastaveniCBPohlavi.Items.AddRange(new object[] { "Muž", "Žena", "Jiné" });
             NastaveniCBPohlavi.Location = new Point(3, 120);
             NastaveniCBPohlavi.Name = "NastaveniCBPohlavi";
-            NastaveniCBPohlavi.Size = new Size(237, 43);
+            NastaveniCBPohlavi.Size = new Size(355, 43);
             NastaveniCBPohlavi.TabIndex = 12;
             // 
             // HlavniLMenu
@@ -921,17 +924,15 @@
             // PRHlavicka
             // 
             PRHlavicka.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            PRHlavicka.AutoSize = true;
-            PRHlavicka.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             PRHlavicka.BackColor = Color.Transparent;
-            PRHlavicka.ColumnCount = 5;
-            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.0010023F));
-            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.3312244F));
-            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.335556F));
-            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.3312244F));
-            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.0010023F));
+            PRHlavicka.ColumnCount = 3;
+            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
+            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 170F));
+            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            PRHlavicka.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             PRHlavicka.Controls.Add(PRBZpet, 0, 1);
-            PRHlavicka.Controls.Add(PRLNazev, 0, 0);
+            PRHlavicka.Controls.Add(PRLNazev, 1, 0);
             PRHlavicka.Controls.Add(PRLPodnadpis, 1, 1);
             PRHlavicka.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             PRHlavicka.Location = new Point(0, 0);
@@ -940,7 +941,7 @@
             PRHlavicka.RowStyles.Add(new RowStyle(SizeType.Absolute, 90F));
             PRHlavicka.RowStyles.Add(new RowStyle(SizeType.Absolute, 70F));
             PRHlavicka.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            PRHlavicka.Size = new Size(1072, 200);
+            PRHlavicka.Size = new Size(1101, 200);
             PRHlavicka.TabIndex = 2;
             PRHlavicka.Visible = false;
             // 
@@ -950,7 +951,7 @@
             PRBZpet.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
             PRBZpet.Location = new Point(3, 93);
             PRBZpet.Name = "PRBZpet";
-            PRBZpet.Size = new Size(154, 64);
+            PRBZpet.Size = new Size(164, 64);
             PRBZpet.TabIndex = 9;
             PRBZpet.Text = "🢠";
             PRBZpet.Click += PRBZpet_Click;
@@ -958,26 +959,26 @@
             // PRLNazev
             // 
             PRLNazev.AutoSize = true;
-            PRHlavicka.SetColumnSpan(PRLNazev, 5);
+            PRLNazev.Dock = DockStyle.Fill;
             PRLNazev.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point);
-            PRLNazev.Location = new Point(3, 0);
+            PRLNazev.Location = new Point(173, 0);
             PRLNazev.Name = "PRLNazev";
-            PRLNazev.Size = new Size(745, 81);
+            PRLNazev.Size = new Size(755, 90);
             PRLNazev.TabIndex = 11;
             PRLNazev.Text = "Tělocvična pro mozek \U0001f9e0";
+            PRLNazev.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // PRLPodnadpis
             // 
-            PRLPodnadpis.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             PRLPodnadpis.AutoSize = true;
-            PRHlavicka.SetColumnSpan(PRLPodnadpis, 3);
+            PRLPodnadpis.Dock = DockStyle.Fill;
             PRLPodnadpis.Font = new Font("Segoe UI", 30F, FontStyle.Regular, GraphicsUnit.Point);
-            PRLPodnadpis.Location = new Point(163, 90);
+            PRLPodnadpis.Location = new Point(173, 90);
             PRLPodnadpis.Name = "PRLPodnadpis";
-            PRLPodnadpis.Size = new Size(743, 67);
+            PRLPodnadpis.Size = new Size(755, 70);
             PRLPodnadpis.TabIndex = 12;
             PRLPodnadpis.Text = "Registrace";
-            PRLPodnadpis.TextAlign = ContentAlignment.TopCenter;
+            PRLPodnadpis.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // HlavniBox
             // 
@@ -1122,7 +1123,7 @@
             // 
             // HraBox
             // 
-            HraBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
+            HraBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             HraBox.AutoSize = true;
             HraBox.BackColor = Color.Transparent;
             HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
@@ -1179,7 +1180,7 @@
             StatistikyCBHra.Dock = DockStyle.Fill;
             StatistikyCBHra.DropDownStyle = ComboBoxStyle.DropDownList;
             StatistikyCBHra.FormattingEnabled = true;
-            StatistikyCBHra.Items.AddRange(new object[] { "Sudoku", "Miny", "Logik", "Vesmírné SUDOKU", "SUDOKU ovoce", "SUDOKU písmenka", "SUDOKU tvary", "SUDOKU ZOO" });
+            StatistikyCBHra.Items.AddRange(new object[] { "Všechny hry", "Sudoku", "Miny", "Logik", "Vesmírné SUDOKU", "SUDOKU ovoce", "SUDOKU písmenka", "SUDOKU tvary", "SUDOKU ZOO" });
             StatistikyCBHra.Location = new Point(552, 3);
             StatistikyCBHra.Name = "StatistikyCBHra";
             StatistikyCBHra.Size = new Size(177, 28);
@@ -1236,17 +1237,16 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
             ClientSize = new Size(1103, 700);
             Controls.Add(HlavniHlavicka);
-            Controls.Add(HlavniBox);
-            Controls.Add(StatistikaBox);
-            Controls.Add(UvodBox);
-            Controls.Add(HraBox);
             Controls.Add(PRHlavicka);
-            Controls.Add(NastaveniBox);
-            Controls.Add(RegistraceBox);
+            Controls.Add(UvodBox);
             Controls.Add(PrihlaseniBox);
+            Controls.Add(NastaveniBox);
+            Controls.Add(StatistikaBox);
+            Controls.Add(HlavniBox);
+            Controls.Add(HraBox);
+            Controls.Add(RegistraceBox);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = HlavniSMenu;
             Name = "GameForm";
@@ -1368,5 +1368,6 @@
         private RoundedButton BSudokuPismenka;
         private RoundedButton BSudokuTvary;
         internal Label HlavniLDatabaze;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }

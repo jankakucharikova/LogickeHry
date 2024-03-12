@@ -26,11 +26,11 @@ namespace LogickeHry
                 panel = new TableLayoutPanel()
                 {
                     GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-                    ColumnCount = 4,
+                    ColumnCount = 5,
                     AutoScroll = true,
                     Dock = DockStyle.Fill,
                     CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
-                    ColumnStyles = { new ColumnStyle(SizeType.Percent, 25), new ColumnStyle(SizeType.Percent, 25), new ColumnStyle(SizeType.Percent, 25), new ColumnStyle(SizeType.Percent, 25) }
+                    ColumnStyles = { new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20) }
                 };
                 form.StatistikaBox.Controls.Add(panel, 0, 1);
                 form.StatistikaBox.SetColumnSpan(panel, 6);
@@ -54,6 +54,9 @@ namespace LogickeHry
             {
                 form.StatistikyCBMoje.Checked= false;
                 form.StatistikyCBMoje.Enabled= false;
+            }
+            if (!form.DostupnaDatabaze)
+            {
                 return;
             }
             List<VysledekHry> s = NactiStatistiky(form.StatistikyCBMoje.Checked ? form.aktualniuzivatel : null, form.StatistikyCBHra.Text, form.StatistikaCBObtiznost.Text);
@@ -68,6 +71,7 @@ namespace LogickeHry
                 panel.Controls.Add(new Label() { Text = s[i].hra }, 1, i);
                 panel.Controls.Add(new Label() { Text = s[i].obtiznost }, 2, i);
                 panel.Controls.Add(new Label() { Text = s[i].cas.ToString() }, 3, i);
+                panel.Controls.Add(new Label() { Text = s[i].skore.ToString() }, 4, i);
 
             }
             panel.ResumeLayout(true);
@@ -81,12 +85,12 @@ namespace LogickeHry
             IQueryable<VysledekHry> x= form.databaze.statistiky.Include(u=>u.uzivatel);
             if(u!=null)
                 x=x.Where(e=>e.uzivatel==u);
-            if(hra!=null && hra!="")
+            if(hra!=null && hra!="" && hra!="Všechny hry")
                 x=x.Where(x=>x.hra==hra);
             if(obtiznost!=null && obtiznost!="")
                 x=x.Where(x=>x.obtiznost==obtiznost);
             List<VysledekHry> s=x.ToList();
-            s.Sort((x, y) => x.cas.CompareTo(y.cas));
+            s.Sort((x, y) => x.skore.CompareTo(y.skore));
             return s;
         }
 

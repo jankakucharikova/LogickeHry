@@ -14,5 +14,6 @@ namespace LogickeHry
         internal string hra;
         internal string obtiznost;
         internal int cas;
+        internal int skore;
     }
 }

@@ -17,9 +17,9 @@ namespace LogickeHry
         internal string Nazev;
         internal StavHry Stav;
         internal System.Windows.Forms.Timer stopky;
-        internal int uplynulycas;
+        internal int uplynulycas,ziskaneskore;
         internal Obtiznost obtiznost = Obtiznost.Lehke;
-        internal Label lcas;
+        internal Label lcas,lskore;
         internal TableLayoutPanel plocha;
         protected string navod;
         public Hra(GameForm form)
@@ -63,7 +63,6 @@ namespace LogickeHry
         protected abstract void PouzijNastaveni();
         protected virtual void NastavCasovac()
         {
-            stopky = new System.Windows.Forms.Timer();
             stopky.Interval = 1000;
             stopky.Tick += (s, e) =>
             {
@@ -80,6 +79,7 @@ namespace LogickeHry
 
         protected virtual void VytvorHerniStranku()
         {
+            stopky = new System.Windows.Forms.Timer();
             form.HraBox.SuspendLayout();
             VytvorBocniPanel();
             VytvorHerniPlochu();
@@ -115,7 +115,8 @@ namespace LogickeHry
                             hra = Nazev,
                             obtiznost = obtiznost.ToString(),
                             cas = uplynulycas,
-                        });
+                            skore = ziskaneskore,
+                        }); ;
                 }
                 else
                 {
@@ -126,7 +127,7 @@ namespace LogickeHry
                 }
                 form.databaze.SaveChanges();
             }
-            MessageBox.Show("Vyhra!");
+            MessageBox.Show($"Vyhra!\nSkóre: {ziskaneskore}");
         }
 
         protected abstract void VyhraVlastni();

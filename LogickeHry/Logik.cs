@@ -22,6 +22,7 @@ namespace LogickeHry
         int aktualniradek = 1;
         TableLayoutPanel aktualnityp;
         Button testButton, clear;
+        int odcitanibile, odcitanispatne;
         
         public Logik(GameForm form) : base(form)
         {
@@ -85,6 +86,27 @@ namespace LogickeHry
 
         protected override void VytvorHerniPlochu()
         {
+            switch (obtiznost)
+            {
+                case Obtiznost.Tezke:
+                    ziskaneskore = 37200;
+                    odcitanibile = 258;
+                    odcitanispatne = 516;
+                    break;
+                case Obtiznost.Stredni:
+                    ziskaneskore = 20800;
+                    odcitanibile = 173;
+                    odcitanispatne = 346;
+                    break;
+                case Obtiznost.Lehke:
+                    ziskaneskore = 8400;
+                    odcitanibile = 87;
+                    odcitanispatne = 175;
+                    break;
+                default:
+                    ziskaneskore = 0;
+                    break;
+            }
             plocha = new TableLayoutPanel()
             {
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
@@ -92,7 +114,7 @@ namespace LogickeHry
                 AutoSize = true,
                 BackColor = Color.Peru,
                 Visible = false
-        };
+            };
             form.HraBox.Controls.Add(plocha, 0, 0);
             form.HraBox.SetRowSpan(plocha, 14);
             plocha.RowStyles.Clear();
@@ -120,6 +142,7 @@ namespace LogickeHry
                 Dock = DockStyle.Fill,
                 RowCount = 1,
                 ColumnCount = z+1,
+                BackColor = Color.Peru,
             };
             plocha.Controls.Add(buttonybarev, 1, 13);
             plocha.SetColumnSpan(buttonybarev, 3);
@@ -156,9 +179,9 @@ namespace LogickeHry
             {
                 Text = "Test",
                 Dock = DockStyle.Fill,
-                BackColor= Color.White
-               
+                BackColor = Color.White
             };
+            testButton.Font=new Font(testButton.Font,FontStyle.Bold);
             testButton.Click += Test;
             plocha.Controls.Add(testButton, 2, 12);
             clear = new RoundedButton()
@@ -223,8 +246,10 @@ namespace LogickeHry
                     spravne.Remove(tip[i]);
                     tip.RemoveAt(i);
                     i--;
+                    ziskaneskore -= odcitanibile;
                 }
             }
+            ziskaneskore -= spravne.Count() * odcitanispatne;
             aktualnityp = novyPanel();
             
             plocha.Controls.Remove(clear);
@@ -573,7 +598,7 @@ namespace LogickeHry
 
                 Button bhrat = new RoundedButton()
                 {
-                    Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
+                    Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point),
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Hrát",

@@ -40,6 +40,7 @@ namespace LogickeHry
                 entity.Property(e => e.hra).IsRequired();
                 entity.Property(e => e.obtiznost).IsRequired();
                 entity.Property(e => e.cas).IsRequired();
+                entity.Property(e=> e.skore).IsRequired();
             });
         }
         public DbSet<Uzivatel> uzivatele { get; set; }
