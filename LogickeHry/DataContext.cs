@@ -12,7 +12,7 @@ namespace LogickeHry
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySQL("server=localhost;database=aplikace;user=aplikace;password=[y/m2)9JSaRNEJ[");
+            optionsBuilder.UseMySQL("server=api.strmilov.cz;database=aplikace;user=aplikace;password=[y/m2)9JSaRNEJ[");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
