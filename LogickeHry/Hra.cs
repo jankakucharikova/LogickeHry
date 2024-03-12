@@ -103,7 +103,7 @@ namespace LogickeHry
             Stav = StavHry.Vyhra;
             KonecHry();
             VyhraVlastni();
-            if (form.aktualniuzivatel != null)
+            if (form.aktualniuzivatel != null && form.DostupnaDatabaze)
             {
                 VysledekHry v = form.databaze.statistiky.Where(e => e.uzivatel == form.aktualniuzivatel && e.hra == Nazev && e.obtiznost == obtiznost.ToString()).FirstOrDefault();
                 if (v == null)

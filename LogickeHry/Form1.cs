@@ -12,59 +12,64 @@ namespace LogickeHry
         List<TableLayoutPanel> boxy;
         internal Hra aktualnihra;
         internal DataContext databaze;
+        internal bool DostupnaDatabaze;
         internal Uzivatel aktualniuzivatel;
-        
+        private TableLayoutPanel minula,aktualni;
+
         public GameForm()
         {
-            
+
             InitializeComponent();
             this.BackColor = Color.Turquoise;
-           // this.BackgroundImage = Properties.Resources.pink;
-            //this.BackgroundImageLayout = ImageLayout.Stretch;
-            
+
             this.DoubleBuffered = true;
 
 
             boxy = this.Controls.OfType<TableLayoutPanel>().ToList();
             databaze = new DataContext();
-            databaze.Database.EnsureCreated();
-            if (Properties.Settings.Default.prihlaseny)
+            DostupnaDatabaze = databaze.Database.CanConnect();
+
+            if (DostupnaDatabaze)
             {
-                aktualniuzivatel = databaze.uzivatele.FirstOrDefault(u => u.Id == Properties.Settings.Default.uzivatel);
-                Prihlaseni(aktualniuzivatel);
-
+                if (Properties.Settings.Default.prihlaseny)
+                {
+                    aktualniuzivatel = databaze.uzivatele.FirstOrDefault(u => u.Id == Properties.Settings.Default.uzivatel);
+                    Prihlaseni(aktualniuzivatel);
+                }
             }
+            else
+            {
+                PreskocitBezDatabaze();
+            }
+
+            
             Statistika.vysledky.Nastav(this);
-        }
-        private void VykresliPozadi(object sender, PaintEventArgs e)
-        {
-            // Definice barev pro přechod
-            Color startColor = Color.Turquoise;
-            Color endColor = Color.Pink;
-
-            // Vytvoření lineárního přechodového kartáče
-            LinearGradientBrush gradientBrush = new LinearGradientBrush(
-                this.ClientRectangle, // oblast, kde se přechod má vykreslit
-                startColor, // počáteční barva přechodu
-                endColor, // konečná barva přechodu
-                LinearGradientMode.Vertical); // směr přechodu (vodorovný)
-
-            // Vykreslení přechodu na pozadí formuláře
-            e.Graphics.FillRectangle(gradientBrush, this.ClientRectangle);
-
-            // Zničení použitého kartáče, aby nedocházelo k úniku paměti
-            gradientBrush.Dispose();
         }
         internal void Ukazbox(TableLayoutPanel box)
         {
+            if (aktualni != box)
+            {
+                minula = aktualni;
+                aktualni = box;
+            }
             foreach (var b in boxy)
             {
-                if(b.Visible)
+                if (b.Visible)
+                {
                     b.Hide();
+                }
             }
-            
+
             box.Show();
             box.Select();
+        }
+        internal void UkazBoxZpet() => Ukazbox(minula);
+        internal void PreskocitBezDatabaze()
+        {
+            HlavniLDatabaze.Text = "Připojení k databázi není k dispozici.";
+            ProfilBProfil.Text = " 👤 \n Jméno Uživatele ";
+            ProfilBProfil.DropDownItems.Clear();
+            Ukazbox(HlavniBox);
         }
         string QuickHash(string input)
         {
@@ -86,7 +91,7 @@ namespace LogickeHry
             {
                 PRHlavicka.Hide();
             }
-                
+
         }
 
         private void NastaveniBox_VisibleChanged(object sender, EventArgs e)
@@ -128,7 +133,7 @@ namespace LogickeHry
             if (t.Visible)
             {
                 t.BringToFront();
-                HlavniLPodnadpis.Text = "Statistika";               
+                HlavniLPodnadpis.Text = "Statistika";
                 HlavniHlavicka.Show();
                 HlavniHlavicka.BringToFront();
             }
@@ -159,7 +164,7 @@ namespace LogickeHry
             aktualniuzivatel = null;
             ProfilBProfil.DropDownItems.Clear();
             ProfilBProfil.DropDownItems.AddRange(new ToolStripItem[] { ProfilBPrihlaseni, toolStripSeparator3, ProfilBRegistrace });
-            ProfilBProfil.Text = $" 👤 \n Nepřihlášený ";
+            ProfilBProfil.Text = " 👤 \n Jméno Uživatele ";
             MenuBMenu.DropDownItems.Remove(MenuBNastaveni);
             Ukazbox(UvodBox);
         }
@@ -180,6 +185,11 @@ namespace LogickeHry
         }
         private void RegistraceBRegistrovat_Click(object sender, EventArgs e)
         {
+            if (!DostupnaDatabaze)
+            {
+                PreskocitBezDatabaze();
+                return;
+            }
             if (RegistraceTBJmeno.Text.Trim().Equals("") || RegistraceCBPohlavi.Text.Trim().Equals("") || RegistraceCBVek.Text.Trim().Equals("") || RegistraceTBHeslo.Text.Trim().Equals(""))
             {
                 RegistraceChHlaska.Text = "Nejsou vyplněné všechny údaje";
@@ -216,6 +226,11 @@ namespace LogickeHry
         }
         private void NastaveniBUlozit_Click(object sender, EventArgs e)
         {
+            if (!DostupnaDatabaze)
+            {
+                PreskocitBezDatabaze();
+                return;
+            }
             if (NastaveniTBJmeno.Text.Trim().Equals("") || NastaveniCBPohlavi.Text.Trim().Equals("") || NastaveniCBVek.Text.Trim().Equals("") || NastaveniTBHeslo.Text.Trim().Equals(""))
             {
                 NastaveniLChHlaska.Text = "Nejsou vyplněné všechny údaje";
@@ -246,6 +261,11 @@ namespace LogickeHry
         }
         private void PrihlaseniBPrihlaseni_Click(object sender, EventArgs e)
         {
+            if (!DostupnaDatabaze)
+            {
+                PreskocitBezDatabaze();
+                return;
+            }
             Uzivatel u;
             if (null != (u = databaze.uzivatele.FirstOrDefault(u => u.Jmeno == PrihlaseniTBJmeno.Text.Trim())))
             {
@@ -269,6 +289,11 @@ namespace LogickeHry
         }
         private void BNastaveni_Click(object sender, EventArgs e)
         {
+            if (!DostupnaDatabaze)
+            {
+                PreskocitBezDatabaze();
+                return;
+            }
             Ukazbox(NastaveniBox);
         }
         private void BUvodPreskocit_Click(object sender, EventArgs e)
@@ -351,6 +376,11 @@ namespace LogickeHry
         {
             aktualnihra = new SudokuTvary(this);
             aktualnihra.SpustiUvod();
+        }
+
+        private void HlavniBZpet_Click(object sender, EventArgs e)
+        {
+            UkazBoxZpet();
         }
     }
 }

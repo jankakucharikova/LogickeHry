@@ -35,7 +35,7 @@ namespace LogickeHry
         {
             Uzivatel u=null;
             List<SudokuZadani> l=null;
-            if (form.aktualniuzivatel != null)
+            if (form.aktualniuzivatel != null && form.DostupnaDatabaze)
             {
                 u = form.databaze.uzivatele.Include(e => e.videl).FirstOrDefault(e => e.Id == form.aktualniuzivatel.Id);
                 l = form.databaze.sudoku.Where(e => e.obtiznost == obtiznost.ToString() && !u.videl.Contains(e)).ToList();
@@ -58,11 +58,19 @@ namespace LogickeHry
                 {
                     u.videl.Add(s);
                 }
-                form.databaze.sudoku.Add(s);
+                if (form.DostupnaDatabaze)
+                {
+                    form.databaze.sudoku.Add(s);
+                }
+                
             }
             tabulka = s.zadani;
             tabulka_vyresena = s.kompletni;
-            form.databaze.SaveChanges();
+            if (form.DostupnaDatabaze)
+            {
+                form.databaze.SaveChanges();
+            }
+            
         }
 
         

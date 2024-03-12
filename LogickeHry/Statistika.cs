@@ -21,22 +21,43 @@ namespace LogickeHry
         public void Nastav(GameForm form)
         {
             this.form = form;
-            panel = new TableLayoutPanel()
+            if (form.DostupnaDatabaze)
             {
-                GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-                ColumnCount = 4,
-                AutoScroll = true,
-                Dock = DockStyle.Fill,
-                CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
-                ColumnStyles = { new ColumnStyle(SizeType.Percent,25), new ColumnStyle(SizeType.Percent,25), new ColumnStyle(SizeType.Percent,25), new ColumnStyle(SizeType.Percent,25)}
-            };
-            form.StatistikaBox.Controls.Add(panel,0,1);
-            form.StatistikaBox.SetColumnSpan(panel, 6);
-            form.StatistikaBox.VisibleChanged += Aktualizace;
+                panel = new TableLayoutPanel()
+                {
+                    GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+                    ColumnCount = 4,
+                    AutoScroll = true,
+                    Dock = DockStyle.Fill,
+                    CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
+                    ColumnStyles = { new ColumnStyle(SizeType.Percent, 25), new ColumnStyle(SizeType.Percent, 25), new ColumnStyle(SizeType.Percent, 25), new ColumnStyle(SizeType.Percent, 25) }
+                };
+                form.StatistikaBox.Controls.Add(panel, 0, 1);
+                form.StatistikaBox.SetColumnSpan(panel, 6);
+                form.StatistikaBox.VisibleChanged += Aktualizace;
+            }
+            else
+            {
+                Label text = new Label()
+                {
+                    Dock = DockStyle.Fill,
+                    Text = "Statistiky nejsou k dispozici, protože se nelze připojit k databázi. Zkuste se ujistit, že máte připojení k internetu a restartovat aplikaci.",
+                    TextAlign = ContentAlignment.MiddleCenter
+                };
+                form.StatistikaBox.Controls.Add(text, 0, 1);
+                form.StatistikaBox.SetColumnSpan(text, 6);
+            }
         }
         public void Aktualizace(object sender, EventArgs e)
         {
+            if (form.aktualniuzivatel == null)
+            {
+                form.StatistikyCBMoje.Checked= false;
+                form.StatistikyCBMoje.Enabled= false;
+                return;
+            }
             List<VysledekHry> s = NactiStatistiky(form.StatistikyCBMoje.Checked ? form.aktualniuzivatel : null, form.StatistikyCBHra.Text, form.StatistikaCBObtiznost.Text);
+            panel.SuspendLayout();
             panel.Controls.Clear();
             panel.RowStyles.Clear();
             panel.RowCount = s.Count;
@@ -49,9 +70,14 @@ namespace LogickeHry
                 panel.Controls.Add(new Label() { Text = s[i].cas.ToString() }, 3, i);
 
             }
+            panel.ResumeLayout(true);
         }
         public List<VysledekHry> NactiStatistiky(Uzivatel u, String hra, String obtiznost)
         {
+            if (!form.DostupnaDatabaze)
+            {
+                return new();
+            }
             IQueryable<VysledekHry> x= form.databaze.statistiky.Include(u=>u.uzivatel);
             if(u!=null)
                 x=x.Where(e=>e.uzivatel==u);
