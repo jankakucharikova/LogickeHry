@@ -15,5 +15,6 @@ namespace LogickeHry
         internal string obtiznost;
         internal int cas;
         internal int skore;
+        internal DateTime datum;
     }
 }

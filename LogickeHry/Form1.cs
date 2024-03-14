@@ -21,7 +21,8 @@ namespace LogickeHry
 
             InitializeComponent();
             this.BackColor = Color.Turquoise;
-
+            minula = UvodBox;
+            aktualni = UvodBox;
             this.DoubleBuffered = true;
 
 

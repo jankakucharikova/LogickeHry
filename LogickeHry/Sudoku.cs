@@ -103,6 +103,7 @@ namespace LogickeHry
                 ziskaneskore+= multiplikator*15*2;
                 ziskaneskore += (15 - (uplynulycas % 15))*2;
             }
+            lskore.Text=ziskaneskore.ToString();
         }
         protected override void VytvorBocniPanel()
         {
@@ -375,6 +376,7 @@ namespace LogickeHry
             if (tabulka_vyresena[x, y] == c)
             {
                 ziskaneskore += 5 * multiplikator;
+                starachyba.BackColor = Color.White;
                 b.BackColor = Color.White;
                 b.BackgroundImage = obrazky[c - 1];
                 if (tabulka[x,y]==0)

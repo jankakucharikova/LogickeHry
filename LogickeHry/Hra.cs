@@ -105,18 +105,19 @@ namespace LogickeHry
             VyhraVlastni();
             if (form.aktualniuzivatel != null && form.DostupnaDatabaze)
             {
-                VysledekHry v = form.databaze.statistiky.Where(e => e.uzivatel == form.aktualniuzivatel && e.hra == Nazev && e.obtiznost == obtiznost.ToString()).FirstOrDefault();
+                /*VysledekHry v = form.databaze.statistiky.Where(e => e.uzivatel == form.aktualniuzivatel && e.hra == Nazev && e.obtiznost == obtiznost.ToString()).FirstOrDefault();
                 if (v == null)
                 {
-                    form.databaze.statistiky.Add(
-                        new VysledekHry()
-                        {
-                            uzivatel = form.aktualniuzivatel,
-                            hra = Nazev,
-                            obtiznost = obtiznost.ToString(),
-                            cas = uplynulycas,
-                            skore = ziskaneskore,
-                        }); ;
+                    var vysledek = new VysledekHry()
+                    {
+                        uzivatel = form.aktualniuzivatel,
+                        hra = Nazev,
+                        obtiznost = obtiznost.ToString(),
+                        cas = uplynulycas,
+                        skore = ziskaneskore,
+                        datum = DateTime.Now,
+                    };
+                    form.databaze.statistiky.Add(vysledek);
                 }
                 else
                 {
@@ -124,7 +125,17 @@ namespace LogickeHry
                     {
                         v.cas = uplynulycas;
                     }
-                }
+                }*/
+                var vysledek = new VysledekHry()
+                {
+                    uzivatel = form.aktualniuzivatel,
+                    hra = Nazev,
+                    obtiznost = obtiznost.ToString(),
+                    cas = uplynulycas,
+                    skore = ziskaneskore,
+                    datum = DateTime.Now,
+                };
+                form.databaze.statistiky.Add(vysledek);
                 form.databaze.SaveChanges();
             }
             MessageBox.Show($"Vyhra!\nSkóre: {ziskaneskore}");

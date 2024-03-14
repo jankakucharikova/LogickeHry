@@ -342,7 +342,7 @@ namespace LogickeHry
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Text = "Skóre:",
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleLeft
+                TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lskoretext, 1, 1);
             lskore = new Label()
@@ -350,7 +350,7 @@ namespace LogickeHry
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Text = "0",
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleRight
+                TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lskore, 2, 1);
             Label lm = new Label()
@@ -358,7 +358,7 @@ namespace LogickeHry
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Text = "Zbývá min:",
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleLeft
+                TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lm, 1, 2);
 
@@ -367,7 +367,7 @@ namespace LogickeHry
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Text = pocmin.ToString(),
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleRight
+                TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lmin, 2, 2);
 
@@ -376,7 +376,7 @@ namespace LogickeHry
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Text = "Zbývá volných políček:",
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleLeft
+                TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lp, 1, 3);
 
@@ -385,7 +385,7 @@ namespace LogickeHry
                 Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point),
                 Text = pocetpolicek.ToString(),
                 Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleRight
+                TextAlign = ContentAlignment.MiddleCenter
             };
             form.HraBox.Controls.Add(lpolicek, 2, 3);
 
@@ -442,6 +442,7 @@ namespace LogickeHry
             skoredesetine -= multiplikator * ziskLevel * odekryto*2;
             ziskaneskore = (int)skoredesetine;
             lskore.Text = ziskaneskore.ToString();
+            Obnoveni();
         }
         private bool jeKliknutelne(Button b)
         {
@@ -559,9 +560,10 @@ namespace LogickeHry
                     return;
 
                 string vlajka = parametry[2];
-                b.Name = $"{i} {j} {vlajka} false";
+                
                 if (vlajka.Equals("false"))
                 {
+                    b.Name = $"{i} {j} {vlajka} false";
                     if (mapka[i, j] != hodnota_bomby)
                     {
                         b.Image = obrazky[mapka[i, j]];
@@ -587,8 +589,12 @@ namespace LogickeHry
                     else
                     {
                         b.Image = obrazky[9];
-                        if (Stav == StavHry.Bezi) Prohra();
-                        b.BackColor = Color.Red;
+
+                        if (Stav == StavHry.Bezi)
+                        {
+                            b.BackColor = Color.Red;
+                            Prohra();
+                        }
                     }
 
                 }
@@ -641,7 +647,7 @@ namespace LogickeHry
         internal void Obnoveni()
         {
             lmin.Text = (pocmin - pocet_vlajek).ToString();
-            lpolicek.Text = (pocetpolicek).ToString();
+            lpolicek.Text = pocetpolicek.ToString();
             if (pocetpolicek == 0 && Stav == StavHry.Bezi)
                 Vyhra();
         }

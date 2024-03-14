@@ -13,6 +13,7 @@ namespace LogickeHry
     {
         GameForm form;
         TableLayoutPanel panel;
+        List<Label> nadpisy=new List<Label>();
         internal static Statistika vysledky=new Statistika();
         private Statistika() { 
 
@@ -26,15 +27,23 @@ namespace LogickeHry
                 panel = new TableLayoutPanel()
                 {
                     GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-                    ColumnCount = 5,
+                    ColumnCount = 6,
                     AutoScroll = true,
                     Dock = DockStyle.Fill,
                     CellBorderStyle = TableLayoutPanelCellBorderStyle.OutsetDouble,
-                    ColumnStyles = { new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20) }
+                    ColumnStyles = { new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20), new ColumnStyle(SizeType.Percent, 20) }
                 };
                 form.StatistikaBox.Controls.Add(panel, 0, 1);
                 form.StatistikaBox.SetColumnSpan(panel, 6);
                 form.StatistikaBox.VisibleChanged += Aktualizace;
+                nadpisy.Add(new Label() { Text = "Jméno", });
+                nadpisy.Add(new Label() { Text = "Hra" });
+                nadpisy.Add(new Label() { Text = "Obtížnost" });
+                nadpisy.Add(new Label() { Text = "Čas (s)" });
+                nadpisy.Add(new Label() { Text = "Skóre" });
+                nadpisy.Add(new Label() { Text = "Datum" });
+                for (int i = 0;i<nadpisy.Count;i++)
+                    nadpisy[i].Font=new Font(nadpisy[i].Font, FontStyle.Bold);
             }
             else
             {
@@ -63,17 +72,21 @@ namespace LogickeHry
             panel.SuspendLayout();
             panel.Controls.Clear();
             panel.RowStyles.Clear();
-            panel.RowCount = s.Count;
-            for(int i=0;i<s.Count();i++)
+            panel.RowCount = s.Count()+2;
+            panel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            for (int i=0; i<nadpisy.Count(); i++)
+                panel.Controls.Add(nadpisy[i],i,0);
+            for (int i=0;i<s.Count();i++)
             {
                 panel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-                panel.Controls.Add(new Label() { Text = s[i].uzivatel.Jmeno }, 0, i);
-                panel.Controls.Add(new Label() { Text = s[i].hra }, 1, i);
-                panel.Controls.Add(new Label() { Text = s[i].obtiznost }, 2, i);
-                panel.Controls.Add(new Label() { Text = s[i].cas.ToString() }, 3, i);
-                panel.Controls.Add(new Label() { Text = s[i].skore.ToString() }, 4, i);
-
+                panel.Controls.Add(new Label() { Text = s[i].uzivatel.Jmeno, Dock=DockStyle.Fill,TextAlign=ContentAlignment.MiddleCenter }, 0, i+1);
+                panel.Controls.Add(new Label() { Text = s[i].hra, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter }, 1, i+1);
+                panel.Controls.Add(new Label() { Text = s[i].obtiznost, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter }, 2, i+1);
+                panel.Controls.Add(new Label() { Text = s[i].cas.ToString(), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter }, 3, i+1);
+                panel.Controls.Add(new Label() { Text = s[i].skore.ToString(), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter }, 4, i + 1);
+                panel.Controls.Add(new Label() { Text = s[i].datum.ToString(), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter }, 5, i + 1);
             }
+            panel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             panel.ResumeLayout(true);
         }
         public List<VysledekHry> NactiStatistiky(Uzivatel u, String hra, String obtiznost)
@@ -87,11 +100,9 @@ namespace LogickeHry
                 x=x.Where(e=>e.uzivatel==u);
             if(hra!=null && hra!="" && hra!="Všechny hry")
                 x=x.Where(x=>x.hra==hra);
-            if(obtiznost!=null && obtiznost!="")
+            if(obtiznost!=null && obtiznost!="" && obtiznost!= "Všechny obtížnosti")
                 x=x.Where(x=>x.obtiznost==obtiznost);
-            List<VysledekHry> s=x.ToList();
-            s.Sort((x, y) => x.skore.CompareTo(y.skore));
-            return s;
+            return x.OrderByDescending(s=>s.skore).ThenBy(s=>s.cas).ToList();
         }
 
     }
