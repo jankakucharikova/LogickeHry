@@ -105,27 +105,6 @@ namespace LogickeHry
             VyhraVlastni();
             if (form.aktualniuzivatel != null && form.DostupnaDatabaze)
             {
-                /*VysledekHry v = form.databaze.statistiky.Where(e => e.uzivatel == form.aktualniuzivatel && e.hra == Nazev && e.obtiznost == obtiznost.ToString()).FirstOrDefault();
-                if (v == null)
-                {
-                    var vysledek = new VysledekHry()
-                    {
-                        uzivatel = form.aktualniuzivatel,
-                        hra = Nazev,
-                        obtiznost = obtiznost.ToString(),
-                        cas = uplynulycas,
-                        skore = ziskaneskore,
-                        datum = DateTime.Now,
-                    };
-                    form.databaze.statistiky.Add(vysledek);
-                }
-                else
-                {
-                    if (v.cas > uplynulycas)
-                    {
-                        v.cas = uplynulycas;
-                    }
-                }*/
                 var vysledek = new VysledekHry()
                 {
                     uzivatel = form.aktualniuzivatel,

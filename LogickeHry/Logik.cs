@@ -9,7 +9,6 @@ namespace LogickeHry
     internal class Logik : Hra
     {
         List<Bitmap> obrazky;
-        //static readonly Color[] barvy = { Color.DeepSkyBlue, Color.Green, Color.Red, Color.Yellow, Color.Orange, Color.Magenta, Color.Sienna, Color.Pink, Color.GreenYellow,Color.MediumBlue };
         NumericUpDown Nvyber, Nmoznosti;
         CheckBox CBopakovani;
         RadioButton lehke, stredni, tezke, vlastni;
@@ -32,7 +31,6 @@ namespace LogickeHry
         }
         protected override void KonecHry()
         {
-
             stopky.Stop();
             ukazVysledek();
             clear.Enabled= false;
@@ -61,10 +59,8 @@ namespace LogickeHry
             }
         }
 
-        protected override void ProhraVlastni()
-        {
-            
-        }
+        protected override void ProhraVlastni() { }
+           
 
         protected override void Reset()
         {
@@ -79,10 +75,7 @@ namespace LogickeHry
             }
         }
 
-        protected override void VyhraVlastni()
-        {
-            
-        }
+        protected override void VyhraVlastni(){ }
 
         protected override void VytvorHerniPlochu()
         {

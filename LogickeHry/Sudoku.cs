@@ -107,9 +107,6 @@ namespace LogickeHry
         }
         protected override void VytvorBocniPanel()
         {
-            //form.HraBox.Anchor = AnchorStyles.Top;
-            //form.HraBox.Dock = DockStyle.None;
-            //form.HraBox.AutoSize = true;
             
             form.HraBox.ColumnCount = 3;
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
@@ -253,7 +250,6 @@ namespace LogickeHry
                 ColumnCount = 2,
                 RowStyles = { new RowStyle(SizeType.Absolute,100),new RowStyle(SizeType.Absolute,120), new RowStyle(SizeType.AutoSize), new RowStyle(SizeType.AutoSize) },
                 ColumnStyles = { new ColumnStyle(SizeType.Absolute,120),new ColumnStyle(SizeType.AutoSize) },
-                //CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
                 AutoSize = true,
             };
             form.HraBox.Controls.Add(velke, 0, 0);
@@ -417,7 +413,6 @@ namespace LogickeHry
             if (vybranecislo != null)
             {
                 vybranecislo.Enabled = true;
-                //vybranecislo.BackColor= SystemColors.Window;
                 vybranecislo.BackColor = Color.Azure;
             }
             
@@ -561,11 +556,9 @@ namespace LogickeHry
                 Button bhrat = new RoundedButton()
                 {
                     Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point),
-                    //ForeColor = Color.White,
                     Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
                     Text = "Hrát",
-                    //BackColor = Color.Navy,
                 };
                 bhrat.Click += (s, e) => SpustiHru();
                 form.HraBox.Controls.Add(bhrat, 1, 7);
