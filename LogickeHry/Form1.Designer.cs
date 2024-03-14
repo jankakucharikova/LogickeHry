@@ -1,11 +1,13 @@
-﻿namespace LogickeHry
+﻿using System.ComponentModel;
+
+namespace LogickeHry
 {
-    partial class GameForm
+    sealed partial class GameForm
     {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         ///  Clean up any resources being used.
@@ -117,7 +119,7 @@
             PrihlaseniUdajeBox.SuspendLayout();
             UvodBox.SuspendLayout();
             UvodTabulkaMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)UvodObrazek).BeginInit();
+            ((ISupportInitialize)UvodObrazek).BeginInit();
             RegistraceBox.SuspendLayout();
             RegistraceUdajeBox.SuspendLayout();
             HlavniHlavicka.SuspendLayout();
@@ -1255,7 +1257,7 @@
             UvodBox.PerformLayout();
             UvodTabulkaMenu.ResumeLayout(false);
             UvodTabulkaMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)UvodObrazek).EndInit();
+            ((ISupportInitialize)UvodObrazek).EndInit();
             RegistraceBox.ResumeLayout(false);
             RegistraceBox.PerformLayout();
             RegistraceUdajeBox.ResumeLayout(false);

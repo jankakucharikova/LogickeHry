@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LogickeHry.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240301194513_inicializace")]
-    partial class inicializace
+    [Migration("20240314152917_sjednoceni")]
+    partial class sjednoceni
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,7 @@ namespace LogickeHry.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("sudoku");
+                    b.ToTable("Sudoku");
                 });
 
             modelBuilder.Entity("LogickeHry.Uzivatel", b =>
@@ -47,28 +47,28 @@ namespace LogickeHry.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("HashHesla")
+                    b.Property<string>("hashHesla")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Jmeno")
+                    b.Property<string>("jmeno")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Pohlavi")
+                    b.Property<string>("pohlavi")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Vek")
+                    b.Property<string>("vek")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("uzivatele");
+                    b.ToTable("Uzivatele");
                 });
 
-            modelBuilder.Entity("LogickeHry.vysledek_hry", b =>
+            modelBuilder.Entity("LogickeHry.VysledekHry", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,6 +76,9 @@ namespace LogickeHry.Migrations
 
                     b.Property<int>("cas")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("datum")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("hra")
                         .IsRequired()
@@ -85,6 +88,9 @@ namespace LogickeHry.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("skore")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("uzivatelId")
                         .HasColumnType("char(36)");
 
@@ -92,7 +98,7 @@ namespace LogickeHry.Migrations
 
                     b.HasIndex("uzivatelId");
 
-                    b.ToTable("statistiky");
+                    b.ToTable("Statistiky");
                 });
 
             modelBuilder.Entity("SudokuZadaniUzivatel", b =>
@@ -110,7 +116,7 @@ namespace LogickeHry.Migrations
                     b.ToTable("SudokuZadaniUzivatel");
                 });
 
-            modelBuilder.Entity("LogickeHry.vysledek_hry", b =>
+            modelBuilder.Entity("LogickeHry.VysledekHry", b =>
                 {
                     b.HasOne("LogickeHry.Uzivatel", "uzivatel")
                         .WithMany()

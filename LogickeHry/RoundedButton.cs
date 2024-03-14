@@ -1,41 +1,36 @@
 ﻿using System.Drawing.Drawing2D;
 
-namespace LogickeHry
-{
-    class RoundedButton : Button
-    {
-        public int rdus = 30;
-        System.Drawing.Drawing2D.GraphicsPath GetRoundPath(RectangleF Rect, int radius)
-        {
-            float r2 = radius / 2f;
-            System.Drawing.Drawing2D.GraphicsPath GraphPath = new System.Drawing.Drawing2D.GraphicsPath();
-            GraphPath.AddArc(Rect.X, Rect.Y, radius, radius, 180, 90);
-            GraphPath.AddLine(Rect.X + r2, Rect.Y, Rect.Width - r2, Rect.Y);
-            GraphPath.AddArc(Rect.X + Rect.Width - radius, Rect.Y, radius, radius, 270, 90);
-            GraphPath.AddLine(Rect.Width, Rect.Y + r2, Rect.Width, Rect.Height - r2);
-            GraphPath.AddArc(Rect.X + Rect.Width - radius,
-                    Rect.Y + Rect.Height - radius, radius, radius, 0, 90);
-            GraphPath.AddLine(Rect.Width - r2, Rect.Height, Rect.X + r2, Rect.Height);
-            GraphPath.AddArc(Rect.X, Rect.Y + Rect.Height - radius, radius, radius, 90, 90);
-            GraphPath.AddLine(Rect.X, Rect.Height - r2, Rect.X, Rect.Y + r2);
-            GraphPath.CloseFigure();
-            return GraphPath;
-        }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            RectangleF Rect = new RectangleF(0, 0, this.Width, this.Height);
-            using (System.Drawing.Drawing2D.GraphicsPath GraphPath = GetRoundPath(Rect, rdus))
-            {
-                this.Region = new Region(GraphPath);
-                using (Pen pen = new Pen(Color.CadetBlue, 1.75f))
-                {
-                    pen.Alignment = System.Drawing.Drawing2D.PenAlignment.Inset;
-                    e.Graphics.DrawPath(pen, GraphPath);
-                }
-            }
-        }
+namespace LogickeHry;
 
+internal class RoundedButton : Button
+{
+    private const int Rdus = 30;
+
+    private static GraphicsPath GetRoundPath(RectangleF rect, int radius)
+    {
+        var r2 = radius / 2f;
+        var graphPath = new GraphicsPath();
+        graphPath.AddArc(rect.X, rect.Y, radius, radius, 180, 90);
+        graphPath.AddLine(rect.X + r2, rect.Y, rect.Width - r2, rect.Y);
+        graphPath.AddArc(rect.X + rect.Width - radius, rect.Y, radius, radius, 270, 90);
+        graphPath.AddLine(rect.Width, rect.Y + r2, rect.Width, rect.Height - r2);
+        graphPath.AddArc(rect.X + rect.Width - radius,
+            rect.Y + rect.Height - radius, radius, radius, 0, 90);
+        graphPath.AddLine(rect.Width - r2, rect.Height, rect.X + r2, rect.Height);
+        graphPath.AddArc(rect.X, rect.Y + rect.Height - radius, radius, radius, 90, 90);
+        graphPath.AddLine(rect.X, rect.Height - r2, rect.X, rect.Y + r2);
+        graphPath.CloseFigure();
+        return graphPath;
     }
-    
+    protected override void OnPaint(PaintEventArgs e)
+    {
+        base.OnPaint(e);
+        var rect = new RectangleF(0, 0, Width, Height);
+        using var graphPath = GetRoundPath(rect, Rdus);
+        Region = new Region(graphPath);
+        using var pen = new Pen(Color.CadetBlue, 1.75f);
+        pen.Alignment = PenAlignment.Inset;
+        e.Graphics.DrawPath(pen, graphPath);
+    }
+
 }

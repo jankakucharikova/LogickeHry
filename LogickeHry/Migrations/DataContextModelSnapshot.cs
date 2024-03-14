@@ -35,7 +35,7 @@ namespace LogickeHry.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("sudoku");
+                    b.ToTable("Sudoku");
                 });
 
             modelBuilder.Entity("LogickeHry.Uzivatel", b =>
@@ -44,25 +44,25 @@ namespace LogickeHry.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("HashHesla")
+                    b.Property<string>("hashHesla")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Jmeno")
+                    b.Property<string>("jmeno")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Pohlavi")
+                    b.Property<string>("pohlavi")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Vek")
+                    b.Property<string>("vek")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("uzivatele");
+                    b.ToTable("Uzivatele");
                 });
 
             modelBuilder.Entity("LogickeHry.VysledekHry", b =>
@@ -95,7 +95,7 @@ namespace LogickeHry.Migrations
 
                     b.HasIndex("uzivatelId");
 
-                    b.ToTable("statistiky");
+                    b.ToTable("Statistiky");
                 });
 
             modelBuilder.Entity("SudokuZadaniUzivatel", b =>

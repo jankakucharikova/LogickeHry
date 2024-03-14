@@ -1,217 +1,202 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace LogickeHry
+namespace LogickeHry;
+
+internal class SudokuZadani
 {
-    internal class SudokuZadani
+    private struct Souradnice
     {
-        struct souradnice
+        public int x, y;
+        public override bool Equals([NotNullWhen(true)] object? obj)
         {
-            public int x, y;
-            public override bool Equals([NotNullWhen(true)] object? obj)
+            if (obj.GetType() != GetType()) return false;
+            return x == ((Souradnice)obj).x && y == ((Souradnice)obj).y;
+        }
+    }
+    private readonly Random _rnd = new();
+    internal int[,] kompletni;
+    internal int[,] zadani;
+    internal string text;
+    internal string obtiznost;
+
+    internal void Load()
+    {
+        kompletni = new int[9, 9];
+        zadani = new int[9, 9];
+        for (var i = 0; i < 9; i++)
+        {
+            for (var j = 0; j < 9; j++)
             {
-                if (obj.GetType() != this.GetType()) return false;
-                return x == ((souradnice)obj).x && y == ((souradnice)obj).y;
+                kompletni[i, j] = int.Parse(text[i * 9 + j].ToString());
+                zadani[i, j] = int.Parse(text[i * 9 + j + 81].ToString());
             }
         }
-        private Random rnd = new Random();
-        internal int[,] kompletni;
-        internal int[,] zadani;
-        internal string text;
-        internal String obtiznost;
-
-        internal void Load()
+    }
+    internal void Save()
+    {
+        var sb = new StringBuilder();
+        for (var i = 0; i < 9; i++)
         {
-            kompletni = new int[9, 9];
-            zadani = new int[9, 9];
-            for(int i = 0; i < 9; i++)
+            for (var j = 0; j < 9; j++)
             {
-                for(int j = 0; j < 9; j++)
-                {
-                    kompletni[i, j] = int.Parse(text[i*9+j].ToString());
-                    zadani[i,j] = int.Parse(text[i*9+j+81].ToString());
-                }
+                sb.Append(kompletni[i, j]);
+
             }
         }
-        internal void save()
+        for (var i = 0; i < 9; i++)
         {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < 9; i++)
+            for (var j = 0; j < 9; j++)
             {
-                for (int j = 0; j < 9; j++)
-                {
-                    sb.Append(kompletni[i, j]);
+                sb.Append(zadani[i, j]);
 
-                }
             }
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    sb.Append(zadani[i, j]);
+        }
+        text = sb.ToString();
+    }
+    internal Guid Id { get; init; } = Guid.NewGuid();
 
-                }
-            }
-            text= sb.ToString();
-        }
-        internal Guid Id { get; set; } = Guid.NewGuid();
-        internal SudokuZadani()
-        {
-            
-        }
-        internal void vygeneruj(Obtiznost obtiznost)
-        {
-            this.obtiznost= obtiznost.ToString();
-            kompletni = new int[9, 9];
-            zadani = new int[9, 9];
-            GenerateCompleteSudoku(0);
-            GenerateUniqueSudoku(obtiznost);
-        }
+    internal void Vygeneruj(Obtiznost obtiznostHry)
+    {
+        obtiznost = obtiznostHry.ToString();
+        kompletni = new int[9, 9];
+        zadani = new int[9, 9];
+        GenerateCompleteSudoku(0);
+        GenerateUniqueSudoku(obtiznostHry);
+    }
 
-        bool GenerateCompleteSudoku(int z)
+    private bool GenerateCompleteSudoku(int z)
+    {
+        if (z == 81)
+            return true;
+
+        var x = z % 9;
+        var y = z / 9;
+        var list = Kandidati(kompletni, x, y);
+
+        while (list.Any())
         {
-            if (z == 81)
+            var r = _rnd.Next() % list.Count;
+            kompletni[x, y] = list[r];
+            list.RemoveAt(r);
+
+            if (GenerateCompleteSudoku(z + 1))
                 return true;
 
-            int x = z % 9;
-            int y = z / 9;
-            List<int> list = kandidati(kompletni, x, y);
-
-            while (list.Count() > 0)
-            {
-                int r = rnd.Next() % list.Count();
-                kompletni[x, y] = list[r];
-                list.RemoveAt(r);
-
-                if (GenerateCompleteSudoku(z + 1))
-                    return true;
-
-                kompletni[x, y] = 0;
-            }
-
-            return false;
+            kompletni[x, y] = 0;
         }
 
-        List<int> kandidati(int[,] sudoku, int x, int y)
+        return false;
+    }
+
+    private List<int> Kandidati(int[,] sudoku, int x, int y)
+    {
+        var list = new List<int>(Enumerable.Range(1, 9));
+
+        for (var i = 0; i < 9; i++)
         {
-            List<int> list = new List<int>(Enumerable.Range(1, 9));
-
-            for (int i = 0; i < 9; i++)
-            {
-                list.Remove(sudoku[i, y]); // Kontrola řádku
-                list.Remove(sudoku[x, i]); // Kontrola sloupce
-            }
-
-            int blockRow = x / 3 * 3;
-            int blockCol = y / 3 * 3;
-
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    list.Remove(sudoku[blockRow + i, blockCol + j]); // KOntrola čtverce
-
-            return list;
+            list.Remove(sudoku[i, y]); // Kontrola řádku
+            list.Remove(sudoku[x, i]); // Kontrola sloupce
         }
 
-        void GenerateUniqueSudoku(Obtiznost obtiznost)
-        {
-            int pridani = 0;
-            switch (obtiznost)
-            {
-                case Obtiznost.Lehke:
-                    pridani = 45;
-                    break;
-                case Obtiznost.Stredni:
-                    pridani = 35;
-                    break;
-                case Obtiznost.Tezke:
-                    pridani = 25;
-                    break;
-            }
-            for (int i = 0; i < pridani; i++)
-            {
-                pridejRandomCislo();
-            }
-            int maxrozdil = 0;
-            List<souradnice> kde_rozdil = new List<souradnice>();
-            while (1 == 1)
-            {
-                int[,] rozdily = rozdilyreseni();
-                for (int i = 0; i < 9; i++)
-                    for (int j = 0; j < 9; j++)
-                    {
-                        if (rozdily[i, j] >= maxrozdil)
-                        {
-                            if (rozdily[i, j] > maxrozdil)
-                            {
-                                maxrozdil = rozdily[i, j];
-                                kde_rozdil.Clear();
-                            }
+        var blockRow = x / 3 * 3;
+        var blockCol = y / 3 * 3;
 
-                            kde_rozdil.Add(new souradnice() { x = i, y = j });
-                        }
-                    }
-                if (maxrozdil == 0)
-                    break;
-                souradnice s = kde_rozdil[rnd.Next(0, kde_rozdil.Count())];
-                zadani[s.x, s.y] = kompletni[s.x, s.y];
-                pridani++;
-                maxrozdil = 0;
-                kde_rozdil.Clear();
-            }
+        for (var i = 0; i < 3; i++)
+        for (var j = 0; j < 3; j++)
+            list.Remove(sudoku[blockRow + i, blockCol + j]); // KOntrola čtverce
 
-        }
-        public void pridejRandomCislo()
-        {
-            int x = rnd.Next(0, 9);
-            int y = rnd.Next(0, 9);
-            while (zadani[x, y] != 0)
-            {
-                x = rnd.Next(0, 9);
-                y = rnd.Next(0, 9);
-            }
-            zadani[x, y] = kompletni[x, y];
-        }
-        private int[,] rozdilyreseni()
-        {
-            int[,] rozdily = new int[9, 9];
-            rekurzivnizkouseni(rozdily, 0);
-            return rozdily;
-        }
+        return list;
+    }
 
-        private bool rekurzivnizkouseni(int[,] rozdily, int z)
+    private void GenerateUniqueSudoku(Obtiznost obtiznostHry)
+    {
+        var pridani = obtiznostHry switch
         {
-            if (z == 81)
+            Obtiznost.Lehke => 45,
+            Obtiznost.Stredni => 35,
+            Obtiznost.Tezke => 25,
+            _ => 0
+        };
+        for (var i = 0; i < pridani; i++)
+        {
+            PridejRandomCislo();
+        }
+        var maxrozdil = 0;
+        var kdeRozdil = new List<Souradnice>();
+        while (true)
+        {
+            var rozdily = Rozdilyreseni();
+            for (var i = 0; i < 9; i++)
+            for (var j = 0; j < 9; j++)
             {
-                for (int i = 0; i < 9; i++)
+                if (rozdily[i, j] < maxrozdil) continue;
+                if (rozdily[i, j] > maxrozdil)
                 {
-                    for (int j = 0; j < 9; j++)
-                        if (zadani[i, j] != kompletni[i, j])
-                            rozdily[i, j]++;
+                    maxrozdil = rozdily[i, j];
+                    kdeRozdil.Clear();
                 }
-                return true;
+
+                kdeRozdil.Add(new Souradnice { x = i, y = j });
             }
-
-
-            int x = z % 9;
-            int y = z / 9;
-
-            if (zadani[x, y] != 0)
-                return rekurzivnizkouseni(rozdily, z + 1);
-
-            List<int> list = kandidati(zadani, x, y);
-
-            foreach (int num in list)
-            {
-                zadani[x, y] = num;
-                rekurzivnizkouseni(rozdily, z + 1);
-            }
-
-            zadani[x, y] = 0;
-            return false;
+            if (maxrozdil == 0)
+                break;
+            var s = kdeRozdil[_rnd.Next(0, kdeRozdil.Count)];
+            zadani[s.x, s.y] = kompletni[s.x, s.y];
+            pridani++;
+            maxrozdil = 0;
+            kdeRozdil.Clear();
         }
+
+    }
+
+    private void PridejRandomCislo()
+    {
+        var x = _rnd.Next(0, 9);
+        var y = _rnd.Next(0, 9);
+        while (zadani[x, y] != 0)
+        {
+            x = _rnd.Next(0, 9);
+            y = _rnd.Next(0, 9);
+        }
+        zadani[x, y] = kompletni[x, y];
+    }
+    private int[,] Rozdilyreseni()
+    {
+        var rozdily = new int[9, 9];
+        Rekurzivnizkouseni(rozdily, 0);
+        return rozdily;
+    }
+
+    private bool Rekurzivnizkouseni(int[,] rozdily, int z)
+    {
+        if (z == 81)
+        {
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 9; j++)
+                    if (zadani[i, j] != kompletni[i, j])
+                        rozdily[i, j]++;
+            }
+            return true;
+        }
+
+
+        var x = z % 9;
+        var y = z / 9;
+
+        if (zadani[x, y] != 0)
+            return Rekurzivnizkouseni(rozdily, z + 1);
+
+        var list = Kandidati(zadani, x, y);
+
+        foreach (var num in list)
+        {
+            zadani[x, y] = num;
+            Rekurzivnizkouseni(rozdily, z + 1);
+        }
+
+        zadani[x, y] = 0;
+        return false;
     }
 }

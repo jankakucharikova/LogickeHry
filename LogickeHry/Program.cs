@@ -1,13 +1,12 @@
-namespace LogickeHry
+namespace LogickeHry;
+
+internal static class Program
 {
-    internal static class Program
+
+    [STAThread]
+    private static void Main()
     {
-       
-        [STAThread]
-        static void Main()
-        {
-            ApplicationConfiguration.Initialize();
-            Application.Run(new GameForm());
-        }
+        ApplicationConfiguration.Initialize();
+        Application.Run(new GameForm());
     }
 }

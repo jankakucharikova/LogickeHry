@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace LogickeHry;
 
-namespace LogickeHry
+internal class Uzivatel
 {
-    internal class Uzivatel
+    public Uzivatel()
     {
-        public Uzivatel()
-        {
-            Id = Guid.NewGuid();
-        }
-        internal Guid Id { get; set; }
-        internal string Jmeno;
-        internal string HashHesla;
-        internal string Pohlavi;
-        internal string Vek;
-        internal List<SudokuZadani> videl;
+        Id = Guid.NewGuid();
     }
+    internal Guid Id { get; init; }
+    internal string jmeno;
+    internal string hashHesla;
+    internal string pohlavi;
+    internal string vek;
+    internal List<SudokuZadani> videl;
 }
