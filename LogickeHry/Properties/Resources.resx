@@ -6,7 +6,7 @@
     Version 2.0
     
     The primary goals of this format is to allow a simple XML format 
-    that is mostly human-readable. The generation and parsing of the 
+    that is mostly human readable. The generation and parsing of the 
     various data types are done through the TypeConverter classes 
     associated with the data types.
     
@@ -118,12 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="aqua" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bright-aqua-7275010_1920.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="cyan" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cyan-7263182_1920.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="logik" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logikcb.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,9 +145,6 @@
   <data name="ovoce_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ovoce.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pig-pink-7273911_1920.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="pismenkatit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pismenkatit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -172,26 +163,14 @@
   <data name="sudoku_bile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sudoku merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sudoku_ovoce" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ovon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sudoku_ovoce_bile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sudoku_ovoce.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sudoku_pismenka" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pisn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="sudoku_pismenka_bile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pismenka merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sudoku_planety" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\plan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sudoku_planety_bile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\planety merged2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sudoku_tvary" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tvan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="sudoku_tvary_bile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\toto.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,20 +181,14 @@
   <data name="sudoku_zoo_bile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\zv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="sudoku_zvirata" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\zvin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="tvarytit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tvarytit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="tvary_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tvary.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="UvodObrazek" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\UvodObrazek.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="zootit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\zviratzatit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\zviratatit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="zoo_uvod" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\zoo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
