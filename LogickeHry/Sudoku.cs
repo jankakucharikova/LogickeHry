@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LogickeHry;
 
+// Třída Sudoku, odvozená od abstraktní třídy Hra
 internal class Sudoku : Hra
 {
     protected List<Bitmap> obrazky;
@@ -22,6 +23,7 @@ internal class Sudoku : Hra
     private int _multiplikator;
     private int _chyba;
 
+    // Konstruktor třídy Sudoku
     public Sudoku(GameForm form) : base(form)
     {
         nazev = "SUDOKU";
@@ -30,11 +32,13 @@ internal class Sudoku : Hra
         navod = $"{nazev} je mřížka 9x9 s některými prázdnými, jinými předvyplněnými poli čísel 1-9. Hráč na základě 3 pravidel vyplňuje čísla do prázdných polí. Každé číslo se musí nacházet právě 1-krát v každém řádku, sloupci a vyznačeném čtverci 3x3. \r\n\r\nVýběr čísel ze spodní lišty se potvrdí kliknutím. Dalšími kliknutími na hrací pole se číslo doplňuje. Pokud ho doplní na nesprávné místo, číslo se nezobrazí, ale bude mu započítaná chyba. Hráč má povolené maximálně 3 chyby. \r\n\r\nPokud chce hráč vygenerovat novou hru stiskne tlačítko „Nová hra“.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nPokud hráč vyplní všechna políčka správnými obrázky a neudělá během toho víc jak 3 chyby vyhrál. \r\n";
     }
 
+    // Metoda pro zpracování události ukončení hry
     protected override void KonecHry()
     {
-        stopky.Stop();
+        stopky.Stop();// Zastavení stopky
     }
 
+    // Metoda pro použití nastavení hry
     protected override void PouzijNastaveni()
     {
         Uzivatel u = null;
@@ -73,13 +77,13 @@ internal class Sudoku : Hra
         }
 
     }
-
-
+    
     protected override void ProhraVlastni()
     {
 
     }
 
+    // Metoda pro resetování hry na výchozí hodnoty
     protected override void Reset()
     {
         _chyb = 0;
@@ -92,6 +96,7 @@ internal class Sudoku : Hra
         stopky?.Dispose();
     }
 
+    // Metoda pro vlastní akci při výhře
     protected override void VyhraVlastni()
     {
         if (_multiplikator > 0)
@@ -101,6 +106,8 @@ internal class Sudoku : Hra
         }
         lskore.Text = ziskaneskore.ToString();
     }
+
+    // Metoda pro vytvoření bočního panelu
     protected override void VytvorBocniPanel()
     {
 
@@ -207,6 +214,8 @@ internal class Sudoku : Hra
         form.HraBox.SetRowSpan(ukoncit, 2);
 
     }
+
+    // Metoda pro vytvoření herní plochy
     protected override void VytvorHerniPlochu()
     {
         stopky.Tick += (_, _) =>
@@ -340,6 +349,7 @@ internal class Sudoku : Hra
         plocha.Visible = true;
     }
 
+    // Metoda pro zpracování události výběru políčka
     private void VyberPolicko(object? sender, EventArgs e)
     {
         if (_vybranecislo == null || stav != StavHry.Bezi)
@@ -386,6 +396,7 @@ internal class Sudoku : Hra
         lskore.Text = ziskaneskore.ToString();
     }
 
+    // Metoda pro zpracování události výběru čísla
     private void VyberCislo(object? sender, EventArgs e)
     {
         if (stav != StavHry.Bezi)
@@ -404,9 +415,10 @@ internal class Sudoku : Hra
         _vybranecislo.Parent.Select();
     }
 
+    // Metoda pro vytvoření úvodní stránky hry
     protected override void VytvorUvodniStranku()
     {
-        //rozlozeni cele stranky
+        //Rozlozeni cele stranky
         {
             form.HraBox.ColumnCount = 3;
             form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
@@ -418,7 +430,7 @@ internal class Sudoku : Hra
                 form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
             }
         }
-        //vlevo obrazek
+        //Vlevo obrazek
         {
             var obrazek = new PictureBox
             {
@@ -429,7 +441,7 @@ internal class Sudoku : Hra
             form.HraBox.Controls.Add(obrazek, 0, 0);
             form.HraBox.SetRowSpan(obrazek, 9);
         }
-        //groupbox obtiznostGB
+        //Groupbox obtiznostGB
         {
             var gBobtiznost = new GroupBox
             {
@@ -439,7 +451,7 @@ internal class Sudoku : Hra
             };
             form.HraBox.Controls.Add(gBobtiznost, 1, 0);
             form.HraBox.SetRowSpan(gBobtiznost, 3);
-            //rozlozeni obtiznosti a radiobuttony
+            //Rozlozeni obtiznosti a radiobuttony
             {
                 var obtiznostpanel = new TableLayoutPanel
                 {
@@ -548,6 +560,8 @@ internal class Sudoku : Hra
     }
 
 }
+
+// Další třídy odvozené od třídy Sudoku
 internal class ObrazkoveSudoku : Sudoku
 {
     protected ObrazkoveSudoku(GameForm form) : base(form)

@@ -1153,7 +1153,7 @@ namespace LogickeHry
             StatistikaBox.Controls.Add(label1, 2, 0);
             StatistikaBox.Controls.Add(label2, 4, 0);
             StatistikaBox.Controls.Add(label3, 0, 0);
-            StatistikaBox.Location = new Point(1, 200);
+            StatistikaBox.Location = new Point(0, 200);
             StatistikaBox.Name = "StatistikaBox";
             StatistikaBox.RowCount = 2;
             StatistikaBox.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));

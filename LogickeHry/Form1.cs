@@ -4,6 +4,7 @@ using System.Text;
 
 namespace LogickeHry;
 
+// Třída reprezentující hlavní okno aplikace.
 public sealed partial class GameForm : Form
 {
     private readonly List<TableLayoutPanel> _boxy;
@@ -13,6 +14,7 @@ public sealed partial class GameForm : Form
     internal Uzivatel? aktualniuzivatel;
     private TableLayoutPanel? _minula, _aktualni;
 
+    // Konstruktor třídy GameForm.
     public GameForm()
     {
 
@@ -47,9 +49,10 @@ public sealed partial class GameForm : Form
             PreskocitBezDatabaze();
         }
 
-
+        // Nastavení vykreslování statistik.
         Statistika.Vysledky.Nastav(this);
     }
+    // Metoda pro zobrazení konkrétního boxu.
     internal void Ukazbox(TableLayoutPanel box)
     {
         if (_aktualni != box)
@@ -66,8 +69,10 @@ public sealed partial class GameForm : Form
         box.Select();
     }
 
+    // Metoda pro zobrazení předchozího boxu.
     private void UkazBoxZpet() => Ukazbox(_minula!);
 
+    // Metoda pro přeskočení přihlašování v případě nedostupnosti připojení k databázi.
     private void PreskocitBezDatabaze()
     {
         HlavniLDatabaze.Text = @"Připojení k databázi není k dispozici.";
@@ -77,12 +82,14 @@ public sealed partial class GameForm : Form
         Ukazbox(HlavniBox);
     }
 
+    // Metoda pro rychlé hashování hesla.
     private static string QuickHash(string input)
     {
         var inputBytes = Encoding.UTF8.GetBytes(input);
         var inputHash = SHA256.HashData(inputBytes);
         return Convert.ToHexString(inputHash);
     }
+    // Událost při změně viditelnosti boxu PRBox.
     private void PRBox_VisibleChanged(object sender, EventArgs e)
     {
         var t = (TableLayoutPanel)sender;
@@ -100,6 +107,7 @@ public sealed partial class GameForm : Form
 
     }
 
+    // Událost při změně viditelnosti boxu NastaveniBox.
     private void NastaveniBox_VisibleChanged(object sender, EventArgs e)
     {
         if (NastaveniBox.Visible)
@@ -122,6 +130,7 @@ public sealed partial class GameForm : Form
         }
     }
 
+    // Událost při změně viditelnosti boxu HlavniBox.
     private void HlavniBox_VisibleChanged(object sender, EventArgs e)
     {
         var t = (TableLayoutPanel)sender;
@@ -137,6 +146,8 @@ public sealed partial class GameForm : Form
             HlavniHlavicka.Hide();
         }
     }
+
+    // Událost při změně viditelnosti boxu StatistikaBox.
     private void StatistikaBox_VisibleChanged(object sender, EventArgs e)
     {
         var t = (TableLayoutPanel)sender;
@@ -153,6 +164,7 @@ public sealed partial class GameForm : Form
         }
     }
 
+    // Událost při změně viditelnosti boxu HraBox.
     private void HraBox_VisibleChanged(object sender, EventArgs e)
     {
         if (HraBox.Visible)
@@ -168,6 +180,8 @@ public sealed partial class GameForm : Form
             HlavniHlavicka.Hide();
         }
     }
+
+    // Metoda pro odhlášení uživatele.
     private void Odhlaseni()
     {
         Settings.Default.prihlaseny = false;
@@ -180,6 +194,8 @@ public sealed partial class GameForm : Form
         MenuBMenu.DropDownItems.Remove(MenuBNastaveni);
         Ukazbox(UvodBox);
     }
+
+    // Metoda pro přihlášení uživatele.
     private void Prihlaseni(Uzivatel u)
     {
         aktualniuzivatel = u;
@@ -196,6 +212,8 @@ public sealed partial class GameForm : Form
         MenuBMenu.DropDownItems.Add(MenuBNastaveni);
         Ukazbox(HlavniBox);
     }
+
+    // Metoda pro registraci nového uživatele.
     private void RegistraceBRegistrovat_Click(object sender, EventArgs e)
     {
         if (!dostupnaDatabaze)
@@ -237,6 +255,8 @@ public sealed partial class GameForm : Form
             }
         }
     }
+
+    // Metoda pro uložení nastavení uživatele.
     private void NastaveniBUlozit_Click(object sender, EventArgs e)
     {
         if (!dostupnaDatabaze)
@@ -272,6 +292,8 @@ public sealed partial class GameForm : Form
             }
         }
     }
+
+    // Metoda pro přihlášení uživatele.
     private void PrihlaseniBPrihlaseni_Click(object sender, EventArgs e)
     {
         if (!dostupnaDatabaze)
@@ -300,6 +322,8 @@ public sealed partial class GameForm : Form
             PrihlaseniLChHlaska.Show();
         }
     }
+
+    // Metoda pro přechod na box NastaveniBox.
     private void BNastaveni_Click(object sender, EventArgs e)
     {
         if (!dostupnaDatabaze)
@@ -309,88 +333,97 @@ public sealed partial class GameForm : Form
         }
         Ukazbox(NastaveniBox);
     }
+
+    // Metoda pro přechod na úvodní box bez přihlášení .
     private void BUvodPreskocit_Click(object sender, EventArgs e)
     {
         Ukazbox(HlavniBox);
     }
+    // Metoda pro přechod na úvodní box z rřihlášení a registrace.
     private void PRBZpet_Click(object sender, EventArgs e)
     {
         Ukazbox(UvodBox);
     }
+    // Metoda pro přechod na hlavní stránku.
     private void BHlavniStranka_Click(object sender, EventArgs e)
     {
         Ukazbox(HlavniBox);
     }
+    // Metoda pro odhlášení uživatele.
     private void BOdhlaseni_Click(object sender, EventArgs e)
     {
         Odhlaseni();
         Ukazbox(UvodBox);
     }
+    // Metoda pro přechod na box přihlášení.
     private void BPrihlaseni_Click(object sender, EventArgs e)
     {
         Ukazbox(PrihlaseniBox);
     }
+    // Metoda pro přechod na box registrace.
     private void BRegistrace_Click(object sender, EventArgs e)
     {
         Ukazbox(RegistraceBox);
     }
+    // Metoda pro přechod na box statistiky.
     private void BStatistiky_Click(object sender, EventArgs e)
     {
         Ukazbox(StatistikaBox);
     }
-
+    // Metoda pro spuštění hry s minami.
     private void BMiny_Click(object sender, EventArgs e)
     {
         _aktualnihra = new Miny(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro spuštění logické hry.
     private void BLogik_Click(object sender, EventArgs e)
     {
         _aktualnihra = new Logik(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro spuštění hry Sudoku.
     private void BSudoku_Click(object sender, EventArgs e)
     {
         _aktualnihra = new Sudoku(this);
         _aktualnihra.SpustiUvod();
     }
+    // Metoda pro spuštění hry Sudoku se zvířaty.
     private void BSudokuZvirata_Click(object sender, EventArgs e)
     {
         _aktualnihra = new SudokuZoo(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro aktualizaci statistiky podle obtížnosti.
     private void StatistikaCBObtiznost_SelectedIndexChanged(object sender, EventArgs e)
     {
         Statistika.Vysledky.Aktualizace(sender, e);
     }
-
+    // Metoda pro spuštění hry Sudoku s planetami.
     private void BSudokuPlanety_Click(object sender, EventArgs e)
     {
         _aktualnihra = new SudokuPlanety(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro spuštění hry Sudoku s ovocem.
     private void BSudokuOvoce_Click(object sender, EventArgs e)
     {
         _aktualnihra = new SudokuOvoce(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro spuštění hry Sudoku s písmeny.
     private void BSudokuPismenka_Click(object sender, EventArgs e)
     {
         _aktualnihra = new SudokuPismenka(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro spuštění hry Sudoku s tvary.
     private void BSudokuTvary_Click(object sender, EventArgs e)
     {
         _aktualnihra = new SudokuTvary(this);
         _aktualnihra.SpustiUvod();
     }
-
+    // Metoda pro obsluhu události kliknutí na tlačítko pro návrat z aktuálního boxu na předchozí box.
     private void HlavniBZpet_Click(object sender, EventArgs e)
     {
         UkazBoxZpet();

@@ -2,8 +2,10 @@
 
 namespace LogickeHry;
 
+// Třída Logik reprezentuje logiku hry "Logik" a dědí z abstraktní třídy Hra.
 internal class Logik : Hra
 {
+    // Proměnné pro uchování grafických prvků a dat hry
     private readonly List<Bitmap> _obrazky;
     private NumericUpDown? _nvyber, _nmoznosti;
     private CheckBox? _cBopakovani;
@@ -19,22 +21,28 @@ internal class Logik : Hra
     private Button? _testButton, _clear;
     private int _odcitanibile, _odcitanispatne;
 
+    // Konstruktor třídy Logik
     public Logik(GameForm form) : base(form)
     {
         nazev = "Logik";
         _obrazky = NactiIkonky(Resources.logik);
         navod = "Hráč hádá barevnou kombinaci o počtu koleček, který si hráč sám zvolí. Barvy se mohou opakovat, pokud si tak hráč zvolí. \r\nHráč musí uhodnout barevnou kombinaci a její správné pořadí ve dvanácti krocích.\r\nHráč vybírá barvy ze spodní lišty. Pokud vyplnil všechny políčka může zažádat o kontrolu tlačítkem „Test“. \r\nPokud chce svou odpověď změnit, smaže svůj výběr tlačítkem „Clear“. \r\nKaždý odehraný pokus je vyhodnocený černými a bílými puntíky. Za každé kolečko, které udává správnou barvu, ale je na špatném místě, se uděluje bílý puntík. Za každé kolečko se správnou barvou na správném místě se dává černý puntík. Pořadí puntíků není stejné jako pořadí koleček, zobrazují se vždy nejprve černé a pak bílé puntíky.\r\nPokud chce hráč vygenerovat novou barevnou kombinaci stiskne tlačítko „Nová hra“.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nHra končí v momentě, kdy je uhodnuta barevná kombinace nebo je-li vyčerpáno všech 12 pokusů. \r\nObtížnost:\r\nLehká: 4-místný kód ze 6 barev\r\nStřední: 5-místný kód z 8 barev\r\nTěžká: 6-místný kód z 10 barev\r\nVlastní: 4 až 10-místný kód ze 4 až 10 barev\r\n";
     }
+
+    // Implementace abstraktní metody KonecHry
     protected override void KonecHry()
     {
+        // Zastavení stopky, zobrazení výsledku a zablokování tlačítek
         stopky.Stop();
         UkazVysledek();
         _clear.Enabled = false;
         _testButton.Enabled = false;
     }
 
+    // Metoda pro použití nastavení hry
     protected override void PouzijNastaveni()
     {
+        // Nastavení počtu koleček a barev podle uživatelského vstupu
         _kolik = (int)_nvyber.Value;
         _z = (int)_nmoznosti.Value;
         _kod = new int[_kolik];
@@ -57,7 +65,7 @@ internal class Logik : Hra
 
     protected override void ProhraVlastni() { }
 
-
+    // Metoda pro resetování stavu hry
     protected override void Reset()
     {
         _kod = null;
@@ -70,6 +78,7 @@ internal class Logik : Hra
 
     protected override void VyhraVlastni() { }
 
+    // Metoda pro vytvoření herní plochy
     protected override void VytvorHerniPlochu()
     {
         switch (obtiznost)
@@ -188,6 +197,7 @@ internal class Logik : Hra
         plocha.Visible = true;
     }
 
+    // Metoda pro testování aktuálního řádku.
     private void Test(object? sender, EventArgs e)
     {
         if (stav != StavHry.Bezi)
@@ -242,6 +252,7 @@ internal class Logik : Hra
         plocha.ResumeLayout();
     }
 
+    // Metoda pro obsluhu kliknutí na barevné kolečko.
     private void KlikNaBarvu(object? sender, EventArgs e)
     {
         if (stav != StavHry.Bezi)
@@ -279,6 +290,7 @@ internal class Logik : Hra
         return typ;
     }
 
+    // Metoda pro vytvoření bočního panelu.
     protected override void VytvorBocniPanel()
     {
         form.HraBox.ColumnCount = 3;
@@ -346,6 +358,7 @@ internal class Logik : Hra
 
     }
 
+    // Metoda pro zobrazení výsledku.
     private void UkazVysledek()
     {
         foreach (var x in _vysledky.Controls)
@@ -354,6 +367,8 @@ internal class Logik : Hra
             l.BackgroundImage = _obrazky[int.Parse(l.Name)];
         }
     }
+
+    // Metoda pro vytvoření úvodní stránky hry.
     protected override void VytvorUvodniStranku()
     {
         //vytvorim rozlozeni

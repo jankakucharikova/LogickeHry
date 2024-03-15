@@ -3,6 +3,7 @@ using LogickeHry.Properties;
 
 namespace LogickeHry;
 
+// Definice třídy Miny, která dědí od třídy Hra
 internal class Miny : Hra
 {
     private readonly List<Bitmap> _obrazky;
@@ -24,7 +25,7 @@ internal class Miny : Hra
         navod = "Pole je poseto minami, které musí hráč najít a neodkrýt, nebo je označit pravým tlačítkem myši (vlajkou). \r\nKliknutím na poličko se hráč doví jestli políčko obsahuje minu nebo nikoliv. Pokud jo, hra je ukončena prohrou, pokud ne, na políčku se objeví číslo s počtem bomb v jejím nejbližším okolí (na všech osmi políčkách s ním sousedících). \r\nPokud je zřejmé, že některé neodkryté políčko obsahuje minu, hráč může pro přehlednost označit políčko vlaječkou. Tímto se stává políčko neaktivní pro další neúmyslné odkrytí.\r\nHráč může také použít 3 hinty, kdy je odhaleno náhodné bezpečné políčko.\r\nTlačítko „Nová hra“ vygeneruje nové hrací pole.\r\nStisknutím tlačítka „Ukončit hru“ se hráč dostane zpět na úvodní stránku hry.\r\nPo odkrytí všech polí bez min hráč vyhrává.\r\nObtížnost: \r\nLehká: pole o velikosti 9x9, počet min 10\r\nStřední: pole o velikosti 16x16, počet min 40\r\nTěžká: pole o velikosti 30x16, počet min 99\r\nVlastní: pole o velikosti 9x9 – 30x24, počet min 10–667, maximálně (x − 1) × (y − 1); x, y = rozměry hracího pole\r\n";
     }
 
-    //reset do uvodniho stavu
+    // Resetuje hru do výchozího stavu
     protected override void Reset()
     {
         _hintu = 3;
@@ -40,10 +41,10 @@ internal class Miny : Hra
 
     }
 
-    //Nastav Uvod
+    // Vytvoří úvodní stránku hry
     protected override void VytvorUvodniStranku()
     {
-        //vytvorim rozlozeni
+        //Vytvori rozlozeni stánky
         form.HraBox.ColumnCount = 3;
         form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
         form.HraBox.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150));
@@ -55,7 +56,7 @@ internal class Miny : Hra
             form.HraBox.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         }
 
-        //vlevo obrazek
+        //Vlevo obrazek
         var obrazek = new PictureBox
         {
             Dock = DockStyle.Fill,
@@ -65,7 +66,7 @@ internal class Miny : Hra
         form.HraBox.Controls.Add(obrazek, 0, 0);
         form.HraBox.SetRowSpan(obrazek, 9);
 
-        //groupbox obtiznostGB
+        //Groupbox obtiznostGB
         var obtiznostGb = new GroupBox
         {
             Dock = DockStyle.Fill,
@@ -75,7 +76,7 @@ internal class Miny : Hra
         form.HraBox.Controls.Add(obtiznostGb, 1, 0);
         form.HraBox.SetRowSpan(obtiznostGb, 3);
         form.HraBox.SetColumnSpan(obtiznostGb, 2);
-        //rozlozeni obtiznosti
+        //Rozlozeni obtiznosti
         var obtiznostpanel = new TableLayoutPanel
         {
             ColumnCount = 2,
@@ -261,7 +262,7 @@ internal class Miny : Hra
         form.HraBox.SetColumnSpan(bhrat, 2);
     }
 
-    //Pouzij nastaveni
+    // Použije nastavení zvolené hráčem
     protected override void PouzijNastaveni()
     {
         _sirka = (int)_nsirka.Value;
@@ -270,6 +271,8 @@ internal class Miny : Hra
         _mapka = new int[_sirka, _vyska];
         Generuj();
     }
+
+    // Generuje herní pole
     private void Generuj()
     {
         _pocetpolicek = _vyska * _sirka - _pocmin;
@@ -306,7 +309,7 @@ internal class Miny : Hra
         }
 
     }
-
+    // Vytvoří boční panel s informacemi o stavu hry
     protected override void VytvorBocniPanel()
     {
         form.HraBox.ColumnCount = 3;
@@ -438,6 +441,8 @@ internal class Miny : Hra
         lskore.Text = ziskaneskore.ToString();
         Obnoveni();
     }
+
+    // Metoda ověřuje, zda je tlačítko kliknutelné, tj. zda na něj lze kliknout
     private bool JeKliknutelne(Button b)
     {
         var parametry = b.Name.Split(" ");
@@ -450,6 +455,7 @@ internal class Miny : Hra
         return _mapka[i, j] != HodnotaBomby;
     }
 
+    // Vytvoří herní plochu
     protected override void VytvorHerniPlochu()
     {
         stopky.Tick += (_, _) =>
@@ -616,13 +622,15 @@ internal class Miny : Hra
         }
     }
 
-
+    // Nastaví rozměry pole podle zvolené obtížnosti
     private void NastavRozmery(int vyska, int sirka, int pocbomb)
     {
         _nvyska.Value = vyska;
         _nsirka.Value = sirka;
         _npocmin.Value = pocbomb;
     }
+
+    // Přepne na vlastní nastavení rozměrů pole
     private void PrepniNaVlastni(bool zap)
     {
         _nvyska.Enabled = zap;
@@ -631,7 +639,7 @@ internal class Miny : Hra
 
     }
 
-
+    // Obnoví zobrazení informací o stavu hry
     private void Obnoveni()
     {
         _lmin.Text = (_pocmin - _pocetVlajek).ToString();
@@ -640,11 +648,13 @@ internal class Miny : Hra
             Vyhra();
     }
 
+    // Metoda, která se volá při ukončení hry
     protected override void KonecHry()
     {
         stopky.Stop();
     }
 
+    // Metoda, která se volá při prohře
     protected override void ProhraVlastni()
     {
         foreach (var b in _tlacitka)
@@ -653,6 +663,7 @@ internal class Miny : Hra
         }
     }
 
+    // Metoda, která se volá při výhře
     protected override void VyhraVlastni()
     {
         if (_multiplikator > 0)

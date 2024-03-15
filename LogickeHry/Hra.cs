@@ -3,14 +3,19 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace LogickeHry;
 
+// Výčtový typ pro různé stavy hry
 internal enum StavHry
 {
     Pripravena, Bezi, Prohra, Vyhra
 }
+
+// Výčtový typ pro různé obtížnosti hry
 internal enum Obtiznost
 {
     Tezke, Lehke, Stredni, Vlastni
 }
+
+// Abstraktní třída pro hru
 internal abstract class Hra
 {
     internal readonly GameForm form;
@@ -27,6 +32,8 @@ internal abstract class Hra
     {
         this.form = form;
     }
+
+    // Metoda pro zobrazení návodu k hře
     protected void UkazNavod(object sender, EventArgs e)
     {
         MessageBox.Show(navod, $@"Návod ke hře {nazev}");
@@ -41,6 +48,8 @@ internal abstract class Hra
         form.HraBox.RowCount = 0;
         form.HraBox.RowStyles.Clear();
     }
+
+    // Metoda pro spuštění úvodní obrazovky hry
     internal void SpustiUvod()
     {
         ZobrazStranku();
@@ -48,9 +57,10 @@ internal abstract class Hra
         VytvorUvodniStranku();
         stav = StavHry.Pripravena;
     }
-
+    // Abstraktní metoda pro vytvoření úvodní obrazovky hry
     protected abstract void VytvorUvodniStranku();
-
+    
+    //Metoda pro spuštění samotné hry
     internal void SpustiHru()
     {
         Reset();
@@ -62,8 +72,10 @@ internal abstract class Hra
         NastavCasovac();
     }
 
+    // Abstraktní metoda pro použití nastavení hry
     protected abstract void PouzijNastaveni();
 
+    // Metoda pro nastavení časovače
     private void NastavCasovac()
     {
         stopky.Interval = 1000;
@@ -76,11 +88,13 @@ internal abstract class Hra
         stopky.Start();
     }
 
+    // Metoda pro zobrazení herní stránky
     private void ZobrazStranku()
     {
         form.Ukazbox(form.HraBox);
     }
 
+    // Metoda pro vytvoření herní stránky
     private void VytvorHerniStranku()
     {
         stopky = new Timer();
@@ -91,6 +105,8 @@ internal abstract class Hra
     }
     protected abstract void VytvorBocniPanel();
     protected abstract void VytvorHerniPlochu();
+
+    // Metoda pro ukončení hry při prohře
     protected void Prohra()
     {
         stav = StavHry.Prohra;
@@ -102,6 +118,7 @@ internal abstract class Hra
     protected abstract void ProhraVlastni();
     protected abstract void KonecHry();
 
+    // Metoda pro ukončení hry při výhře
     protected void Vyhra()
     {
         stav = StavHry.Vyhra;
@@ -127,6 +144,8 @@ Skóre: {ziskaneskore}");
 
     protected abstract void VyhraVlastni();
     protected abstract void Reset();
+
+    // Metoda pro načtení ikonek ze zadané bitmapy
     protected static List<Bitmap> NactiIkonky(Bitmap bmp)
     {
         var rozmerIkonky = bmp.Height;

@@ -1,25 +1,34 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Google.Protobuf.WellKnownTypes;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace LogickeHry;
 
 internal class SudokuZadani
 {
+    // Struktura pro reprezentaci souřadnic
     private struct Souradnice
     {
         public int x, y;
+        // Přepsání metody Equals pro porovnání souřadnic
         public override bool Equals([NotNullWhen(true)] object? obj)
         {
+            // Porovnání typu objektu
             if (obj.GetType() != GetType()) return false;
+            // Porovnání hodnot souřadnic
             return x == ((Souradnice)obj).x && y == ((Souradnice)obj).y;
         }
     }
+    // Instance generátoru náhodných čísel
     private readonly Random _rnd = new();
+    // Pole pro uložení kompletního sudoku a zadání sudoku
     internal int[,] kompletni;
     internal int[,] zadani;
+    // Textová reprezentace sudoku
     internal string text;
     internal string obtiznost;
 
+    // Metoda pro načtení sudoku ze stringu
     internal void Load()
     {
         kompletni = new int[9, 9];
@@ -28,11 +37,14 @@ internal class SudokuZadani
         {
             for (var j = 0; j < 9; j++)
             {
+                // Naplnění kompletního a zadání sudoku
                 kompletni[i, j] = int.Parse(text[i * 9 + j].ToString());
                 zadani[i, j] = int.Parse(text[i * 9 + j + 81].ToString());
             }
         }
     }
+
+    // Metoda pro uložení sudoku do stringu
     internal void Save()
     {
         var sb = new StringBuilder();
@@ -54,10 +66,13 @@ internal class SudokuZadani
         }
         text = sb.ToString();
     }
+    // Id sudoku
     internal Guid Id { get; init; } = Guid.NewGuid();
 
+    // Metoda pro vygenerování sudoku
     internal void Vygeneruj(Obtiznost obtiznostHry)
     {
+        // Nastavení obtížnosti
         obtiznost = obtiznostHry.ToString();
         kompletni = new int[9, 9];
         zadani = new int[9, 9];
@@ -65,6 +80,7 @@ internal class SudokuZadani
         GenerateUniqueSudoku(obtiznostHry);
     }
 
+    // Metoda pro generování kompletního sudoku
     private bool GenerateCompleteSudoku(int z)
     {
         if (z == 81)
@@ -89,6 +105,7 @@ internal class SudokuZadani
         return false;
     }
 
+    // Metoda pro nalezení kandidátů pro danou pozici v sudoku
     private List<int> Kandidati(int[,] sudoku, int x, int y)
     {
         var list = new List<int>(Enumerable.Range(1, 9));
@@ -104,11 +121,11 @@ internal class SudokuZadani
 
         for (var i = 0; i < 3; i++)
         for (var j = 0; j < 3; j++)
-            list.Remove(sudoku[blockRow + i, blockCol + j]); // KOntrola čtverce
+            list.Remove(sudoku[blockRow + i, blockCol + j]); // Kontrola čtverce 3x3
 
         return list;
     }
-
+    // Metoda pro generování unikátního sudoku podle zvolené obtížnosti
     private void GenerateUniqueSudoku(Obtiznost obtiznostHry)
     {
         var pridani = obtiznostHry switch
@@ -150,6 +167,7 @@ internal class SudokuZadani
 
     }
 
+    // Metoda pro přidání náhodného čísla do sudoku
     private void PridejRandomCislo()
     {
         var x = _rnd.Next(0, 9);
@@ -168,35 +186,41 @@ internal class SudokuZadani
         return rozdily;
     }
 
+    // Metoda pro rekurzivní zkoušení možných čísel na danou pozici v sudoku
     private bool Rekurzivnizkouseni(int[,] rozdily, int z)
     {
+        // Pokud je z == 81, znamená to, že byly zkoušeny všechny pozice v sudoku
         if (z == 81)
         {
+            // Porovnání zadání se kompletním řešením
             for (var i = 0; i < 9; i++)
             {
+                // Pokud se čísla v zadání a kompletním řešení liší, inkrementujeme rozdíl v rozdílech
                 for (var j = 0; j < 9; j++)
                     if (zadani[i, j] != kompletni[i, j])
                         rozdily[i, j]++;
             }
-            return true;
+            return true;// Návrat true, znamená, že všechny pozice byly zkoušeny
         }
 
-
+        // Výpočet x a y souřadnic z indexu z
         var x = z % 9;
         var y = z / 9;
 
+        // Pokud je na dané pozici v zadání již číslo, přeskočíme a pokračujeme na další pozici
         if (zadani[x, y] != 0)
             return Rekurzivnizkouseni(rozdily, z + 1);
-
+        // Seznam možných kandidátů pro danou pozici v zadání
         var list = Kandidati(zadani, x, y);
-
+        // Procházíme všechny možné kandidáty pro danou pozici
         foreach (var num in list)
         {
-            zadani[x, y] = num;
+            zadani[x, y] = num;// Nastavíme číslo na danou pozici
+            // Rekurzivně voláme metodu pro zkoušení další pozice
             Rekurzivnizkouseni(rozdily, z + 1);
         }
 
-        zadani[x, y] = 0;
-        return false;
+        zadani[x, y] = 0; // Pokud žádný kandidát nevyhovuje, nastavíme zpět na 0 a backtracking
+        return false; // Návrat false, protože nebyla nalezena platná konfigurace
     }
 }
